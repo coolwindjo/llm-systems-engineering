@@ -55,6 +55,8 @@ Based on the Turing College AI Engineering track, this repository is organized i
 2. Set up a virtual environment I recommend using uv for faster package management, or standard venv.
 3. Install dependencies
 4. Environment Variables Create a .env file in the root directory and add your API key. Do not commit this file.
+
+```
 📂 Project Structure
 .
 ├── sprint_1_prompt_engineering/
@@ -68,6 +70,7 @@ Based on the Turing College AI Engineering track, this repository is organized i
 ├── .gitignore
 ├── requirements.txt
 └── README.md
+```
 💡 Key Learnings & Insights
 • Shift to System Engineering: Moving beyond simple prompts to designing robust systems where LLMs act as the kernel process (2026-02-11 Stand-up).
 • Deep Understanding: Avoiding "Vibe Coding" (copy-pasting AI code without understanding). Focusing on debugging and understanding the logic behind every line (2026-02-11 Stand-up).
