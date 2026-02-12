@@ -76,6 +76,7 @@ docs/_build/
 target/
 
 # Jupyter Notebook
+.ipynb
 .ipynb_checkpoints
 
 # IPython
@@ -210,3 +211,4 @@ __marimo__/
 .DS_Store
 .AppleDouble
 .LSOverride
+notebooks/
