@@ -1,0 +1,8 @@
+# Recommended runtime: Python 3.11-3.13 (3.14 currently shows LangChain warning)
+langchain>=1.2.0,<2.0.0
+langchain-openai>=1.0.1,<2.0.0
+langchain-community>=0.4.1,<1.0.0
+openai>=2.0.0,<3.0.0
+python-dotenv>=1.0.1,<2.0.0
+pydantic>=2.12.0,<3.0.0
+tiktoken>=0.9.0,<1.0.0
