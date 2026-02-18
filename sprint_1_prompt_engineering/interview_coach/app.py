@@ -50,6 +50,7 @@ from services.interview_ops import (
     hash_file_contents,
     load_local_env,
     parse_interviewee_profile,
+    get_critique_persona_prompt,
     _build_support_prompt,
 )
 from utils.data_loader import load_interview_data
@@ -626,7 +627,7 @@ def render_chat_panel(
     hint_key = f"interview_hint_{current_interviewer}"
     answer_key = f"model_answer_{current_interviewer}"
 
-    CRITIQUE_PERSONA = """You are a Capgemini ADAS Interview Critique Persona.\nYou evaluate a candidate's latest answer for a Capgemini technical interview.\nFocus strictly on:\n1) ASPICE CL3 process maturity evidence\n2) Technical accuracy for ADAS / embedded C++ context\n\nProvide concise, actionable feedback using this exact structure:\n- Overall verdict (2-3 lines)\n- ASPICE CL3 score: <1-5> with one-sentence rationale\n- Technical accuracy score: <1-5> with one-sentence rationale\n- Strengths: 2-3 bullets\n- Gaps / risks: 2-3 bullets\n- Improvement plan for next answer: 3 bullets with concrete phrasing examples\n"""
+    critique_persona = get_critique_persona_prompt(interviewer_name=current_interviewer.title())
 
     if st.button("Analyze My Answer", use_container_width=True):
         last_user_answer = get_last_user_response(history)
@@ -649,7 +650,7 @@ def render_chat_panel(
                             client=client,
                             model=st.session_state.selected_model,
                             messages=[
-                                {"role": "system", "content": CRITIQUE_PERSONA},
+                                {"role": "system", "content": critique_persona},
                                 {"role": "user", "content": critique_user_prompt},
                             ],
                             temperature=critique_temperature,

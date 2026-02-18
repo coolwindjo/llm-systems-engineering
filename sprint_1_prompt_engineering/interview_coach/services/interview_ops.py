@@ -29,6 +29,7 @@ DATA_DIR = ROOT_DIR / "data"
 PROFILES_DIR = DATA_DIR / "profiles"
 INTERVIEWEE_PROFILE_PATH = DATA_DIR / "interviewee_profile.json"
 TEMPERATURE_RULES_PATH = ROOT_DIR / "utils" / "model_temperature_constraints.json"
+PROMPTS_PATH = ROOT_DIR / "prompts" / "system_prompts.json"
 JD_PROFILE_SESSION_KEY = "session_interviewers"
 JD_KEYWORD_CATALOG_KEY = "jd_keyword_catalog"
 DEFAULT_PROFILE_LABEL = "(Default) interview_data.json"
@@ -53,6 +54,8 @@ CHAT_FALLBACK_ORDER = [
     "gpt-5-nano",
     "gpt-3.5-turbo",
 ]
+
+DEFAULT_CRITIQUE_PERSONA = """You are a Capgemini ADAS Interview Critique Persona.\nYou evaluate a candidate's latest answer for a Capgemini technical interview.\nFocus strictly on:\n1) ASPICE CL3 process maturity evidence\n2) Technical accuracy for ADAS / embedded C++ context\n\nProvide concise, actionable feedback using this exact structure:\n- Overall verdict (2-3 lines)\n- ASPICE CL3 score: <1-5> with one-sentence rationale\n- Technical accuracy score: <1-5> with one-sentence rationale\n- Strengths: 2-3 bullets\n- Gaps / risks: 2-3 bullets\n- Improvement plan for next answer: 3 bullets with concrete phrasing examples""".strip()
 
 TEMPERATURE_RULES_FALLBACK = {
     "default": {"min": 0.0, "max": 2.0, "fallback": 1.0},
@@ -960,6 +963,60 @@ def get_last_assistant_message(messages: List[Dict[str, str]]) -> str | None:
         if msg.get("role") == "assistant":
             return msg.get("content")
     return None
+
+
+def _load_prompt_templates(path: Path | None = None) -> Dict[str, str]:
+    target = path or PROMPTS_PATH
+    if not target.exists():
+        return {}
+    try:
+        raw = json.loads(target.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    if not isinstance(raw, dict):
+        return {}
+
+    templates: Dict[str, str] = {}
+    for key, value in raw.items():
+        if isinstance(key, str) and isinstance(value, str):
+            templates[key] = value
+    return templates
+
+
+def get_prompt_template(
+    template_name: str,
+    fallback: str,
+    *,
+    path: Path | None = None,
+    context: Dict[str, object] | None = None,
+) -> str:
+    templates = _load_prompt_templates(path=path)
+    template = templates.get(template_name, fallback).strip()
+    if not isinstance(template, str) or not template.strip():
+        return fallback.strip()
+
+    template_text = template.strip()
+    if not context:
+        return template_text
+
+    string_context = {key: str(value) for key, value in context.items()}
+    try:
+        return template_text.format(**string_context)
+    except KeyError:
+        return template_text
+
+
+def get_critique_persona_prompt(
+    *,
+    interviewer_name: str | None = None,
+    path: Path | None = None,
+) -> str:
+    return get_prompt_template(
+        "critique_persona",
+        DEFAULT_CRITIQUE_PERSONA,
+        path=path,
+        context={"interviewer_name": interviewer_name or "Interviewer"},
+    )
 
 
 def _build_opening_prompt(interviewer_name: str, jd_title: str) -> str:
