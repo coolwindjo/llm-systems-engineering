@@ -1,17 +1,32 @@
 {
-  "name": "SeungHyeon Jo",
-  "status": "Munich-based, EU Blue Card, PR pending",
+  "name": "SeungHyeon Jo (Jo,SH)",
+  "status": "Senior Systems Architect",
   "core_strengths": [
-    "12+ years in Perception & Safety-critical systems",
-    "Mercedes-Benz MPC 5.5 SOP delivery",
-    "Zero-copy DMA optimization (Renesas R-Car V3H)",
-    "Physical AI & Transformer architectures (Stanford CS230)",
-    "ASIL-B & ASPICE CL3 certification leadership"
+    "Safety-Critical Architecture",
+    "Embedded Optimization",
+    "Deterministic Software Foundations",
+    "Physical AI Integration",
+    "Reliability & Simulation",
+    "Performance-Critical C++ Implementation",
+    "AI-Conformant Architecture & Validation",
+    "Interdisciplinary Leadership & Quality Standards"
   ],
   "probes": {
     "focus_phrases": [
-      "Specifically probe candidate SeungHyeon Jo on how his 12+ years of ADAS Perception experience directly solves the challenges listed in this JD.",
-      "Ask follow-up questions that force explicit mapping between his past ADAS projects and each high-priority requirement in this NEW Job Description."
+      "12+ years of experience in safety-critical automotive systems",
+      "Proven track record in optimizing perception pipelines",
+      "Expertise in ISO 26262 and ASPICE CL3 standards",
+      "Experience with C++ for real-time embedded systems",
+      "Bridging stochastic AI with deterministic environments",
+      "Managing cross-functional teams in automotive projects",
+      "strong interest in the Software Architect/Developer position",
+      "bridging the gap between deterministic safety requirements and AI-native software architectures",
+      "commitment to 'Making it Real' in autonomous driving and robotics",
+      "engineered a zero-copy memory mapping architecture",
+      "designed architectures that maintain technical integrity across the full V-Model lifecycle",
+      "led technical integrations for security-critical modules",
+      "high code quality is non-negotiable",
+      "validated directly on the vehicle"
     ]
   }
 }

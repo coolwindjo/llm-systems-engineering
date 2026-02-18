@@ -73,6 +73,7 @@ DATA_DIR = Path(__file__).resolve().parent / "data"
 PROFILES_DIR = DATA_DIR / "profiles"
 INTERVIEWEE_PROFILE_PATH = DATA_DIR / "interviewee_profile.json"
 JD_PROFILE_SESSION_KEY = "session_interviewers"
+TEMPERATURE_RULES_PATH = Path(__file__).resolve().parent.parent / "model_temperature_constraints.json"
 CHAT_CAPABLE_MODELS = [
     "gpt-4o-mini-2024-07-18",
     "gpt-4o-mini",
@@ -93,6 +94,113 @@ CHAT_FALLBACK_ORDER = [
     "gpt-5-nano",
     "gpt-3.5-turbo",
 ]
+TEMPERATURE_RULES_FALLBACK = {
+    "default": {"min": 0.0, "max": 2.0, "fallback": 1.0},
+    "rules": [],
+}
+
+
+def _coerce_to_float(value: Any, fallback: float) -> float:
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return fallback
+
+
+def _load_temperature_rules() -> Dict[str, Any]:
+    if not TEMPERATURE_RULES_PATH.exists():
+        return TEMPERATURE_RULES_FALLBACK
+
+    try:
+        raw = json.loads(TEMPERATURE_RULES_PATH.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return TEMPERATURE_RULES_FALLBACK
+
+    if not isinstance(raw, dict):
+        return TEMPERATURE_RULES_FALLBACK
+
+    default_policy = raw.get("default") if isinstance(raw.get("default"), dict) else {}
+    default_min = _coerce_to_float(
+        default_policy.get("min"),
+        TEMPERATURE_RULES_FALLBACK["default"]["min"],
+    )
+    default_max = _coerce_to_float(
+        default_policy.get("max"),
+        TEMPERATURE_RULES_FALLBACK["default"]["max"],
+    )
+    default_fallback = _coerce_to_float(
+        default_policy.get("fallback"),
+        TEMPERATURE_RULES_FALLBACK["default"]["fallback"],
+    )
+    normalized = {
+        "default": {
+            "min": default_min,
+            "max": default_max,
+            "fallback": default_fallback,
+        },
+        "rules": [
+            rule for rule in raw.get("rules", []) if isinstance(rule, dict)
+        ],
+    }
+    return normalized
+
+
+TEMPERATURE_RULES = _load_temperature_rules()
+
+
+def _coerce_temperature_for_model(model: str, temperature: float) -> float:
+    """Return a model-compatible temperature based on external rule config."""
+    default_policy = TEMPERATURE_RULES.get("default", TEMPERATURE_RULES_FALLBACK["default"])
+    min_temperature = float(default_policy.get("min", 0.0))
+    max_temperature = float(default_policy.get("max", 2.0))
+    fallback_temperature = float(default_policy.get("fallback", 1.0))
+
+    model_name = str(model).strip().lower()
+    for rule in TEMPERATURE_RULES.get("rules", []):
+        patterns = rule.get("patterns") or []
+        if isinstance(patterns, str):
+            patterns = [patterns]
+        if not isinstance(patterns, list) or not patterns:
+            continue
+
+        match_mode = str(rule.get("match_mode", "contains")).strip().lower()
+        if not any(
+            (pattern and isinstance(pattern, str))
+            and (
+                (match_mode == "equals" and pattern.strip().lower() == model_name)
+                or (
+                    match_mode in {"contains", ""} and pattern.strip().lower() in model_name
+                )
+                or (
+                    match_mode == "startswith" and model_name.startswith(pattern.strip().lower())
+                )
+            )
+            for pattern in patterns
+        ):
+            continue
+
+        rule_min = _coerce_to_float(rule.get("min"), min_temperature)
+        rule_max = _coerce_to_float(rule.get("max"), max_temperature)
+        rule_temperature = rule.get("temperature")
+        if isinstance(rule_temperature, (int, float)):
+            return max(rule_min, min(float(rule_temperature), rule_max))
+
+        if not isinstance(temperature, (int, float)):
+            return fallback_temperature
+        return max(rule_min, min(float(temperature), rule_max))
+
+    if not isinstance(temperature, (int, float)):
+        return fallback_temperature
+
+    return max(min_temperature, min(float(temperature), max_temperature))
+
+
+def _sync_temperature_to_model_constraint() -> None:
+    current_temperature = st.session_state.get("temperature", 0.4)
+    st.session_state["temperature"] = _coerce_temperature_for_model(
+        st.session_state.get("selected_model", ""),
+        current_temperature,
+    )
 
 APP_TITLE = "AI Interview Coach"
 
@@ -332,13 +440,14 @@ def parse_interviewee_profile(
 
     for model_name in models_to_try:
         try:
+            resolved_temperature = _coerce_temperature_for_model(model_name, 0.2)
             response = client.beta.chat.completions.parse(
                 model=model_name,
                 messages=[
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": request_text},
                 ],
-                temperature=0.2,
+                temperature=resolved_temperature,
                 response_format=ParsedIntervieweeProfile,
             )
             parsed = response.choices[0].message.parsed
@@ -359,7 +468,7 @@ def parse_interviewee_profile(
                         )},
                         {"role": "user", "content": request_text},
                     ],
-                    temperature=0.2,
+                    temperature=resolved_temperature,
                 )
                 raw_content = fallback_response.choices[0].message.content or ""
                 json_payload = _extract_json_payload(raw_content)
@@ -501,8 +610,8 @@ def _render_profile_status_panel() -> None:
 
         if file_label == selected:
             st.sidebar.markdown(f"**{icon} {file_label}**")
-            st.sidebar.caption(f"상태: {status_label}")
-            st.sidebar.caption(f"현재 session_interviewers: {session_list}")
+            st.sidebar.caption(f"Status: {status_label}")
+            st.sidebar.caption(f"Current session_interviewers: {session_list}")
             if not top_recommendations:
                 st.sidebar.caption("No interviewer correlation score found.")
             else:
@@ -617,6 +726,7 @@ def parse_interviewer_background(
 
     for model_name in models_to_try:
         try:
+            resolved_temperature = _coerce_temperature_for_model(model_name, 0.2)
             response = client.beta.chat.completions.parse(
                 model=model_name,
                 messages=[
@@ -626,7 +736,7 @@ def parse_interviewer_background(
                         "content": f"Name: {interviewer_name}\nBackground:\n{background_text}",
                     },
                 ],
-                temperature=0.2,
+                temperature=resolved_temperature,
                 response_format=ParsedInterviewerProfile,
             )
             parsed = response.choices[0].message.parsed
@@ -653,7 +763,7 @@ def parse_interviewer_background(
                             "content": f"Name: {interviewer_name}\nBackground:\n{background_text}",
                         },
                     ],
-                    temperature=0.2,
+                    temperature=resolved_temperature,
                 )
                 raw_content = fallback_response.choices[0].message.content or ""
                 json_payload = _extract_json_payload(raw_content)
@@ -701,14 +811,16 @@ st.sidebar.selectbox(
     "OpenAI Model",
     CHAT_CAPABLE_MODELS,
     key="selected_model",
+    on_change=_sync_temperature_to_model_constraint,
 )
 st.sidebar.slider(
     "Temperature",
     min_value=0.0,
     max_value=1.0,
-    value=0.4,
+    value=st.session_state.temperature,
     step=0.1,
     key="temperature",
+    on_change=_sync_temperature_to_model_constraint,
 )
 
 DEFAULT_PROFILE_LABEL = "(Default) interview_data.json"
@@ -1210,7 +1322,7 @@ def extract_jd_fields(api_key: str, jd_text: str, company: str, position: str) -
                     {"role": "system", "content": "Return structured hiring insights."},
                     {"role": "user", "content": extraction_prompt},
                 ],
-                temperature=0.1,
+                temperature=_coerce_temperature_for_model(model_name, 0.1),
                 response_format=JDExtraction,
             )
             parsed = response.choices[0].message.parsed
@@ -1234,10 +1346,11 @@ def create_chat_completion_with_fallback(
     temperature: float,
 ):
     try:
+        resolved_temperature = _coerce_temperature_for_model(model, temperature)
         response = client.chat.completions.create(
             model=model,
             messages=messages,
-            temperature=temperature,
+            temperature=resolved_temperature,
         )
         return response, model
     except Exception as exc:
@@ -1245,11 +1358,15 @@ def create_chat_completion_with_fallback(
             for fallback_model in CHAT_FALLBACK_ORDER:
                 if fallback_model == model:
                     continue
+                fallback_temperature = _coerce_temperature_for_model(
+                    fallback_model,
+                    temperature,
+                )
                 try:
                     fallback_response = client.chat.completions.create(
                         model=fallback_model,
                         messages=messages,
-                        temperature=temperature,
+                        temperature=fallback_temperature,
                     )
                     return fallback_response, fallback_model
                 except Exception as fallback_exc:
