@@ -1,0 +1,17 @@
+{
+  "default": {
+    "min": 0.0,
+    "max": 2.0,
+    "fallback": 1.0
+  },
+  "rules": [
+    {
+      "name": "gpt-5 reasoning models",
+      "match_mode": "contains",
+      "patterns": ["gpt-5"],
+      "temperature": 1.0,
+      "min": 1.0,
+      "max": 1.0
+    }
+  ]
+}

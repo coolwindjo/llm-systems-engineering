@@ -73,7 +73,7 @@ DATA_DIR = Path(__file__).resolve().parent / "data"
 PROFILES_DIR = DATA_DIR / "profiles"
 INTERVIEWEE_PROFILE_PATH = DATA_DIR / "interviewee_profile.json"
 JD_PROFILE_SESSION_KEY = "session_interviewers"
-TEMPERATURE_RULES_PATH = Path(__file__).resolve().parent.parent / "model_temperature_constraints.json"
+TEMPERATURE_RULES_PATH = Path(__file__).resolve().parent / "utils" / "model_temperature_constraints.json"
 CHAT_CAPABLE_MODELS = [
     "gpt-4o-mini-2024-07-18",
     "gpt-4o-mini",
