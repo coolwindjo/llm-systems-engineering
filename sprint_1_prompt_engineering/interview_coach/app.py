@@ -577,6 +577,8 @@ def render_chat_panel(
     current_interviewer: str,
     history: List[Dict[str, str]],
     system_prompts: Dict[str, str],
+    interviewer_name: str,
+    technique_key: str,
 ) -> None:
     st.subheader(PANEL_CHAT)
     if not st.session_state.get("interview_started", False):
@@ -627,7 +629,11 @@ def render_chat_panel(
     hint_key = f"interview_hint_{current_interviewer}"
     answer_key = f"model_answer_{current_interviewer}"
 
-    critique_persona = get_critique_persona_prompt(interviewer_name=current_interviewer.title())
+    critique_persona = get_critique_persona_prompt(
+        interviewer_name=interviewer_name,
+        interviewer_key=current_interviewer,
+        technique=technique_key,
+    )
 
     if st.button("Analyze My Answer", use_container_width=True):
         last_user_answer = get_last_user_response(history)
@@ -805,6 +811,8 @@ with tab_chat:
         current_interviewer=current_interviewer,
         history=history,
         system_prompts=system_prompts,
+        interviewer_name=selected_label,
+        technique_key=technique_key,
     )
 
 with tab_code:

@@ -965,7 +965,7 @@ def get_last_assistant_message(messages: List[Dict[str, str]]) -> str | None:
     return None
 
 
-def _load_prompt_templates(path: Path | None = None) -> Dict[str, str]:
+def _load_prompt_templates(path: Path | None = None) -> Dict[str, object]:
     target = path or PROMPTS_PATH
     if not target.exists():
         return {}
@@ -976,9 +976,9 @@ def _load_prompt_templates(path: Path | None = None) -> Dict[str, str]:
     if not isinstance(raw, dict):
         return {}
 
-    templates: Dict[str, str] = {}
+    templates: Dict[str, object] = {}
     for key, value in raw.items():
-        if isinstance(key, str) and isinstance(value, str):
+        if isinstance(key, str):
             templates[key] = value
     return templates
 
@@ -991,8 +991,13 @@ def get_prompt_template(
     context: Dict[str, object] | None = None,
 ) -> str:
     templates = _load_prompt_templates(path=path)
-    template = templates.get(template_name, fallback).strip()
-    if not isinstance(template, str) or not template.strip():
+    template = templates.get(template_name, fallback)
+
+    if not isinstance(template, str):
+        template = fallback
+
+    template = template.strip()
+    if not template:
         return fallback.strip()
 
     template_text = template.strip()
@@ -1006,16 +1011,87 @@ def get_prompt_template(
         return template_text
 
 
+def _resolve_critique_persona_template_entry(
+    raw: Any,
+    interviewer_key: str | None,
+    technique_key: str | None,
+) -> str | None:
+    if not isinstance(raw, dict):
+        if isinstance(raw, str):
+            return raw.strip() or None
+        return None
+
+    # 1) Specific combo: "{interviewer}.{technique}"
+    if interviewer_key and technique_key:
+        by_combo = raw.get("by_combo")
+        if isinstance(by_combo, dict):
+            candidate = by_combo.get(f"{interviewer_key}.{technique_key}")
+            if isinstance(candidate, str):
+                value = candidate.strip()
+                if value:
+                    return value
+
+    # 2) Interviewer-scoped
+    if interviewer_key:
+        by_interviewer = raw.get("by_interviewer")
+        if isinstance(by_interviewer, dict):
+            candidate = by_interviewer.get(interviewer_key)
+            if isinstance(candidate, str):
+                value = candidate.strip()
+                if value:
+                    return value
+
+    # 3) Technique-scoped
+    if technique_key:
+        by_technique = raw.get("by_technique")
+        if isinstance(by_technique, dict):
+            candidate = by_technique.get(technique_key)
+            if isinstance(candidate, str):
+                value = candidate.strip()
+                if value:
+                    return value
+
+    # 4) Default under structured form
+    default_value = raw.get("default")
+    if isinstance(default_value, str):
+        value = default_value.strip()
+        if value:
+            return value
+
+    return None
+
+
 def get_critique_persona_prompt(
     *,
     interviewer_name: str | None = None,
+    interviewer_key: str | None = None,
+    technique: str | None = None,
     path: Path | None = None,
 ) -> str:
+    templates = _load_prompt_templates(path=path)
+    raw_critique = templates.get("critique_persona", DEFAULT_CRITIQUE_PERSONA)
+
+    normalized_key: str | None = _speaker_key(interviewer_key) if interviewer_key else None
+    normalized_key = normalized_key or None
+
+    normalized_technique = technique.strip() if isinstance(technique, str) else None
+    selected = _resolve_critique_persona_template_entry(
+        raw_critique,
+        interviewer_key=normalized_key,
+        technique_key=normalized_technique,
+    )
+    if selected is None:
+        selected = DEFAULT_CRITIQUE_PERSONA
+
     return get_prompt_template(
         "critique_persona",
-        DEFAULT_CRITIQUE_PERSONA,
+        selected,
         path=path,
-        context={"interviewer_name": interviewer_name or "Interviewer"},
+        context={
+            "interviewer_name": interviewer_name or "Interviewer",
+            "interviewer_key": normalized_key or "",
+            "technique": normalized_technique or "",
+        },
     )
 
 
