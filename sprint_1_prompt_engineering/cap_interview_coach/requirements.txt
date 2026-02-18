@@ -1,0 +1,4 @@
+streamlit
+streamlit-chat
+streamlit-ace
+openai
