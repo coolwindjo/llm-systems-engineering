@@ -1,0 +1,44 @@
+{
+  "generated_at": "2026-02-18",
+  "company": "Capgemini Engineering",
+  "position": "Senior AD/ADAS Developer (w/m/d)",
+  "job_description": "At Capgemini Engineering, the world's leading provider of engineering services, we bring together a global team of engineers, scientists, and architects to help the most innovative companies in the world realize their potential. From autonomous cars to life-saving robots, our experts in digital and software technology think outside the box and provide unique R&D and engineering services across all industries. Join us and discover a career full of opportunities where you can truly make an impact, and no two days are the same. Your role involves developing new functions and algorithms in C/C++ (e.g., validation algorithms, KPI validation frameworks) while adhering to the highest code quality standards. You will design modern AI-compliant software architecture approaches and clarify and align requirements with the customer. Additionally, you will analyze and refactor existing software components to improve structure and maintainability. You will be responsible for optimizing code and algorithms with a focus on performance, efficiency, and stability, as well as for the technical support of the entire development process, including documentation and review. Conducting software tests and functional validations directly on the vehicle, including error analysis, bug fixing, and integrating results back into the development process, will also be part of your responsibilities. Capgemini Engineering supports you with a wide range of learning opportunities, allowing you to develop both professionally and personally.",
+  "key_requirements": [
+    "Experience in C/C++ programming",
+    "Knowledge of AI-compliant software architecture",
+    "Ability to analyze and refactor software components",
+    "Strong focus on code optimization and performance",
+    "Experience with software testing and validation on vehicles"
+  ],
+  "tech_stack": [
+    "C/C++",
+    "AI technologies",
+    "Software testing tools",
+    "Development documentation tools"
+  ],
+  "session_interviewers": [
+    "Generic AI Interviewer",
+    "Denis Akhmerov",
+    "Andrew Ng",
+    "Aymen Jebri"
+  ],
+  "jd_keyword_catalog": {
+    "Role Requirements": [
+      "AI-compliant software architecture",
+      "Analyze and refactor software components",
+      "Code optimization and performance"
+    ],
+    "Tech Stack": [
+      "C++",
+      "AI technologies",
+      "Software testing tools",
+      "Development documentation tools"
+    ],
+    "Testing & Quality": [
+      "Software testing and validation on vehicles"
+    ],
+    "Runtime & Implementation": [
+      "C++ programming"
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "Denis Akhmerov",
+  "background": "Denis Akhmerov is an experienced Program Manager in the automotive industry with a strong foundation in software development, project management, and team leadership. He began his career as a Software Developer specializing in advanced driver assistance systems (ADAS), working with major OEMs and Tier 1 companies on complex topics such as lidar-based road shape detection and functional safety compliance. Transitioning to project management, Denis has successfully led cross-functional teams across multiple countries, managing over 80 FTEs and delivering innovative ADAS functionalities. His expertise includes strategic opportunity development, customer-centric approaches, and effective communication across diverse teams. Denis is passionate about advancing automotive technology, particularly in safety and innovation, and is dedicated to shaping the future of driving.",
+  "is_generic_ai": false,
+  "role": "Program Manager",
+  "expertise": [
+    "Program Management",
+    "Agile Methodologies",
+    "Functional Safety Compliance",
+    "Team Leadership",
+    "Cross-Functional Collaboration"
+  ],
+  "potential_questions": [
+    "Can you describe your experience with managing cross-functional teams in different geographical locations?",
+    "How do you ensure compliance with functional safety standards in automotive projects?",
+    "What strategies do you use to identify and develop opportunities in project management?",
+    "Can you provide an example of a challenging project you managed and how you overcame obstacles?",
+    "How do you foster communication and collaboration among diverse teams?"
+  ]
+}

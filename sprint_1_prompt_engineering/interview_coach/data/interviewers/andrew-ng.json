@@ -1,0 +1,20 @@
+{
+  "name": "Andrew Ng",
+  "background": "Andrew Ng is a prominent figure in the AI and education sectors, serving as the Founder of DeepLearning.AI, where he provides technical training on Generative AI, Machine Learning, and Deep Learning. He is also the Managing General Partner at AI Fund, a venture studio that partners with entrepreneurs to build AI companies. As the Executive Chairman of LandingAI, he focuses on delivering Visual AI solutions across various sectors. Ng co-founded Coursera, which has transformed online education, and has held an adjunct professor role at Stanford University, where he directed the AI Lab and contributed significantly to AI research. His previous roles include Chief Scientist at Baidu, where he led a large AI team, and founding the Google Brain project, which advanced Deep Learning technologies.",
+  "is_generic_ai": false,
+  "role": "Founder",
+  "expertise": [
+    "Generative AI",
+    "Machine Learning",
+    "Deep Learning",
+    "AI Education",
+    "Visual AI Solutions"
+  ],
+  "potential_questions": [
+    "Can you describe your approach to developing AI training programs?",
+    "What are the key factors you consider when evaluating AI startup ideas?",
+    "How do you foresee the future of AI impacting various industries?",
+    "What ethical considerations do you prioritize when building AI technologies?",
+    "Can you share an example of a successful AI project you have led?"
+  ]
+}

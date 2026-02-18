@@ -1,0 +1,46 @@
+{
+  "project": "Capgemini Engineering Interview Practice",
+  "last_updated": "2026-02-16",
+  "target_company": "Capgemini Engineering",
+  "job_positions": [
+    {
+      "id": "cpp_ai_dev",
+      "title": "C++ & AI Software Developer",
+      "key_requirements": [
+        "C/C++ algorithms (Validation, KPI frameworks)",
+        "AI-conformant SW architecture",
+        "Refactoring & Performance optimization",
+        "Vehicle testing & Bug fixing"
+      ],
+      "stack": [
+        "C++",
+        "AI",
+        "Agile/Scrum",
+        "Git",
+        "Jira"
+      ]
+    },
+    {
+      "id": "ad_adas_sr",
+      "title": "Senior AD/ADAS Developer",
+      "key_requirements": [
+        "Data-driven AD/ADAS functions",
+        "Sensor data analysis (Radar, Camera, Lidar)",
+        "Robust algorithms for OEMs/Tier-1",
+        "Embedded Systems & Vehicle Intelligence"
+      ],
+      "stack": [
+        "Embedded C/C++",
+        "AUTOSAR",
+        "Sensor Fusion",
+        "Functional Safety"
+      ]
+    }
+  ],
+  "interviewers": [],
+  "session_interviewers": [
+    "Generic AI Interviewer",
+    "Aymen Jebri",
+    "Denis Akhmerov"
+  ]
+}
