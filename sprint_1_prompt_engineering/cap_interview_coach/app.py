@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import re
 from typing import Dict, List
 
 import streamlit as st
@@ -10,6 +11,11 @@ from streamlit_chat import message
 
 from utils.data_loader import load_interview_data
 from utils.personas import build_system_prompts
+
+try:
+    from annotated_text import annotated_text
+except ImportError:
+    annotated_text = None
 
 
 st.set_page_config(page_title="Capgemini AI Interview Coach", page_icon="🎯", layout="wide")
@@ -53,6 +59,26 @@ Provide concise, actionable feedback using this exact structure:
 - Improvement plan for next answer: 3 bullets with concrete phrasing examples
 """
 
+ADAS_KEY_TERMS = [
+    "ASPICE CL3",
+    "ASPICE",
+    "ISO 26262",
+    "ASIL",
+    "AUTOSAR",
+    "MISRA",
+    "Functional Safety",
+    "Safety Case",
+    "Radar",
+    "Camera",
+    "Lidar",
+    "Sensor Fusion",
+    "UDS",
+    "DMA",
+    "Unit Testing",
+    "Static Analysis",
+    "Determinism",
+]
+
 
 def get_api_key() -> str | None:
     return st.secrets.get("OPENAI_API_KEY") or os.getenv("OPENAI_API_KEY")
@@ -63,6 +89,33 @@ def get_last_user_response(messages: List[Dict[str, str]]) -> str | None:
         if msg.get("role") == "user":
             return msg.get("content")
     return None
+
+
+def render_feedback_with_adas_terms(feedback: str) -> None:
+    if not feedback:
+        return
+
+    if annotated_text is None:
+        st.markdown(feedback)
+        st.info("Install `streamlit-annotated-text` to enable in-line ADAS term highlighting.")
+        return
+
+    sorted_terms = sorted(set(ADAS_KEY_TERMS), key=len, reverse=True)
+    pattern = re.compile("|".join(re.escape(term) for term in sorted_terms), flags=re.IGNORECASE)
+    parts: List[str | tuple] = []
+    cursor = 0
+    for match in pattern.finditer(feedback):
+        if match.start() > cursor:
+            parts.append(feedback[cursor:match.start()])
+        parts.append((match.group(0), "ADAS"))
+        cursor = match.end()
+    if cursor < len(feedback):
+        parts.append(feedback[cursor:])
+
+    if parts:
+        annotated_text(*parts)
+    else:
+        st.markdown(feedback)
 
 
 tab_chat, tab_code = st.tabs(["Interview Chat", "Coding Challenge"])
@@ -105,7 +158,7 @@ Evaluate this answer for ASPICE CL3 evidence and technical accuracy."""
     feedback = st.session_state.get(analyze_key)
     if feedback:
         st.subheader("Critique Feedback")
-        st.markdown(feedback)
+        render_feedback_with_adas_terms(feedback)
 
     user_input = st.chat_input("Type your interview answer or ask a question...")
 
