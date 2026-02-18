@@ -2,21 +2,42 @@ from __future__ import annotations
 
 import os
 import re
+from pathlib import Path
 from typing import Dict, List
 
 import streamlit as st
 from openai import OpenAI
+from streamlit.errors import StreamlitSecretNotFoundError
 from streamlit_ace import st_ace
 from streamlit_chat import message
 
 from utils.data_loader import load_interview_data
 from utils.personas import build_system_prompts
+from utils.security import validate_input
 
 try:
     from annotated_text import annotated_text
 except ImportError:
     annotated_text = None
 
+
+def load_local_env() -> None:
+    env_path = Path(__file__).resolve().parent / ".env"
+    if not env_path.exists():
+        return
+
+    for raw_line in env_path.read_text(encoding="utf-8").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        key = key.strip()
+        value = value.strip().strip('"').strip("'")
+        if key and key not in os.environ:
+            os.environ[key] = value
+
+
+load_local_env()
 
 st.set_page_config(page_title="Capgemini AI Interview Coach", page_icon="🎯", layout="wide")
 
@@ -117,7 +138,11 @@ ADAS_KEY_TERMS = [
 
 
 def get_api_key() -> str | None:
-    return st.secrets.get("OPENAI_API_KEY") or os.getenv("OPENAI_API_KEY")
+    try:
+        secret_key = st.secrets.get("OPENAI_API_KEY")
+    except StreamlitSecretNotFoundError:
+        secret_key = None
+    return secret_key or os.getenv("OPENAI_API_KEY")
 
 
 def get_last_user_response(messages: List[Dict[str, str]]) -> str | None:
@@ -166,30 +191,35 @@ with tab_chat:
         if not last_user_answer:
             st.warning("No user answer found yet. Submit an answer first.")
         else:
-            api_key = get_api_key()
-            if not api_key:
-                st.error("OPENAI_API_KEY is not set. Add it in Streamlit secrets or environment variables.")
+            is_valid, validation_error = validate_input(last_user_answer)
+            if not is_valid:
+                st.error(validation_error or "Invalid input.")
             else:
-                client = OpenAI(api_key=api_key)
-                critique_user_prompt = f"""Interviewer: {current_interviewer.title()}
+                api_key = get_api_key()
+                if not api_key:
+                    st.error("OPENAI_API_KEY is not set. Add it in Streamlit secrets or environment variables.")
+                else:
+                    client = OpenAI(api_key=api_key)
+                    critique_user_prompt = f"""Interviewer: {current_interviewer.title()}
 Candidate answer:
 {last_user_answer}
 
 Evaluate this answer for ASPICE CL3 evidence and technical accuracy."""
-                try:
-                    critique_response = client.chat.completions.create(
-                        model="gpt-4o-mini",
-                        messages=[
-                            {"role": "system", "content": CRITIQUE_PERSONA},
-                            {"role": "user", "content": critique_user_prompt},
-                        ],
-                        temperature=0.2,
-                    )
-                    st.session_state[analyze_key] = (
-                        critique_response.choices[0].message.content or "No critique generated."
-                    )
-                except Exception as exc:
-                    st.session_state[analyze_key] = f"Error from OpenAI API: {exc}"
+                    try:
+                        critique_temperature = max(0.1, st.session_state.temperature - 0.2)
+                        critique_response = client.chat.completions.create(
+                            model=st.session_state.selected_model,
+                            messages=[
+                                {"role": "system", "content": CRITIQUE_PERSONA},
+                                {"role": "user", "content": critique_user_prompt},
+                            ],
+                            temperature=critique_temperature,
+                        )
+                        st.session_state[analyze_key] = (
+                            critique_response.choices[0].message.content or "No critique generated."
+                        )
+                    except Exception as exc:
+                        st.session_state[analyze_key] = f"Error from OpenAI API: {exc}"
 
     feedback = st.session_state.get(analyze_key)
     if feedback:
@@ -199,27 +229,31 @@ Evaluate this answer for ASPICE CL3 evidence and technical accuracy."""
     user_input = st.chat_input("Type your interview answer or ask a question...")
 
     if user_input:
-        history.append({"role": "user", "content": user_input})
-        message(user_input, is_user=True, key=f"{current_interviewer}-user-live")
-
-        api_key = get_api_key()
-        if not api_key:
-            st.error("OPENAI_API_KEY is not set. Add it in Streamlit secrets or environment variables.")
+        is_valid, validation_error = validate_input(user_input)
+        if not is_valid:
+            st.error(validation_error or "Invalid input.")
         else:
-            client = OpenAI(api_key=api_key)
-            try:
-                response = client.chat.completions.create(
-                    model="gpt-4o-mini",
-                    messages=[{"role": "system", "content": system_prompts[current_interviewer]}, *history],
-                    temperature=0.4,
-                )
-                assistant_reply = response.choices[0].message.content or "I could not generate a response."
-            except Exception as exc:
-                assistant_reply = f"Error from OpenAI API: {exc}"
+            history.append({"role": "user", "content": user_input})
+            message(user_input, is_user=True, key=f"{current_interviewer}-user-live")
 
-            history.append({"role": "assistant", "content": assistant_reply})
-            st.session_state.chat_histories[current_interviewer] = history
-            st.rerun()
+            api_key = get_api_key()
+            if not api_key:
+                st.error("OPENAI_API_KEY is not set. Add it in Streamlit secrets or environment variables.")
+            else:
+                client = OpenAI(api_key=api_key)
+                try:
+                    response = client.chat.completions.create(
+                        model=st.session_state.selected_model,
+                        messages=[{"role": "system", "content": system_prompts[current_interviewer]}, *history],
+                        temperature=st.session_state.temperature,
+                    )
+                    assistant_reply = response.choices[0].message.content or "I could not generate a response."
+                except Exception as exc:
+                    assistant_reply = f"Error from OpenAI API: {exc}"
+
+                history.append({"role": "assistant", "content": assistant_reply})
+                st.session_state.chat_histories[current_interviewer] = history
+                st.rerun()
 
 with tab_code:
     st.subheader("Coding Challenge (C++)")
