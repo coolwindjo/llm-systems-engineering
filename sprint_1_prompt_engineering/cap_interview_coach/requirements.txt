@@ -3,3 +3,4 @@ streamlit-chat
 streamlit-ace
 streamlit-annotated-text
 openai
+pydantic

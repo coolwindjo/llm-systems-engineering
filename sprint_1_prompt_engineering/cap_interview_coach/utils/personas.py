@@ -35,6 +35,38 @@ def _format_list(items: List[str]) -> str:
     return "\n".join(f"- {item}" for item in items) if items else "- N/A"
 
 
+def _extract_jd_requirements(jd_profile: Dict[str, Any]) -> List[str]:
+    requirements = jd_profile.get("key_requirements", [])
+    if isinstance(requirements, list) and requirements:
+        return [str(item) for item in requirements if str(item).strip()]
+
+    job_positions = jd_profile.get("job_positions", [])
+    collected: List[str] = []
+    if isinstance(job_positions, list):
+        for position in job_positions:
+            if not isinstance(position, dict):
+                continue
+            for item in position.get("key_requirements", []) or []:
+                text = str(item).strip()
+                if text and text not in collected:
+                    collected.append(text)
+    return collected
+
+
+def _append_jd_context_and_probe_instructions(prompt: str, jd_profile: Dict[str, Any]) -> str:
+    requirements = _extract_jd_requirements(jd_profile)
+    role_context = _format_list(requirements)
+    return f"""{prompt}
+
+Context for this specific role:
+{role_context}
+
+JD-Specific Probing Directive:
+- Specifically probe candidate SeungHyeon Jo on how his 12+ years of ADAS Perception experience directly solves the challenges listed in the context above.
+- Ask follow-up questions that force explicit mapping between his past ADAS projects and each high-priority requirement in this NEW Job Description.
+"""
+
+
 # --- Technique 1: Zero-Shot (Baseline) ---
 
 def build_denis_zero_shot_prompt(data: Dict[str, Any]) -> str:
@@ -276,7 +308,11 @@ Begin by asking about a potential failure in one of the candidate's highlight pr
 
 # --- Main build function ---
 
-def build_system_prompts(data: Dict[str, Any], technique: str = "zero_shot") -> Dict[str, str]:
+def build_system_prompts(
+    data: Dict[str, Any],
+    jd_profile: Optional[Dict[str, Any]] = None,
+    technique: str = "zero_shot",
+) -> Dict[str, str]:
     """Return interviewer prompts keyed by name, based on the selected technique."""
     prompts = {
         "denis": build_denis_zero_shot_prompt(data),
@@ -294,5 +330,9 @@ def build_system_prompts(data: Dict[str, Any], technique: str = "zero_shot") -> 
         # For this technique, Aymen's role is less defined, so we can give him a simple prompt or a zero-shot one.
         # Let's stick with zero-shot as a consistent fallback.
         prompts["aymen"] = build_aymen_zero_shot_prompt(data)
+
+    active_jd_profile = jd_profile or data
+    prompts["denis"] = _append_jd_context_and_probe_instructions(prompts["denis"], active_jd_profile)
+    prompts["aymen"] = _append_jd_context_and_probe_instructions(prompts["aymen"], active_jd_profile)
 
     return prompts
