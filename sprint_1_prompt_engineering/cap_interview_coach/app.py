@@ -22,6 +22,22 @@ st.set_page_config(page_title="Capgemini AI Interview Coach", page_icon="🎯", 
 
 st.sidebar.title("Capgemini AI Interview Coach")
 
+PROMPT_TECHNIQUES = {
+    "Zero-Shot": "zero_shot",
+    "Few-Shot (Denis)": "few_shot",
+    "Chain-of-Thought (Denis)": "chain_of_thought",
+    "Persona-Conditioning (Aymen)": "persona_conditioning",
+    "Knowledge-Paucity (ISO 26262 Focus)": "knowledge_paucity",
+}
+if "selected_technique" not in st.session_state:
+    st.session_state.selected_technique = "Zero-Shot"
+
+st.sidebar.selectbox(
+    "Prompting Technique",
+    list(PROMPT_TECHNIQUES.keys()),
+    key="selected_technique",
+)
+
 interviewer_labels = {"Denis": "denis", "Aymen": "aymen"}
 selected_label = st.sidebar.selectbox("Select interviewer", list(interviewer_labels.keys()))
 selected_interviewer = interviewer_labels[selected_label]
@@ -38,7 +54,8 @@ if selected_interviewer != st.session_state.current_interviewer:
 current_interviewer = st.session_state.current_interviewer
 
 data = load_interview_data()
-system_prompts = build_system_prompts(data)
+technique_key = PROMPT_TECHNIQUES[st.session_state.selected_technique]
+system_prompts = build_system_prompts(data, technique=technique_key)
 history: List[Dict[str, str]] = st.session_state.chat_histories[current_interviewer]
 
 st.title("Capgemini AI Interview Coach")
