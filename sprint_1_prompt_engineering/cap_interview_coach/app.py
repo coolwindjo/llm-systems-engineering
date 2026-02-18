@@ -42,6 +42,25 @@ interviewer_labels = {"Denis": "denis", "Aymen": "aymen"}
 selected_label = st.sidebar.selectbox("Select interviewer", list(interviewer_labels.keys()))
 selected_interviewer = interviewer_labels[selected_label]
 
+if "selected_model" not in st.session_state:
+    st.session_state.selected_model = "gpt-4o-mini"
+if "temperature" not in st.session_state:
+    st.session_state.temperature = 0.4
+
+st.sidebar.selectbox(
+    "OpenAI Model",
+    ["gpt-4o", "gpt-4o-mini"],
+    key="selected_model",
+)
+st.sidebar.slider(
+    "Temperature",
+    min_value=0.0,
+    max_value=1.0,
+    value=0.4,
+    step=0.1,
+    key="temperature",
+)
+
 if "current_interviewer" not in st.session_state:
     st.session_state.current_interviewer = selected_interviewer
 
