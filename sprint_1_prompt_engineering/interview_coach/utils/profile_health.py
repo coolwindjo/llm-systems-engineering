@@ -5,7 +5,7 @@ import re
 from pathlib import Path
 from typing import Any, Dict, List
 
-from utils.interviewer_store import get_interviewers_by_jd
+from utils import interviewer_store
 
 
 DEFAULT_PROFILE_LABEL = "(Default) interview_data.json"
@@ -224,7 +224,7 @@ def _collect_candidate_interviewers(profile_data: Dict[str, Any], jd_title: str)
             }
         )
 
-    for custom_profile in get_interviewers_by_jd(jd_title):
+    for custom_profile in interviewer_store.get_interviewers_by_jd(jd_title):
         name = custom_profile.name.strip()
         key = name.lower()
         if not name or key in seen:
@@ -457,7 +457,7 @@ def _profile_status(profile_path: Path, profile_data: Dict[str, Any]) -> Dict[st
     custom_interviewers = sorted(
         {
             interviewer.name
-            for interviewer in get_interviewers_by_jd(jd_title)
+            for interviewer in interviewer_store.get_interviewers_by_jd(jd_title)
             if interviewer.name.strip()
         }
     )

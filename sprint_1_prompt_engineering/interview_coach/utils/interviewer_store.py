@@ -34,7 +34,17 @@ def _build_filename(profile: InterviewerProfile) -> str:
 def _coerce_list(values) -> List[str]:
     if not isinstance(values, list):
         return []
-    return [str(item).strip() for item in values if str(item).strip()]
+    normalized: List[str] = []
+    seen: set[str] = set()
+    for item in values:
+        if item is None:
+            continue
+        candidate = str(item).strip()
+        if not candidate or candidate in seen:
+            continue
+        seen.add(candidate)
+        normalized.append(candidate)
+    return normalized
 
 
 def save_interviewer(profile: InterviewerProfile, existing_path: str | None = None) -> Path:

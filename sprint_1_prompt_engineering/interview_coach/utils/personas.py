@@ -29,11 +29,13 @@ def _get_candidate_highlights(candidate_profile: Dict[str, Any]) -> Dict[str, st
     return {
         "experience": filtered[0],
         "mpc": filtered[1] if len(filtered) > 1 else filtered[0],
-        "dma": filtered[2] if len(filtered) > 2 else filtered[0],
+        "dma": filtered[2] if len(filtered) > 2 else (filtered[1] if len(filtered) > 1 else filtered[0]),
     }
 
 
 def _candidate_profile(data: Dict[str, Any]) -> Dict[str, Any]:
+    if not isinstance(data, dict):
+        return {}
     candidate = data.get("candidate_profile", {})
     return candidate if isinstance(candidate, dict) else {}
 
@@ -48,7 +50,16 @@ def _candidate_probe_phrases(candidate_profile: Dict[str, Any]) -> List[str]:
         custom_phrases = candidate_profile.get("probes", {}).get("focus_phrases", [])
     if isinstance(custom_phrases, list) and custom_phrases:
         return [str(item).strip() for item in custom_phrases if str(item).strip()]
-    return []
+    strengths = candidate_profile.get("core_strengths", [])
+    filtered_strengths: List[str] = []
+    if isinstance(strengths, list):
+        filtered_strengths = [str(item).strip() for item in strengths if str(item).strip()]
+    candidate_name = _candidate_identity(candidate_profile)
+    primary_strength = filtered_strengths[0] if filtered_strengths else "relevant project experience"
+    return [
+        f"Ask {candidate_name} for concrete evidence of {primary_strength}.",
+        f"Probe how {candidate_name} maps prior outcomes to this role's key requirements.",
+    ]
 
 
 def _format_list(items: List[str]) -> str:
@@ -118,6 +129,9 @@ def _append_jd_context_and_probe_instructions(
 
 Context for this specific role:
 {role_context}
+
+Candidate Focus:
+- {candidate_name}
 
 JD-Specific Probing Directive:
 {perspective}

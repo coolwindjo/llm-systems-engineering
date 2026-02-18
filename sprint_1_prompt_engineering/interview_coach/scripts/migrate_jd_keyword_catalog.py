@@ -59,7 +59,6 @@ def _normalize_term_item(raw: Any) -> str:
             if cleaned != item:
                 item = cleaned
                 break
-        item = item[0:1].upper() + item[1:] if item else item
         if not item:
             continue
         normalized_items.append(item)
@@ -134,7 +133,7 @@ def build_jd_keyword_catalog(profile: Dict[str, Any]) -> Dict[str, List[str]]:
             continue
         catalog["Role Requirements"].append(term)
 
-    catalog["Tech Stack"].extend(tech_stack)
+    catalog["Tools & Framework"].extend(tech_stack)
     return normalize_catalog(catalog)
 
 
