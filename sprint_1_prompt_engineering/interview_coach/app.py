@@ -265,7 +265,7 @@ if st.sidebar.button("🚀 Start Interview", use_container_width=True, type="pri
     )
 
 chat_tab_label, code_tab_label = get_tab_labels()
-dashboard_tab_label = "Evaluation Dashboard"
+dashboard_tab_label = "Admin Dashboard"
 default_tab = get_tabs_default_once(chat_tab_label, code_tab_label)
 tab_chat, tab_code, tab_dashboard = st.tabs(
     [chat_tab_label, code_tab_label, dashboard_tab_label],
@@ -298,4 +298,4 @@ with tab_code:
     render_coding_panel(current_interviewer=current_interviewer)
 
 with tab_dashboard:
-    render_evaluation_dashboard()
+    render_evaluation_dashboard(get_api_key)
