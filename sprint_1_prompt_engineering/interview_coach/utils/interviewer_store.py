@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import re
 from pathlib import Path
-from typing import List, Tuple
+from typing import Any, Dict, List, Tuple
 
 from pydantic import BaseModel, Field
 
@@ -18,6 +18,7 @@ class InterviewerProfile(BaseModel):
     role: str = ""
     expertise: List[str] = Field(default_factory=list)
     potential_questions: List[str] = Field(default_factory=list)
+    critique_profile: Dict[str, Any] = Field(default_factory=dict)
 
 
 def _slugify(value: str) -> str:
@@ -55,6 +56,9 @@ def save_interviewer(profile: InterviewerProfile, existing_path: str | None = No
     payload["expertise"] = _coerce_list(profile.expertise)
     payload["potential_questions"] = _coerce_list(profile.potential_questions)
     payload["is_generic_ai"] = bool(profile.is_generic_ai)
+    payload["critique_profile"] = (
+        profile.critique_profile if isinstance(profile.critique_profile, dict) else {}
+    )
 
     if existing_path:
         output_path = Path(existing_path)

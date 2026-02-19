@@ -46,6 +46,7 @@ from services.interview_ops import (
     extract_jd_fields,
     get_feedback_highlight_catalog,
     get_last_assistant_message,
+    _speaker_key,
     get_last_user_response,
     hash_file_contents,
     load_local_env,
@@ -579,6 +580,8 @@ def render_chat_panel(
     system_prompts: Dict[str, str],
     interviewer_name: str,
     technique_key: str,
+    jd_profile: Dict[str, Any],
+    interviewer_profile: Dict[str, Any] | None = None,
 ) -> None:
     st.subheader(PANEL_CHAT)
     if not st.session_state.get("interview_started", False):
@@ -632,7 +635,10 @@ def render_chat_panel(
     critique_persona = get_critique_persona_prompt(
         interviewer_name=interviewer_name,
         interviewer_key=current_interviewer,
+        interviewer_profile=interviewer_profile,
         technique=technique_key,
+        jd_profile=jd_profile,
+        jd_title=st.session_state.get("selected_jd"),
     )
 
     if st.button("Analyze My Answer", use_container_width=True):
@@ -649,7 +655,11 @@ def render_chat_panel(
                     st.error("OPENAI_API_KEY is not set. Add it in Streamlit secrets or environment variables.")
                 else:
                     client = OpenAI(api_key=api_key)
-                    critique_user_prompt = f"""Interviewer: {current_interviewer.title()}\nCandidate answer:\n{last_user_answer}\n\nEvaluate this answer for ASPICE CL3 evidence and technical accuracy."""
+                    critique_user_prompt = (
+                        f"Interviewer: {current_interviewer.title()}\n"
+                        f"Candidate answer:\n{last_user_answer}\n\n"
+                        "Evaluate this answer for concrete, evidence-based technical quality."
+                    )
                     try:
                         critique_temperature = max(0.1, st.session_state.temperature - 0.2)
                         critique_response, used_model = create_chat_completion_with_fallback(
@@ -807,12 +817,23 @@ default_tab = get_tabs_default_once(chat_tab_label, code_tab_label)
 tab_chat, tab_code = st.tabs([chat_tab_label, code_tab_label], default=default_tab)
 
 with tab_chat:
+    active_interviewer_profile = next(
+        (
+            profile
+            for profile in session_interviewers
+            if _speaker_key(profile.get("name", "")) == current_interviewer
+        ),
+        None,
+    )
+
     render_chat_panel(
         current_interviewer=current_interviewer,
         history=history,
         system_prompts=system_prompts,
         interviewer_name=selected_label,
         technique_key=technique_key,
+        interviewer_profile=active_interviewer_profile,
+        jd_profile=st.session_state.current_interview_data,
     )
 
 with tab_code:

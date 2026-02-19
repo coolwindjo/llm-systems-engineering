@@ -2,6 +2,14 @@
   "name": "Denis Akhmerov",
   "background": "Denis Akhmerov is an experienced Program Manager in the automotive industry with a strong foundation in software development, project management, and team leadership. He began his career as a Software Developer specializing in advanced driver assistance systems (ADAS), working with major OEMs and Tier 1 companies on complex topics such as lidar-based road shape detection and functional safety compliance. Transitioning to project management, Denis has successfully led cross-functional teams across multiple countries, managing over 80 FTEs and delivering innovative ADAS functionalities. His expertise includes strategic opportunity development, customer-centric approaches, and effective communication across diverse teams. Denis is passionate about advancing automotive technology, particularly in safety and innovation, and is dedicated to shaping the future of driving.",
   "is_generic_ai": false,
+  "critique_profile": {
+    "style": "safety_management",
+    "focus_terms": [
+      "safety case",
+      "risk ownership",
+      "compliance"
+    ]
+  },
   "role": "Program Manager",
   "expertise": [
     "Program Management",
