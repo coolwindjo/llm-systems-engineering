@@ -253,12 +253,12 @@ def render_sidebar_interviewer_manager(selected_jd: str) -> None:
 
             if confirm_target == selected_profile_path_key:
                 confirm_cols = st.columns(2)
-                if confirm_cols[0].button("삭제", key="confirm_interviewer_delete_button"):
+                if confirm_cols[0].button("Delete", key="confirm_interviewer_delete_button"):
                     delete_interviewer(selected_profile_path_key)
                     st.session_state.pop(_INTERVIEWER_DELETE_CONFIRM_KEY, None)
                     st.success("Interviewer deleted.")
                     st.rerun()
-                if confirm_cols[1].button("취소", key="cancel_interviewer_delete_button"):
+                if confirm_cols[1].button("Cancel", key="cancel_interviewer_delete_button"):
                     st.session_state.pop(_INTERVIEWER_DELETE_CONFIRM_KEY, None)
                     st.rerun()
         elif not path_options:
