@@ -1,6 +1,6 @@
 # AI Interview Coach
 
-This project is a Streamlit-based ADAS / ASPICE interview practice app implemented in `sprint_1_prompt_engineering/interview_coach`.
+This project is a Streamlit-based ADAS / ASPICE interview practice app implemented in `interview_coach`.
 
 It supports:
 - Multi-turn AI interviewer chat with selectable prompts and interviewer personas.
@@ -107,8 +107,21 @@ The app is designed for interview practice with an ADAS / ASPICE context, with b
 
 ## Runbook
 
+Create an environment file first:
+
 ```bash
-cd sprint_1_prompt_engineering/interview_coach
+cd interview_coach
+cat > .env << 'EOF'
+OPENAI_API_KEY=sk-proj-...
+EOF
+```
+
+The app loads this value from `interview_coach/.env`.
+
+Then install and run:
+
+```bash
+cd interview_coach
 pip install -r requirements.txt
 streamlit run app.py
 ```
@@ -116,7 +129,7 @@ streamlit run app.py
 To run the benchmark + judge pipeline from CLI:
 
 ```bash
-python -m sprint_1_prompt_engineering.interview_coach.scripts.benchmark_suite --analyze-only
+python -m interview_coach.scripts.benchmark_suite --analyze-only
 ```
 
 Use `scripts/benchmark_suite_analysis.py` and the Admin Dashboard in-app (`Admin Dashboard` tab) for charts and ranked conclusions.
