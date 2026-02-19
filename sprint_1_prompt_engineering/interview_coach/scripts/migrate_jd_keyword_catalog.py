@@ -2,148 +2,47 @@ from __future__ import annotations
 
 import argparse
 import json
-import re
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import List
+
+try:
+    from ..services.jd_keyword_catalog import (
+        JD_KEYWORD_CATEGORY_RULES as _SHARED_KEYWORD_CATEGORIES,
+        normalize_terms as _normalize_terms_from_catalog,
+        build_jd_keyword_catalog,
+    )
+except (ImportError, ModuleNotFoundError):
+    from sprint_1_prompt_engineering.interview_coach.services.jd_keyword_catalog import (
+        JD_KEYWORD_CATEGORY_RULES as _SHARED_KEYWORD_CATEGORIES,
+        normalize_terms as _normalize_terms_from_catalog,
+        build_jd_keyword_catalog,
+    )
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = REPO_ROOT / "data"
 DEFAULT_JD_KEY = "jd_keyword_catalog"
-PROFILE_DIR = DATA_DIR / "profiles"
-DEFAULT_PROFILE = DATA_DIR / "interview_data.json"
 
-JD_KEYWORD_CATEGORY_RULES: List[tuple[str, List[str]]] = [
-    ("Safety & Compliance", ["aspice", "iso 26262", "sotif", "asil", "safety", "fmea"]),
-    ("Testing & Quality", ["test", "testing", "validation", "verification", "traceability", "quality"]),
-    ("ADAS Core", ["adas", "radar", "camera", "lidar", "fusion", "perception", "localization", "tracking", "mapping"]),
-    ("Runtime & Implementation", ["c++", "cpp", "misra", "autosar", "dma", "determinism", "real-time", "concurrency", "memory", "thread"]),
-    ("Tools & Framework", ["python", "docker", "can", "lin", "ethernet", "git", "jenkins", "jira", "matlab", "simulink", "ros", "linux"]),
-]
+JD_KEYWORD_CATEGORY_RULES: List[tuple[str, List[str]]] = list(_SHARED_KEYWORD_CATEGORIES)
 
 
-_REDUNDANT_PREFIXES = (
-    "experience in",
-    "experience with",
-    "knowledge of",
-    "knowledge on",
-    "proven experience in",
-    "ability to",
-    "proven ability to",
-    "strong focus on",
-    "good understanding of",
-    "solid understanding of",
-    "expertise in",
-    "required to have",
-)
+def normalize_terms(values: List[str]) -> List[str]:
+    return _normalize_terms_from_catalog(values)
 
 
-def _normalize_term_item(raw: Any) -> str:
-    term = str(raw).strip()
-    if not term:
-        return ""
-
-    # Keep slash in technology identifiers (like C/C++), but split on list delimiters.
-    split_items = [item.strip() for item in re.split(r"[;\n|,]+", term) if item.strip()]
-    if not split_items:
-        split_items = [term]
-
-    normalized_items: List[str] = []
-    for item in split_items:
-        item = item.replace("C/C++", "C++").replace("c/c++", "C++")
-        item = re.sub(r"\s{2,}", " ", item).strip(" -")
-        item = item.replace("  ", " ")
-        for prefix in _REDUNDANT_PREFIXES:
-            pattern = re.compile(rf"^{re.escape(prefix)}\s+", re.IGNORECASE)
-            cleaned = pattern.sub("", item).strip()
-            if cleaned != item:
-                item = cleaned
-                break
-        if not item:
-            continue
-        normalized_items.append(item)
-    return normalized_items[0] if normalized_items else ""
-
-
-def normalize_terms(values: Any) -> List[str]:
-    if not isinstance(values, list):
-        return []
-    normalized: List[str] = []
-    seen: set[str] = set()
-
-    for raw in values:
-        base = str(raw).strip()
-        if not base:
-            continue
-        items = [part.strip() for part in re.split(r"[;\n|,]+", base) if part.strip()]
-        if not items:
-            continue
-
-        for item in items:
-            term = _normalize_term_item(item)
-            if not term:
-                continue
-            term = term.strip()
-            if len(term) < 2:
-                continue
-            key = term.lower()
-            if key in seen:
-                continue
-            seen.add(key)
-            normalized.append(term)
-
-    return normalized
-
-
-def classify_term(term: str) -> str:
-    candidate = term.lower()
-    for category, hints in JD_KEYWORD_CATEGORY_RULES:
-        if any(hint in candidate for hint in hints):
-            return category
-    return "Role Requirements"
-
-
-def normalize_catalog(values: Dict[str, List[str]]) -> Dict[str, List[str]]:
-    output: Dict[str, List[str]] = {}
-    for category, items in values.items():
-        cleaned = normalize_terms(items)
-        if cleaned:
-            output[category] = cleaned
-    return output
-
-
-def build_jd_keyword_catalog(profile: Dict[str, Any]) -> Dict[str, List[str]]:
-    requirements = normalize_terms(profile.get("key_requirements", []))
-    tech_stack = normalize_terms(profile.get("tech_stack", []))
-
-    catalog: Dict[str, List[str]] = {
-        "Role Requirements": [],
-        "Tech Stack": [],
-        "Safety & Compliance": [],
-        "Testing & Quality": [],
-        "ADAS Core": [],
-        "Runtime & Implementation": [],
-        "Tools & Framework": [],
-    }
-
-    for term in requirements:
-        category = classify_term(term)
-        if category in catalog:
-            catalog[category].append(term)
-            continue
-        catalog["Role Requirements"].append(term)
-
-    catalog["Tools & Framework"].extend(tech_stack)
-    return normalize_catalog(catalog)
-
-
-def collect_profile_paths(explicit: List[Path] | None) -> List[Path]:
+def collect_profile_paths(
+    explicit: List[Path] | None,
+    data_dir: Path | None = None,
+) -> List[Path]:
     if explicit:
         return explicit
 
-    files = [DEFAULT_PROFILE]
-    if PROFILE_DIR.exists():
-        files.extend(sorted(PROFILE_DIR.glob("*.json")))
+    search_root = data_dir if data_dir is not None else DATA_DIR
+
+    files = [search_root / "interview_data.json"]
+    profile_dir = search_root / "profiles"
+    if profile_dir.exists():
+        files.extend(sorted(profile_dir.glob("*.json")))
 
     return files
 
@@ -207,17 +106,12 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
     data_dir = args.data_dir
-    global DATA_DIR, PROFILE_DIR, DEFAULT_PROFILE
-
-    DATA_DIR = data_dir
-    PROFILE_DIR = DATA_DIR / "profiles"
-    DEFAULT_PROFILE = DATA_DIR / "interview_data.json"
 
     explicit_paths: List[Path] = []
     for path in args.profile:
-        explicit_paths.append(path if path.is_absolute() else (DATA_DIR / path))
+        explicit_paths.append(path if path.is_absolute() else (data_dir / path))
 
-    profiles = collect_profile_paths(explicit_paths)
+    profiles = collect_profile_paths(explicit_paths, data_dir=data_dir)
     if not profiles:
         print("No profile files found.")
         return

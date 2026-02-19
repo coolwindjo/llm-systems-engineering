@@ -10,13 +10,27 @@ from pathlib import Path
 from typing import Any, Dict, List, Tuple
 
 from openai import OpenAI
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ValidationError
+
+try:
+    from openai import APIError
+except (ImportError, ModuleNotFoundError):
+    class APIError(Exception):
+        """Fallback APIError when openai dependency is unavailable."""
 
 from utils.interviewer_store import (
     InterviewerProfile,
     get_interviewers_by_jd,
     list_interviewers_with_paths,
     save_interviewer,
+)
+from services.jd_keyword_catalog import (
+    JD_KEYWORD_CATEGORY_RULES,
+    _normalize_term_item as _normalize_term_item_from_catalog,
+    _normalize_terms as _normalize_terms_from_catalog,
+    build_jd_keyword_catalog as _build_jd_keyword_catalog_from_catalog,
+    classify_term as _classify_jd_keyword_from_catalog,
+    normalize_catalog as _normalize_jd_keyword_catalog_from_catalog,
 )
 
 try:
@@ -177,71 +191,7 @@ _CRITIQUE_PROCESS_METRIC_HINTS: List[Tuple[str, Tuple[str, ...]]] = [
     ("Quality", ("quality", "testing", "traceability")),
 ]
 
-JD_KEYWORD_CATEGORY_RULES: List[tuple[str, List[str]]] = [
-    ("Safety & Compliance", ["aspice", "iso 26262", "sotif", "asil", "safety", "fmea"]),
-    ("Testing & Quality", ["test", "testing", "validation", "verification", "traceability", "quality"]),
-    (
-        "ADAS Core",
-        [
-            "adas",
-            "radar",
-            "camera",
-            "lidar",
-            "fusion",
-            "perception",
-            "localization",
-            "tracking",
-            "mapping",
-        ],
-    ),
-    (
-        "Runtime & Implementation",
-        [
-            "c++",
-            "cpp",
-            "misra",
-            "autosar",
-            "dma",
-            "determinism",
-            "real-time",
-            "concurrency",
-            "memory",
-            "thread",
-        ],
-    ),
-    (
-        "Tools & Framework",
-        [
-            "python",
-            "docker",
-            "can",
-            "lin",
-            "ethernet",
-            "git",
-            "jenkins",
-            "jira",
-            "matlab",
-            "simulink",
-            "ros",
-            "linux",
-        ],
-    ),
-]
-
-_REDUNDANT_PREFIXES = (
-    "experience in",
-    "experience with",
-    "knowledge of",
-    "knowledge on",
-    "proven experience in",
-    "ability to",
-    "proven ability to",
-    "strong focus on",
-    "good understanding of",
-    "solid understanding of",
-    "expertise in",
-    "required to have",
-)
+JD_KEYWORD_CATEGORY_RULES = list(JD_KEYWORD_CATEGORY_RULES)
 
 
 class ParsedIntervieweeProfile(BaseModel):
@@ -658,7 +608,7 @@ def _extract_text_from_pdf(uploaded_file) -> str:
         reader = PdfReader(io.BytesIO(pdf_binary))
         pages = [page.extract_text() or "" for page in reader.pages]
         return "\n".join(pages)
-    except Exception as exc:
+    except (APIError, AttributeError, IndexError, OSError, TypeError, ValueError) as exc:
         raise RuntimeError(f"Failed to parse PDF content: {exc}") from exc
 
 
@@ -727,7 +677,7 @@ def parse_interviewee_profile(
             if parsed is None:
                 raise ValueError("Failed to parse structured interviewee profile.")
             return parsed
-        except Exception as exc:
+        except (APIError, AttributeError, IndexError, KeyError, OSError, TypeError, ValueError, ValidationError) as exc:
             last_error = exc
             if is_model_access_error(exc):
                 continue
@@ -735,7 +685,10 @@ def parse_interviewee_profile(
                 fallback_response = client.chat.completions.create(
                     model=model_name,
                     messages=[
-                        {"role": "system", "content": "Extract fields and output JSON only with keys: name, status, core_strengths, focus_phrases."},
+                        {
+                            "role": "system",
+                            "content": "Extract fields and output JSON only with keys: name, status, core_strengths, focus_phrases.",
+                        },
                         {"role": "user", "content": request_text},
                     ],
                     temperature=resolved_temperature,
@@ -746,7 +699,7 @@ def parse_interviewee_profile(
                     raise ValueError("Could not extract JSON block from model response.")
                 parsed = ParsedIntervieweeProfile.model_validate_json(json_payload)
                 return parsed
-            except Exception:
+            except (APIError, AttributeError, KeyError, OSError, TypeError, ValueError, ValidationError):
                 continue
 
     if last_error is not None:
@@ -863,108 +816,33 @@ def _bootstrap_default_interviewers(current_data: Dict[str, Any]) -> None:
 
 
 def _normalize_term_item(raw: Any) -> str:
-    term = str(raw).strip()
-    if not term:
-        return ""
-
-    split_items = [item.strip() for item in re.split(r"[;\n|,]+", term) if item.strip()]
-    if not split_items:
-        split_items = [term]
-
-    normalized_items: List[str] = []
-    for item in split_items:
-        item = item.replace("C/C++", "C++").replace("c/c++", "C++")
-        item = re.sub(r"\s{2,}", " ", item).strip(" -")
-        item = item.replace("  ", " ")
-        for prefix in _REDUNDANT_PREFIXES:
-            pattern = re.compile(rf"^{re.escape(prefix)}\s+", re.IGNORECASE)
-            cleaned = pattern.sub("", item).strip()
-            if cleaned != item:
-                item = cleaned
-                break
-        if not item:
-            continue
-        normalized_items.append(item)
-    return normalized_items[0] if normalized_items else ""
+    return _normalize_term_item_from_catalog(raw)
 
 
 def _normalize_terms(values: Any) -> List[str]:
-    if not isinstance(values, list):
-        return []
-    normalized: List[str] = []
-    seen: set[str] = set()
-
-    for raw in values:
-        text = str(raw).strip()
-        if not text:
-            continue
-        items = [part.strip() for part in re.split(r"[;\n|,]+", text) if part.strip()]
-        if not items:
-            continue
-
-        for item in items:
-            term = _normalize_term_item(item)
-            if not term:
-                continue
-            term = term.strip()
-            if len(term) < 2:
-                continue
-            key = term.lower()
-            if key in seen:
-                continue
-            seen.add(key)
-            normalized.append(term)
-
-    return normalized
+    return _normalize_terms_from_catalog(values)
 
 
 def _classify_jd_keyword(term: str) -> str:
-    candidate = term.lower()
-    for category, hints in JD_KEYWORD_CATEGORY_RULES:
-        if any(hint in candidate for hint in hints):
-            return category
-    return "Role Requirements"
+    return _classify_jd_keyword_from_catalog(term)
 
 
 def _normalize_jd_keyword_catalog(values: Dict[str, List[str]]) -> Dict[str, List[str]]:
-    output: Dict[str, List[str]] = {}
-    for category, items in values.items():
-        cleaned = _normalize_terms(items)
-        if cleaned:
-            output[category] = cleaned
-    return output
+    return _normalize_jd_keyword_catalog_from_catalog(values)
 
 
 def _build_jd_keyword_catalog(extracted: JDExtraction) -> Dict[str, List[str]]:
-    requirements = _normalize_terms(extracted.key_requirements)
-    tech_stack = _normalize_terms(extracted.tech_stack)
-
-    catalog: Dict[str, List[str]] = {
-        "Role Requirements": [],
-        "Tech Stack": [],
-        "Safety & Compliance": [],
-        "Testing & Quality": [],
-        "ADAS Core": [],
-        "Runtime & Implementation": [],
-        "Tools & Framework": [],
-    }
-
-    for term in requirements:
-        inferred_category = _classify_jd_keyword(term)
-        if inferred_category in catalog:
-            catalog[inferred_category].append(term)
-            continue
-        catalog["Role Requirements"].append(term)
-
-    for term in tech_stack:
-        catalog["Tools & Framework"].append(term)
-
-    return _normalize_jd_keyword_catalog(catalog)
+    return _build_jd_keyword_catalog_from_catalog(extracted.model_dump())
 
 
 def is_model_access_error(exc: Exception) -> bool:
     error_text = str(exc).lower()
-    return "model_not_found" in error_text or "does not have access to model" in error_text
+    return (
+        "model_not_found" in error_text
+        or "does not have access" in error_text
+        or "does not have access to model" in error_text
+        or "does not have access to the model" in error_text
+    )
 
 
 def slugify_for_filename(value: str) -> str:
@@ -1008,7 +886,7 @@ def extract_jd_fields(api_key: str, jd_text: str, company: str, position: str) -
             if parsed is None:
                 raise ValueError("Failed to parse structured output for JD extraction.")
             return parsed, model_name
-        except Exception as exc:
+        except (APIError, AttributeError, IndexError, KeyError, OSError, TypeError, ValueError, ValidationError) as exc:
             last_error = exc
             if is_model_access_error(exc):
                 continue
@@ -1081,7 +959,7 @@ def parse_interviewer_background(
             parsed_dict = parsed.model_dump()
             parsed_dict["name"] = interviewer_name.strip()
             return ParsedInterviewerProfile.model_validate(parsed_dict)
-        except Exception as exc:
+        except (APIError, AttributeError, IndexError, KeyError, OSError, TypeError, ValueError, ValidationError) as exc:
             last_error = exc
             if is_model_access_error(exc):
                 continue
@@ -1109,7 +987,7 @@ def parse_interviewer_background(
                 parsed_dict = parsed.model_dump()
                 parsed_dict["name"] = interviewer_name.strip()
                 return ParsedInterviewerProfile.model_validate(parsed_dict)
-            except Exception:
+            except (APIError, AttributeError, KeyError, OSError, TypeError, ValueError, ValidationError):
                 continue
 
     if last_error is not None:
@@ -1131,7 +1009,7 @@ def create_chat_completion_with_fallback(
             temperature=resolved_temperature,
         )
         return response, model
-    except Exception as exc:
+    except (APIError, AttributeError, IndexError, KeyError, OSError, RuntimeError, TypeError, ValueError, ValidationError) as exc:
         if model != CHAT_FALLBACK_ORDER[0] and is_model_access_error(exc):
             for fallback_model in CHAT_FALLBACK_ORDER:
                 if fallback_model == model:
@@ -1144,7 +1022,7 @@ def create_chat_completion_with_fallback(
                         temperature=fallback_temperature,
                     )
                     return fallback_response, fallback_model
-                except Exception as fallback_exc:
+                except (APIError, AttributeError, IndexError, KeyError, OSError, RuntimeError, TypeError, ValueError, ValidationError) as fallback_exc:
                     if is_model_access_error(fallback_exc):
                         continue
                     raise

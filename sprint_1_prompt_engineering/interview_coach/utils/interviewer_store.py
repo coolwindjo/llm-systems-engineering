@@ -5,7 +5,7 @@ import re
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ValidationError
 
 
 INTERVIEWERS_DIR = Path(__file__).resolve().parent.parent / "data" / "interviewers"
@@ -85,7 +85,7 @@ def _load_interviewer(path: Path) -> InterviewerProfile | None:
     try:
         raw = json.loads(path.read_text(encoding="utf-8"))
         return InterviewerProfile.model_validate(raw)
-    except Exception:
+    except (OSError, json.JSONDecodeError, TypeError, ValueError, ValidationError):
         return None
 
 

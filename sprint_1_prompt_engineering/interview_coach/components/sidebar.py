@@ -7,6 +7,11 @@ from typing import Any, Callable, Dict, List
 
 import streamlit as st
 from pydantic import BaseModel, Field
+try:
+    from openai import APIError
+except (ImportError, ModuleNotFoundError):
+    class APIError(Exception):
+        """Fallback APIError when openai dependency is unavailable."""
 
 from services.interview_ops import (
     PROFILES_DIR,
@@ -31,7 +36,6 @@ from utils.interviewer_store import (
     save_interviewer,
 )
 from services.profile_health import audit_interview_profiles
-
 
 _INTERVIEWER_MANAGE_NEW_ENTRY = "Add new interviewer"
 _INTERVIEWER_DELETE_CONFIRM_KEY = "interviewer_delete_confirm"
@@ -355,7 +359,7 @@ def render_sidebar_profile_creator(get_api_key: Callable[[], str | None]) -> Non
                 output_path = PROFILES_DIR / filename
                 output_path.write_text(json.dumps(profile, ensure_ascii=False, indent=2), encoding="utf-8")
                 st.success(f"Saved profile: {output_path.name} (model: {used_model})")
-            except Exception as exc:
+            except (APIError, OSError, TypeError, ValueError, RuntimeError, json.JSONDecodeError) as exc:
                 st.error(f"Failed to generate profile: {exc}")
 
 
@@ -398,7 +402,7 @@ def render_sidebar_interviewee_profile_loader(
                                 current_interview_data
                             )
                             st.rerun()
-                except Exception as exc:
+                except (APIError, OSError, TypeError, ValueError, RuntimeError) as exc:
                     st.error(f"Failed to reset interviewee profile from PDF: {exc}")
 
         cover_letter = st.text_area(
@@ -439,5 +443,5 @@ def render_sidebar_interviewee_profile_loader(
                     current_interview_data
                 )
                 st.rerun()
-            except Exception as exc:
+            except (APIError, OSError, TypeError, ValueError, RuntimeError) as exc:
                 st.error(f"Failed to merge cover letter: {exc}")

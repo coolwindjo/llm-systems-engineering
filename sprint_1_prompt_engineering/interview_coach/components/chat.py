@@ -5,6 +5,11 @@ from typing import Any, Callable, Dict, List
 
 import streamlit as st
 from openai import OpenAI
+try:
+    from openai import APIError
+except (ImportError, ModuleNotFoundError):
+    class APIError(Exception):
+        """Fallback APIError when openai dependency is unavailable."""
 from streamlit_chat import message
 
 from services.interview_ops import (
@@ -63,8 +68,114 @@ def render_feedback_with_adas_terms(feedback: str, profile_data: Dict[str, Any])
 
     if parts:
         annotated_text(*parts)
-    else:
-        st.markdown(feedback)
+
+
+def _safe_model_reply(
+    api_key: str,
+    model: str,
+    messages: List[Dict[str, str]],
+    temperature: float,
+    fallback_prefix: str,
+) -> str:
+    client = OpenAI(api_key=api_key)
+    try:
+        response, used_model = create_chat_completion_with_fallback(
+            client=client,
+            model=model,
+            messages=messages,
+            temperature=temperature,
+        )
+        reply = response.choices[0].message.content or "No response."
+        if used_model != model:
+            reply = f"[Model fallback: {used_model}]\\n\\n{reply}"
+        return reply
+    except (APIError, AttributeError, IndexError, KeyError, TypeError, ValueError) as exc:
+        return f"{fallback_prefix}: {exc}"
+
+
+def _render_user_and_assistant_reply(
+    current_interviewer: str,
+    api_key: str,
+    history: List[Dict[str, str]],
+    system_prompts: Dict[str, str],
+    state_key: str,
+) -> None:
+    typing_placeholder = st.empty()
+    typing_placeholder.info(f"{current_interviewer.title()} is typing...")
+    try:
+        assistant_reply = _safe_model_reply(
+            api_key=api_key,
+            model=st.session_state.selected_model,
+            messages=[{"role": "system", "content": system_prompts[current_interviewer]}, *history],
+            temperature=st.session_state.temperature,
+            fallback_prefix="Error from OpenAI API",
+        )
+    finally:
+        typing_placeholder.empty()
+
+    history.append({"role": "assistant", "content": assistant_reply})
+    st.session_state.chat_histories[state_key] = history
+    st.rerun()
+
+
+def _build_critique_message(
+    current_interviewer: str,
+    last_user_answer: str,
+) -> str:
+    return (
+        f"Interviewer: {current_interviewer.title()}\\n"
+        f"Candidate answer:\\n{last_user_answer}\\n\\n"
+        "Evaluate this answer for concrete, evidence-based technical quality."
+    )
+
+
+def _run_critique_analysis(
+    current_interviewer: str,
+    current_interviewer_key: str,
+    interviewer_profile: Dict[str, Any] | None,
+    technique_key: str,
+    jd_profile: Dict[str, Any],
+    jd_title: str | None,
+    last_user_answer: str,
+    api_key: str,
+) -> str:
+    critique_persona = get_critique_persona_prompt(
+        interviewer_name=current_interviewer,
+        interviewer_key=current_interviewer_key,
+        interviewer_profile=interviewer_profile,
+        technique=technique_key,
+        jd_profile=jd_profile,
+        jd_title=jd_title,
+    )
+    return _safe_model_reply(
+        api_key=api_key,
+        model=st.session_state.selected_model,
+        messages=[
+            {"role": "system", "content": critique_persona},
+            {"role": "user", "content": _build_critique_message(current_interviewer, last_user_answer)},
+        ],
+        temperature=max(0.1, st.session_state.temperature - 0.2),
+        fallback_prefix="Error from OpenAI API",
+    )
+
+
+def _build_support_and_model(
+    *,
+    current_interviewer: str,
+    last_question: str,
+    support_type: str,
+    api_key: str,
+) -> str:
+    prompt = _build_support_prompt(current_interviewer.title(), last_question, support_type)
+    fallback = "Failed to generate hint" if support_type == "hint" else "No model answer generated"
+    temperature = max(0.1, st.session_state.temperature - 0.1) if support_type == "hint" else st.session_state.temperature
+    return _safe_model_reply(
+        api_key=api_key,
+        model=st.session_state.selected_model,
+        messages=[{"role": "user", "content": prompt}],
+        temperature=temperature,
+        fallback_prefix=fallback,
+    )
 
 
 def render_chat_panel(
@@ -100,40 +211,17 @@ def render_chat_panel(
             if not api_key:
                 st.error("OPENAI_API_KEY is not set. Add it in Streamlit secrets or environment variables.")
             else:
-                client = OpenAI(api_key=api_key)
-                typing_placeholder = st.empty()
-                typing_placeholder.info(f"{current_interviewer.title()} is typing...")
-                try:
-                    response, used_model = create_chat_completion_with_fallback(
-                        client=client,
-                        model=st.session_state.selected_model,
-                        messages=[{"role": "system", "content": system_prompts[current_interviewer]}, *history],
-                        temperature=st.session_state.temperature,
-                    )
-                    assistant_reply = response.choices[0].message.content or "I could not generate a response."
-                    if used_model != st.session_state.selected_model:
-                        assistant_reply = f"[Model fallback: {used_model}]\n\n{assistant_reply}"
-                except Exception as exc:
-                    assistant_reply = f"Error from OpenAI API: {exc}"
-                finally:
-                    typing_placeholder.empty()
-
-                history.append({"role": "assistant", "content": assistant_reply})
-                st.session_state.chat_histories[current_interviewer] = history
-                st.rerun()
+                _render_user_and_assistant_reply(
+                    current_interviewer=current_interviewer,
+                    api_key=api_key,
+                    history=history,
+                    system_prompts=system_prompts,
+                    state_key=current_interviewer,
+                )
 
     analyze_key = f"critique_feedback_{current_interviewer}"
     hint_key = f"interview_hint_{current_interviewer}"
     answer_key = f"model_answer_{current_interviewer}"
-
-    critique_persona = get_critique_persona_prompt(
-        interviewer_name=interviewer_name,
-        interviewer_key=current_interviewer,
-        interviewer_profile=interviewer_profile,
-        technique=technique_key,
-        jd_profile=jd_profile,
-        jd_title=st.session_state.get("selected_jd"),
-    )
 
     if st.button("Analyze My Answer", use_container_width=True):
         last_user_answer = get_last_user_response(history)
@@ -148,29 +236,16 @@ def render_chat_panel(
                 if not api_key:
                     st.error("OPENAI_API_KEY is not set. Add it in Streamlit secrets or environment variables.")
                 else:
-                    client = OpenAI(api_key=api_key)
-                    critique_user_prompt = (
-                        f"Interviewer: {current_interviewer.title()}\n"
-                        f"Candidate answer:\n{last_user_answer}\n\n"
-                        "Evaluate this answer for concrete, evidence-based technical quality."
+                    st.session_state[analyze_key] = _run_critique_analysis(
+                        current_interviewer=interviewer_name,
+                        current_interviewer_key=current_interviewer,
+                        interviewer_profile=interviewer_profile,
+                        technique_key=technique_key,
+                        jd_profile=jd_profile,
+                        jd_title=st.session_state.get("selected_jd"),
+                        last_user_answer=last_user_answer,
+                        api_key=api_key,
                     )
-                    try:
-                        critique_temperature = max(0.1, st.session_state.temperature - 0.2)
-                        critique_response, used_model = create_chat_completion_with_fallback(
-                            client=client,
-                            model=st.session_state.selected_model,
-                            messages=[
-                                {"role": "system", "content": critique_persona},
-                                {"role": "user", "content": critique_user_prompt},
-                            ],
-                            temperature=critique_temperature,
-                        )
-                        critique_text = critique_response.choices[0].message.content or "No critique generated."
-                        if used_model != st.session_state.selected_model:
-                            critique_text = f"[Model fallback: {used_model}]\n\n{critique_text}"
-                        st.session_state[analyze_key] = critique_text
-                    except Exception as exc:
-                        st.session_state[analyze_key] = f"Error from OpenAI API: {exc}"
 
     last_question = get_last_assistant_message(history)
     st.divider()
@@ -184,20 +259,13 @@ def render_chat_panel(
                 if not api_key:
                     st.session_state[hint_key] = "OPENAI_API_KEY is not set. Add it in Streamlit secrets or environment variables."
                 else:
-                    client = OpenAI(api_key=api_key)
-                    try:
-                        hint_response, used_model = create_chat_completion_with_fallback(
-                            client=client,
-                            model=st.session_state.selected_model,
-                            messages=[{"role": "user", "content": _build_support_prompt(current_interviewer.title(), last_question, "hint")}],
-                            temperature=max(0.1, st.session_state.temperature - 0.1),
-                        )
-                        hint_text = hint_response.choices[0].message.content or "No hint generated."
-                        if used_model != st.session_state.selected_model:
-                            hint_text = f"[Model fallback: {used_model}]\n\n{hint_text}"
-                        st.session_state[hint_key] = hint_text
-                    except Exception as exc:
-                        st.session_state[hint_key] = f"Failed to generate hint: {exc}"
+                    st.session_state[hint_key] = _build_support_and_model(
+                        current_interviewer=current_interviewer,
+                        last_question=last_question,
+                        support_type="hint",
+                        api_key=api_key,
+                    )
+
     with col_model:
         if st.button("Show Model Answer", use_container_width=True, key=f"model_answer_btn_{current_interviewer}"):
             if not last_question:
@@ -207,20 +275,12 @@ def render_chat_panel(
                 if not api_key:
                     st.session_state[answer_key] = "OPENAI_API_KEY is not set. Add it in Streamlit secrets or environment variables."
                 else:
-                    client = OpenAI(api_key=api_key)
-                    try:
-                        answer_response, used_model = create_chat_completion_with_fallback(
-                            client=client,
-                            model=st.session_state.selected_model,
-                            messages=[{"role": "user", "content": _build_support_prompt(current_interviewer.title(), last_question, "sample")}],
-                            temperature=st.session_state.temperature,
-                        )
-                        answer_text = answer_response.choices[0].message.content or "No model answer generated."
-                        if used_model != st.session_state.selected_model:
-                            answer_text = f"[Model fallback: {used_model}]\n\n{answer_text}"
-                        st.session_state[answer_key] = answer_text
-                    except Exception as exc:
-                        st.session_state[answer_key] = f"Failed to generate model answer: {exc}"
+                    st.session_state[answer_key] = _build_support_and_model(
+                        current_interviewer=current_interviewer,
+                        last_question=last_question,
+                        support_type="sample",
+                        api_key=api_key,
+                    )
 
     feedback = st.session_state.get(analyze_key)
     if feedback:
@@ -236,4 +296,3 @@ def render_chat_panel(
     if model_answer:
         st.subheader("Model Answer")
         st.write(model_answer)
-

@@ -4,6 +4,11 @@ from typing import Callable, Dict
 
 import streamlit as st
 from openai import OpenAI
+try:
+    from openai import APIError
+except (ImportError, ModuleNotFoundError):
+    class APIError(Exception):
+        """Fallback APIError when openai dependency is unavailable."""
 
 from services.interview_ops import _build_opening_prompt, create_chat_completion_with_fallback
 
@@ -58,9 +63,8 @@ def start_interview_for_active_interviewer(
         st.session_state.chat_histories[interviewer_key] = history
         st.session_state.messages = history
         st.rerun()
-    except Exception as exc:
+    except (APIError, AttributeError, IndexError, KeyError, TypeError, ValueError) as exc:
         st.error(f"Error from OpenAI API: {exc}")
         st.session_state.interview_started = False
     finally:
         typing_placeholder.empty()
-
