@@ -212,3 +212,11 @@ __marimo__/
 .AppleDouble
 .LSOverride
 notebooks/
+
+# interview_coach: generated benchmark artifacts
+sprint_1_prompt_engineering/interview_coach/benchmark_logs/
+
+# interview_coach: non-doc assets generated during local work
+sprint_1_prompt_engineering/interview_coach/assets/generated/
+sprint_1_prompt_engineering/interview_coach/assets/tmp/
+sprint_1_prompt_engineering/interview_coach/assets/screenshots_tmp/

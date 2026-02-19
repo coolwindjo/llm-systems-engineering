@@ -12,35 +12,37 @@ It supports:
 
 ## App Screenshots (step-by-step walkthrough)
 
+All documentation screenshots are stored in `assets/readme/` with ordered filenames.
+
 ### 1) Prepare interview context (JD + candidate profile)
 
 Load and switch target JD profiles, then manage interviewee information before starting an interview.
 
-![ADAS Interview Coach - JD profile and candidate upload panel](assets/jd-profile-and-candidate-upload-panel.png)
+![ADAS Interview Coach - JD profile and candidate upload panel](assets/readme/01-jd-profile-and-candidate-upload-panel.png)
 
 ### 2) Configure interview scenario and start mock interview
 
 Use the left sidebar to pick interviewer persona and prompting technique, then launch the interview.
 
-![ADAS Interview Coach - Interview chat sidebar and technique selector](assets/interview-chat-sidebar-and-technique-selector.png)
+![ADAS Interview Coach - Interview chat sidebar and technique selector](assets/readme/02-interview-chat-sidebar-and-technique-selector.png)
 
 ### 3) Manage interviewer personas (add / edit / remove)
 
 Control active interviewer roles to shape the mock interview style and expected follow-up behavior.
 
-![ADAS Interview Coach - Manage interviewers (add/edit/remove)](assets/manage-interviewers-add-edit-remove.png)
+![ADAS Interview Coach - Manage interviewers (add/edit/remove)](assets/readme/03-manage-interviewers-add-edit-remove.png)
 
 ### 4) Run benchmark and judge evaluation
 
 In the Admin Dashboard, start the benchmark matrix and run judge scoring in one flow.
 
-![ADAS Interview Coach - Admin dashboard benchmark setup](assets/admin-dashboard-benchmark-setup.png)
+![ADAS Interview Coach - Admin dashboard benchmark setup](assets/readme/04-admin-dashboard-benchmark-setup.png)
 
 ### 5) Review results and visualize findings
 
 Load generated evaluation artifacts to compare prompt techniques and model options by score and radar/bar charts.
 
-![ADAS Interview Coach - Benchmark results summary and visualizations](assets/benchmark-results-summary-and-visualizations.png)
+![ADAS Interview Coach - Benchmark results summary and visualizations](assets/readme/05-benchmark-results-summary-and-visualizations.png)
 
 ## Project Scope
 
@@ -69,7 +71,7 @@ The app supports general interview coaching plus ADAS / ASPICE benchmark evaluat
 | Research target interview preparation domain | **Covered**: runtime interview domain is configurable through selected/uploaded JD profiles and persona data (`components/app_runtime.py`, `services/personas.py`). |
 | Build front-end with Streamlit | **Covered**: single-page multi-tab Streamlit app with chat, code, and admin dashboard in `app.py` and `components/*`. |
 | Create and use OpenAI API Key | **Covered**: key is loaded from `st.secrets` or `OPENAI_API_KEY`, with validation before model calls. |
-| Choose one model from supported options | **Partially covered / exceeded**: app allows multiple OpenAI models (`gpt-4o-mini`, `gpt-4.1-mini`, `gpt-4.1-nano`, `gpt-5-mini`, etc.). |
+| Choose one model from supported options | **Covered**: app allows multiple OpenAI models (`gpt-4o-mini`, `gpt-4.1-mini`, `gpt-4.1-nano`, `gpt-5-mini`, etc.). |
 | Write at least 5 prompt techniques | **Covered**: 5 selectable techniques are exposed (`zero_shot`, `few_shot`, `chain_of_thought`, `persona_conditioning`, `knowledge_paucity`) and backed by prompt templates in `prompts/system_prompts.json`. |
 | Tune at least one OpenAI setting | **Covered**: temperature slider + model-aware clamping in `services/interview_ops.py`. |
 | Add at least one security guard | **Covered**: user input guardrail in `utils/security.py` (length + prompt-injection phrase checks). |
