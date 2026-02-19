@@ -5,3 +5,4 @@ streamlit-annotated-text
 openai
 pydantic
 pypdf
+pandas

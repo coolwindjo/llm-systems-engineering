@@ -14,6 +14,7 @@ from components.coding import (
     render_coding_panel,
     render_floating_coding_tab_button,
 )
+from components.evaluation_dashboard import render_evaluation_dashboard
 from components.interview_session import start_interview_for_active_interviewer
 from components.sidebar import (
     render_profile_status_panel,
@@ -264,8 +265,12 @@ if st.sidebar.button("🚀 Start Interview", use_container_width=True, type="pri
     )
 
 chat_tab_label, code_tab_label = get_tab_labels()
+dashboard_tab_label = "Evaluation Dashboard"
 default_tab = get_tabs_default_once(chat_tab_label, code_tab_label)
-tab_chat, tab_code = st.tabs([chat_tab_label, code_tab_label], default=default_tab)
+tab_chat, tab_code, tab_dashboard = st.tabs(
+    [chat_tab_label, code_tab_label, dashboard_tab_label],
+    default=default_tab,
+)
 
 with tab_chat:
     active_interviewer_profile = next(
@@ -291,3 +296,6 @@ with tab_chat:
 
 with tab_code:
     render_coding_panel(current_interviewer=current_interviewer)
+
+with tab_dashboard:
+    render_evaluation_dashboard()
