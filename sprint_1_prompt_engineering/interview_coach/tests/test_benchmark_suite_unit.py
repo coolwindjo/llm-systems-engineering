@@ -7,6 +7,7 @@ from types import SimpleNamespace
 import pytest
 
 from sprint_1_prompt_engineering.interview_coach.scripts import benchmark_suite as bench
+from sprint_1_prompt_engineering.interview_coach.scripts import benchmark_suite_simulation as sim
 
 
 def test_coerce_score_bounds_and_coercion() -> None:
@@ -189,3 +190,53 @@ def test_analyze_raw_results_returns_summary_and_writes_charts(tmp_path: Path, m
     assert "Best for senior engineer interview" in conclusion
     assert radar_path.exists()
     assert bar_path.exists()
+
+
+def test_run_one_simulation_appends_user_turns_without_nameerror(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.setattr(
+        sim,
+        "SCENARIO_TURNS",
+        [
+            "Intro answer",
+            "Tech stack answer",
+            "Crisis handling answer",
+        ],
+    )
+    monkeypatch.setattr(sim, "_build_system_prompt", lambda data, technique: "system prompt")
+
+    def fake_append_assistant_turn(**kwargs):
+        kwargs["turn_records"].append(
+            sim.TurnRecord(
+                turn_index=kwargs["turn_idx"],
+                role="assistant",
+                started_at="2026-02-19T00:00:00",
+                ended_at="2026-02-19T00:00:01",
+                elapsed_ms=1.0,
+                prompt_tokens=1,
+                completion_tokens=1,
+                total_tokens=2,
+                content="assistant question",
+                model=kwargs["model"],
+                technique=kwargs["technique"],
+                error="",
+            )
+        )
+        return "assistant question", True
+
+    monkeypatch.setattr(sim, "_append_assistant_turn", fake_append_assistant_turn)
+
+    result = sim.run_one_simulation(
+        client=SimpleNamespace(),
+        model="gpt-5-mini",
+        technique="few_shot",
+        data={},
+        output_dir=tmp_path,
+    )
+
+    transcript = result["transcript"]
+    user_messages = [item for item in transcript if item.get("role") == "user"]
+    assistant_messages = [item for item in transcript if item.get("role") == "assistant"]
+
+    assert result["error_message"] == ""
+    assert len(user_messages) == 1 + len(sim.SCENARIO_TURNS)
+    assert len(assistant_messages) == len(sim.SCENARIO_TURNS) + 1

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import time
 from dataclasses import asdict, dataclass
 from datetime import datetime
@@ -238,7 +239,7 @@ def run_one_simulation(
         messages.append({"role": "assistant", "content": assistant_reply})
         transcript.append({"role": "assistant", "content": assistant_reply})
 
-        _append_user_reply(proxy, messages, transcript)
+        _append_user_reply(user_proxy, messages, transcript)
 
     if not error_message:
         assistant_reply, ok = _append_assistant_turn(
