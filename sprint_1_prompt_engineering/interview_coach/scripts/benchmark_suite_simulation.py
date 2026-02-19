@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 import time
 from dataclasses import asdict, dataclass
-from datetime import datetime
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, Callable, Dict, List
 
@@ -200,11 +200,11 @@ def run_one_simulation(
 ) -> Dict[str, Any]:
     user_proxy = UserProxy()
     system_prompt = _build_system_prompt(data=data, technique=technique)
-    run_id = f"{model.replace('.', '_')}__{technique}__{datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')}"
+    run_id = f"{model.replace('.', '_')}__{technique}__{datetime.now(UTC).strftime('%Y%m%dT%H%M%SZ')}"
 
     messages, transcript = _build_initial_messages(system_prompt)
     turn_records: list[TurnRecord] = []
-    run_start = datetime.utcnow().isoformat()
+    run_start = datetime.now(UTC).isoformat()
 
     total_prompt_tokens = 0
     total_completion_tokens = 0
@@ -266,7 +266,7 @@ def run_one_simulation(
         else:
             error_message = turn_records[-1].error
 
-    run_end = datetime.utcnow().isoformat()
+    run_end = datetime.now(UTC).isoformat()
     avg_latency = round(assistant_elapsed_total / assistant_calls, 2) if assistant_calls else 0.0
 
     summary = {
