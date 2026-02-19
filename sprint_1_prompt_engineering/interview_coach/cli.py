@@ -7,6 +7,7 @@ from pathlib import Path
 
 from openai import OpenAI
 
+import utils.interviewer_store as interviewer_store
 from services.interview_ops import (
     DATA_DIR,
     INTERVIEWEE_PROFILE_PATH,
@@ -133,6 +134,26 @@ def _delete_interviewer(args: argparse.Namespace) -> int:
     return 0
 
 
+def _normalize_interviewers(args: argparse.Namespace) -> int:
+    renamed = 0
+    for path in sorted(interviewer_store.INTERVIEWERS_DIR.glob("*.json")):
+        profile = interviewer_store._load_interviewer(path)
+        if profile is None:
+            continue
+        canonical_path = interviewer_store.INTERVIEWERS_DIR / interviewer_store._build_filename(profile)
+        if canonical_path == path:
+            continue
+        if canonical_path.exists():
+            print(f"skip-existing={path.name}->{canonical_path.name}")
+            continue
+        save_interviewer(profile=profile, existing_path=str(canonical_path))
+        path.unlink()
+        print(f"renamed={path.name}->{canonical_path.name}")
+        renamed += 1
+    print(f"renamed_total={renamed}")
+    return 0
+
+
 def _chat_turn(args: argparse.Namespace) -> int:
     api_key = _load_api_key(args.api_key)
     client = OpenAI(api_key=api_key)
@@ -195,6 +216,9 @@ def build_parser() -> argparse.ArgumentParser:
     remove_ivw = subparsers.add_parser("delete-interviewer", help="Delete a persisted interviewer profile")
     remove_ivw.add_argument("path", help="Path to interviewer JSON file")
     remove_ivw.set_defaults(func=_delete_interviewer)
+
+    normalize_ivw = subparsers.add_parser("normalize-interviewers", help="Normalize interviewer filenames")
+    normalize_ivw.set_defaults(func=_normalize_interviewers)
 
     chat_turn = subparsers.add_parser("chat-turn", help="Run one chat-turn completion")
     chat_turn.add_argument("--prompt", required=True)

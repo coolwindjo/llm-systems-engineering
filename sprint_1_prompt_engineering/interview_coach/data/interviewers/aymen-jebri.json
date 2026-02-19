@@ -2,14 +2,6 @@
   "name": "Aymen Jebri",
   "background": "Aymen Jebri is a Senior Software Engineer with over 15 years of experience in software development and consulting, primarily in the automotive and aerospace industries. He has a strong background in designing, implementing, and integrating diagnostic features for automotive systems, particularly for BMW and Renault. Aymen has worked extensively with Agile methodologies and various technical environments, including C/C++, UDS standards, and diagnostic tools. He holds an Engineer's degree from the National School of Computer Science of Tunis and is certified as a SAFe 5 Agilist and Professional Scrum Master I.",
   "is_generic_ai": false,
-  "critique_profile": {
-    "style": "integration_testability",
-    "focus_terms": [
-      "integration risk",
-      "traceability",
-      "diagnostics"
-    ]
-  },
   "role": "Senior Software Engineer",
   "expertise": [
     "Software Development",
@@ -24,5 +16,6 @@
     "What strategies do you use to ensure traceability of requirements in your projects?",
     "Can you give an example of a challenging problem you solved in your previous roles?",
     "How do you prioritize tasks when working in an Agile environment?"
-  ]
+  ],
+  "critique_profile": {}
 }

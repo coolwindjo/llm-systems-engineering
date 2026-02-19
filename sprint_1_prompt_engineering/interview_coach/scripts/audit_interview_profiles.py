@@ -9,7 +9,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from utils.profile_health import audit_interview_profiles
+from services.profile_health import audit_interview_profiles
 
 
 def _print_summary(report):

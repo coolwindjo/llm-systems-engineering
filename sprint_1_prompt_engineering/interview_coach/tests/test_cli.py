@@ -136,3 +136,44 @@ def test_delete_interviewer_command(tmp_path, monkeypatch, capsys) -> None:
     code = cli.main(["delete-interviewer", str(tmp_path / "p.json")])
     assert code == 0
     assert called["path"] == str(tmp_path / "p.json")
+
+
+def test_normalize_interviewers_command_renames_stale_files(tmp_path, monkeypatch, capsys) -> None:
+    payload_stale = {
+        "name": "Aymen Jebri",
+        "background": "ADAS engineer",
+        "is_generic_ai": False,
+        "role": "Senior Engineer",
+        "expertise": ["ADAS"],
+        "potential_questions": [],
+        "critique_profile": {},
+    }
+    payload_canonical = {
+        "name": "Denis Akhmerov",
+        "background": "Safety specialist",
+        "is_generic_ai": False,
+        "role": "Technical Lead",
+        "expertise": [],
+        "potential_questions": [],
+        "critique_profile": {},
+    }
+    stale_dir = tmp_path / "interviewers"
+    stale_dir.mkdir()
+    (stale_dir / "aymen-jebri__unknown.json").write_text(
+        json.dumps(payload_stale, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    (stale_dir / "denis-akhmerov.json").write_text(
+        json.dumps(payload_canonical, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(cli.interviewer_store.INTERVIEWERS_DIR, stale_dir)
+
+    result = cli.main(["normalize-interviewers"])
+    captured = capsys.readouterr().out.strip().splitlines()
+
+    assert result == 0
+    assert "renamed=aymen-jebri__unknown.json->aymen-jebri.json" in captured
+    assert (stale_dir / "aymen-jebri.json").exists()
+    assert not (stale_dir / "aymen-jebri__unknown.json").exists()
+    assert (stale_dir / "denis-akhmerov.json").exists()

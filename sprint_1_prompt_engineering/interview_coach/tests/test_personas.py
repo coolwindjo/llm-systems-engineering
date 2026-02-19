@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from utils.personas import (
+from services.personas import (
     _append_jd_context_and_probe_instructions,
     _candidate_profile,
     _candidate_probe_phrases,
