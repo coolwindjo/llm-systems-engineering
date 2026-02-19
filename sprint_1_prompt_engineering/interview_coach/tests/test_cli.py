@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 from types import SimpleNamespace
@@ -167,7 +168,7 @@ def test_normalize_interviewers_command_renames_stale_files(tmp_path, monkeypatc
         json.dumps(payload_canonical, ensure_ascii=False, indent=2),
         encoding="utf-8",
     )
-    monkeypatch.setattr(cli.interviewer_store.INTERVIEWERS_DIR, stale_dir)
+    monkeypatch.setattr("utils.interviewer_store.INTERVIEWERS_DIR", stale_dir)
 
     result = cli.main(["normalize-interviewers"])
     captured = capsys.readouterr().out.strip().splitlines()
