@@ -1,6 +1,8 @@
 # AI Interview Coach
 
-This project is a Streamlit-based ADAS / ASPICE interview practice app implemented in `interview_coach`.
+This project is a Streamlit-based interview practice app implemented in `interview_coach`.
+The runtime interview topic is not hard-coded to ADAS / ASPICE. It is driven by the selected/uploaded JD profile and interviewer/interviewee data.
+Only the current benchmark evaluation suite is ADAS / ASPICE-focused.
 
 It supports:
 - Multi-turn AI interviewer chat with selectable prompts and interviewer personas.
@@ -42,20 +44,29 @@ Load generated evaluation artifacts to compare prompt techniques and model optio
 
 ## Project Scope
 
-The app is designed for interview practice with an ADAS / ASPICE context, with both runtime coaching and evaluation features:
+The app supports general interview coaching plus ADAS / ASPICE benchmark evaluation:
 - `components/` contains the Streamlit UI and runtime flow.
 - `services/` contains interview operations (profiles, prompt construction, OpenAI settings).
 - `prompts/` stores reusable system prompts including multiple techniques.
 - `scripts/` contains benchmarking and analysis utilities.
 - `tests/` contains unit tests for runtime and benchmark modules.
 
-## Mapping to `05 Build an Interview Practice App.md`
+### Verified behavior
+
+- Runtime interview flow is profile-driven:
+  `components/app_runtime.py` loads the selected JD profile (`load_interview_data(profile_path)`), sets `current_interview_data`, and builds prompts via `build_system_prompts(..., jd_profile=st.session_state.current_interview_data, ...)`.
+- Runtime prompts adapt to uploaded/selected profile content:
+  `services/personas.py` builds interviewer prompts from `jd_profile`, requirements, and interviewer metadata.
+- Benchmark evaluation is currently ADAS / ASPICE-specific:
+  `scripts/benchmark_suite_config.py` defines ADAS scenario turns and an ADAS/ASPICE-focused judge system prompt, and `scripts/benchmark_suite_simulation.py` starts with "Start a mock ADAS interview ...".
+
+## Mapping to `Build an Interview Practice App`
 
 ### 1) Task Requirements
 
 | Requirement | Current status |
 | --- | --- |
-| Research target interview preparation domain | **Partially covered**: domain focus is configured through JD profiles and ADAS/ASPICE-specific prompt data (`data/`, `data/profiles/`, `services/jd_keyword_catalog.py`). |
+| Research target interview preparation domain | **Covered**: runtime interview domain is configurable through selected/uploaded JD profiles and persona data (`components/app_runtime.py`, `services/personas.py`). |
 | Build front-end with Streamlit | **Covered**: single-page multi-tab Streamlit app with chat, code, and admin dashboard in `app.py` and `components/*`. |
 | Create and use OpenAI API Key | **Covered**: key is loaded from `st.secrets` or `OPENAI_API_KEY`, with validation before model calls. |
 | Choose one model from supported options | **Partially covered / exceeded**: app allows multiple OpenAI models (`gpt-4o-mini`, `gpt-4.1-mini`, `gpt-4.1-nano`, `gpt-5-mini`, etc.). |
@@ -72,7 +83,7 @@ The app is designed for interview practice with an ADAS / ASPICE context, with b
 | Additional security constraints / validation | **Partially covered**: current guardrails exist but not full system-prompt validation for all inputs. |
 | Difficulty levels for interview questions | **Not implemented**: no explicit easy/medium/hard switch. |
 | Concise vs. detailed response controls | **Partially covered**: limited via model prompts and technique choice, not explicit dedicated control. |
-| Generate interviewer guidelines / structured criteria | **Covered**: rubric and judge prompt system in `scripts/benchmark_suite_config.py` and `scripts/benchmark_suite_judge.py`. |
+| Generate interviewer guidelines / structured criteria | **Covered**: rubric and judge prompt system in `scripts/benchmark_suite_config.py` and `scripts/benchmark_suite_judge.py` (currently ADAS / ASPICE-focused in benchmark mode). |
 | Multi-persona mock interviewer | **Covered**: interviewer profile manager + persona-driven system prompt generation. |
 | Tune all model parameters with sliders | **Partially covered**: temperature is configurable; full matrix controls are not exposed. |
 | 2+ structured JSON output formats | **Not implemented**: runtime responses are conversational; benchmark outputs are structured JSON/CSV in scripts. |
@@ -139,4 +150,4 @@ Use `scripts/benchmark_suite_analysis.py` and the Admin Dashboard in-app (`Admin
 - Deployed cloud delivery remains out of scope in this code snapshot.
 - Difficulty-level controls and cost estimation are still pending.
 - Full multimodal/enterprise features (vector store, non-OpenAI provider routing, full attacker test harness) are planned but not fully implemented.
-- Most requested core evaluation, benchmark, and ADAS domain coaching features are implemented and operational.
+- Runtime interviews can cover non-ADAS topics when JD/profile data changes, while benchmark scoring remains ADAS / ASPICE-focused in the current implementation.
