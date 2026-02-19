@@ -8,20 +8,20 @@ import streamlit as st
 
 try:
     from openai import OpenAI
-except Exception:  # pragma: no cover
+except (ImportError, ModuleNotFoundError):  # pragma: no cover
     OpenAI = None
 
 try:
     import pandas as pd
-except Exception:  # pragma: no cover
+except (ImportError, ModuleNotFoundError):  # pragma: no cover
     pd = None
 
-from tests import benchmark_suite as bench
+from scripts import benchmark_suite as bench
 
 
 def _default_log_dir() -> Path:
     project_root = Path(__file__).resolve().parents[1]
-    return project_root / "tests" / "benchmark_logs"
+    return project_root / "benchmark_logs"
 
 
 def _parse_optional_json_file(path: Path) -> list[dict[str, Any]]:
@@ -29,7 +29,7 @@ def _parse_optional_json_file(path: Path) -> list[dict[str, Any]]:
         return []
     try:
         raw = json.loads(path.read_text(encoding="utf-8"))
-    except Exception:
+    except (OSError, json.JSONDecodeError):
         return []
     if isinstance(raw, list):
         return raw
@@ -217,7 +217,7 @@ def render_evaluation_dashboard(get_api_key: Callable[[], str | None] | None = N
                         _render_score_chart(radar_path, "Radar Chart by Prompt Technique")
                     with vis_cols[1]:
                         _render_score_chart(bar_path, "Overall Score by Model and Technique")
-                except Exception as exc:
+                except (RuntimeError, ValueError) as exc:
                     st.error(f"Failed to analyze cached results: {exc}")
 
     raw_path = output_dir / bench.RAW_RESULTS_JSON
@@ -228,5 +228,5 @@ def render_evaluation_dashboard(get_api_key: Callable[[], str | None] | None = N
             raw_results = _load_results(raw_path)
             if raw_results:
                 st.caption(f"Last run file: {raw_path}")
-        except Exception:
+        except (OSError, ValueError):
             pass
