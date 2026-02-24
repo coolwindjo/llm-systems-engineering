@@ -19,7 +19,6 @@ from components.evaluation_dashboard import render_evaluation_dashboard
 from components.interview_session import start_interview_for_active_interviewer
 from components.sidebar import (
     render_profile_status_panel,
-    render_sidebar_interviewer_manager,
     render_sidebar_interviewee_profile_loader,
     render_sidebar_profile_creator,
 )
@@ -58,6 +57,7 @@ PROMPT_TECHNIQUES = {
     "Persona-Conditioning": "persona_conditioning",
     "Knowledge-Paucity (ISO 26262 Focus)": "knowledge_paucity",
 }
+_SIDEBAR_SELECTED_JD_PROFILE_PENDING_KEY = "selected_jd_profile_pending_update"
 
 
 def get_api_key() -> str | None:
@@ -121,6 +121,11 @@ def run_interview_app() -> None:
     DEFAULT_PROFILE_LABEL = AUDIT_DEFAULT_PROFILE_LABEL
     profile_files = sorted([path.name for path in PROFILES_DIR.glob("*.json")]) if PROFILES_DIR.exists() else []
     profile_options = [DEFAULT_PROFILE_LABEL, *profile_files]
+
+    pending_profile = st.session_state.pop(_SIDEBAR_SELECTED_JD_PROFILE_PENDING_KEY, None)
+    if isinstance(pending_profile, str) and pending_profile in profile_options:
+        st.session_state.selected_jd_profile = pending_profile
+
     if "selected_jd_profile" not in st.session_state:
         st.session_state.selected_jd_profile = DEFAULT_PROFILE_LABEL
     if st.session_state.selected_jd_profile not in profile_options:
@@ -225,7 +230,6 @@ def run_interview_app() -> None:
         selected_label=st.session_state.get("selected_jd_profile", AUDIT_DEFAULT_PROFILE_LABEL),
         default_profile_label=AUDIT_DEFAULT_PROFILE_LABEL,
     )
-    render_sidebar_interviewer_manager(st.session_state.selected_jd)
 
     render_sidebar_profile_creator(get_api_key)
     render_sidebar_interviewee_profile_loader(get_api_key, st.session_state.current_interview_data)
