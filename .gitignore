@@ -225,3 +225,5 @@ sprint_2_langchain_rag/docs/presentation_script.md
 
 # Local tooling runtime data
 tools/volumes/
+tools/embedEtcd.yaml
+tools/user.yaml
