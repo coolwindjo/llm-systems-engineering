@@ -217,3 +217,11 @@ notebooks/
 interviewers/
 profiles/
 benchmark_logs/
+
+# Analysis outputs
+analysis_outputs/
+sprint_2_langchain_rag/docs/presentation_qa_glossary.md
+sprint_2_langchain_rag/docs/presentation_script.md
+
+# Local tooling runtime data
+tools/volumes/
