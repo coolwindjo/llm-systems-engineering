@@ -1,0 +1,8 @@
+config_name,pipeline,chunk_size,chunk_overlap,retrieval_k,embedding_model,chunk_count,avg_chunk_chars,top1_accuracy,hit_rate_at_k,mrr,avg_relevant_count,answer_hit_rate,avg_answer_keyword_coverage
+chunk_size_1500,two_step,1500,200,3,text-embedding-3-small,42,1058.9285714285713,1.0,1.0,1.0,2.1666666666666665,,
+embedding_large,two_step,1000,200,3,text-embedding-3-large,63,718.4444444444445,1.0,1.0,1.0,2.5,,
+baseline_two_step,two_step,1000,200,3,text-embedding-3-small,63,718.4444444444445,0.8333333333333334,1.0,0.9166666666666666,2.3333333333333335,,
+baseline_agentic,agentic,1000,200,3,text-embedding-3-small,63,718.4444444444445,0.8333333333333334,1.0,0.9166666666666666,2.3333333333333335,,
+chunk_size_500,two_step,500,200,3,text-embedding-3-small,146,354.3767123287671,0.8333333333333334,1.0,0.9166666666666666,2.1666666666666665,,
+chunk_overlap_50,two_step,1000,50,3,text-embedding-3-small,61,708.016393442623,0.8333333333333334,1.0,0.9166666666666666,2.3333333333333335,,
+retrieval_k_5,two_step,1000,200,5,text-embedding-3-small,63,718.4444444444445,0.8333333333333334,1.0,0.9166666666666666,3.0,,

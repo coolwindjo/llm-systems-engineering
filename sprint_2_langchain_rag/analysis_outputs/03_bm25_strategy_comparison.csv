@@ -1,0 +1,11 @@
+difficulty,query,bm25_keyword,bm25_okapi_keyword,okapi_minus_simple
+easy,Find artists known for emotional and expressive work,1.0,1.0,0.0
+easy,Find people known for their contributions to civil rights and racial equality,0.8,0.8,0.0
+easy,Find people who made contributions to mathematics,0.6,0.6,0.0
+easy,Find philosophers from ancient Greece,0.5,0.5,0.0
+easy,Find scientists who made discoveries about the nature of light,1.0,1.0,0.0
+hard,Find female scientists and mathematicians,0.25,0.25,0.0
+hard,Find leaders who fought for independence of their nations from colonial rule,0.5,0.5,0.0
+hard,Find people who lived in the 20th century but died before 1950,0.2,0.2,0.0
+hard,Find people who were NOT born in Europe,0.6,0.6,0.0
+hard,Find people whose first name starts with the letter M,0.2,0.2,0.0

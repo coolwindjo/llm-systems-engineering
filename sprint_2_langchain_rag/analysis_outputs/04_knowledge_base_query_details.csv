@@ -1,0 +1,128 @@
+query,expected_keywords,retrieved_ranks,relevant_ranks,top1_relevant,hit_at_k,mrr,relevant_count,top_result_page,top_result_score,top_result_preview,config_name,pdf_name,chunk_size,chunk_overlap,retrieval_k,embedding_model,chunk_count,avg_chunk_chars
+What replaces recurrence and convolution in the Transformer?,"self-attention, attention mechanism, recurrence","[1, 2, 3]","[1, 2, 3]",True,True,1.0,3,1,0.5519092082977295,"In this work we propose the Transformer, a model architecture eschewing recurrence and instead
+relying entirely on an attention mechanism to draw global dependencies between input and output.
+The Transformer allows for significantly more pa",baseline,attention_is_all_you_need.pdf,1000,200,3,text-embedding-3-small,52,873.2307692307693
+Why is the Transformer good at modeling long-range dependencies?,"long-range dependencies, path length, constant","[1, 2, 3]",[],False,False,0.0,0,1,0.5829206705093384,"sequential nature precludes parallelization within training examples, which becomes critical at longer
+sequence lengths, as memory constraints limit batching across examples. Recent work has achieved
+significant improvements in computationa",baseline,attention_is_all_you_need.pdf,1000,200,3,text-embedding-3-small,52,873.2307692307693
+How does the model represent token order without recurrence?,"positional encoding, positional encodings, sine, cosine","[1, 2, 3]",[1],True,True,1.0,1,5,0.4201948642730713,"tokens in the sequence. To this end, we add ""positional encodings"" to the input embeddings at the
+bottoms of the encoder and decoder stacks. The positional encodings have the same dimension dmodel
+as the embeddings, so that the two can be s",baseline,attention_is_all_you_need.pdf,1000,200,3,text-embedding-3-small,52,873.2307692307693
+How is multi-head attention described in the paper?,"multi-head attention, heads, different representation subspaces","[1, 2, 3]","[1, 2, 3]",True,True,1.0,3,4,0.6483591794967651,"output values. These are concatenated and once again projected, resulting in the final values, as
+depicted in Figure 2.
+Multi-head attention allows the model to jointly attend to information from different representation
+subspaces at differ",baseline,attention_is_all_you_need.pdf,1000,200,3,text-embedding-3-small,52,873.2307692307693
+What does scaled dot-product attention compute?,"scaled dot-product attention, query, key, value","[1, 2, 3]","[1, 2, 3]",True,True,1.0,3,3,0.7207653522491455,"Scaled Dot-Product Attention
+ Multi-Head Attention
+Figure 2: (left) Scaled Dot-Product Attention. (right) Multi-Head Attention consists of several
+attention layers running in parallel.
+of the values, where the weight assigned to each value ",baseline,attention_is_all_you_need.pdf,1000,200,3,text-embedding-3-small,52,873.2307692307693
+What are the main encoder and decoder stack sizes in the base model?,"encoder, decoder, layers, N=6","[1, 2, 3]","[1, 2, 3]",True,True,1.0,3,2,0.604772686958313,"Figure 1: The Transformer - model architecture.
+The Transformer follows this overall architecture using stacked self-attention and point-wise, fully
+connected layers for both the encoder and decoder, shown in the left and right halves of Fi",baseline,attention_is_all_you_need.pdf,1000,200,3,text-embedding-3-small,52,873.2307692307693
+What replaces recurrence and convolution in the Transformer?,"self-attention, attention mechanism, recurrence","[1, 2, 3]","[1, 2]",True,True,1.0,2,1,0.6112317442893982,"are used in conjunction with a recurrent network.
+In this work we propose the Transformer, a model architecture eschewing recurrence and instead
+relying entirely on an attention mechanism to draw global dependencies between input and output",chunk_size_500,attention_is_all_you_need.pdf,500,200,3,text-embedding-3-small,131,439.6641221374046
+Why is the Transformer good at modeling long-range dependencies?,"long-range dependencies, path length, constant","[1, 2, 3]",[],False,False,0.0,0,1,0.5920577049255371,"are used in conjunction with a recurrent network.
+In this work we propose the Transformer, a model architecture eschewing recurrence and instead
+relying entirely on an attention mechanism to draw global dependencies between input and output",chunk_size_500,attention_is_all_you_need.pdf,500,200,3,text-embedding-3-small,131,439.6641221374046
+How does the model represent token order without recurrence?,"positional encoding, positional encodings, sine, cosine","[1, 2, 3]",[3],False,True,0.3333333333333333,1,1,0.4375673532485962,"efforts have since continued to push the boundaries of recurrent language models and encoder-decoder
+architectures [38, 24, 15].
+Recurrent models typically factor computation along the symbol positions of the input and output
+sequences. Ali",chunk_size_500,attention_is_all_you_need.pdf,500,200,3,text-embedding-3-small,131,439.6641221374046
+How is multi-head attention described in the paper?,"multi-head attention, heads, different representation subspaces","[1, 2, 3]","[1, 2, 3]",True,True,1.0,3,1,0.6496440172195435,"to averaging attention-weighted positions, an effect we counteract with Multi-Head Attention as
+described in section 3.2.
+Self-attention, sometimes called intra-attention is an attention mechanism relating different positions
+of a single se",chunk_size_500,attention_is_all_you_need.pdf,500,200,3,text-embedding-3-small,131,439.6641221374046
+What does scaled dot-product attention compute?,"scaled dot-product attention, query, key, value","[1, 2, 3]","[2, 3]",False,True,0.5,2,3,0.7868890762329102,"plicative) attention. Dot-product attention is identical to our algorithm, except for the scaling factor
+of 1√dk
+. Additive attention computes the compatibility function using a feed-forward network with
+a single hidden layer. While the two",chunk_size_500,attention_is_all_you_need.pdf,500,200,3,text-embedding-3-small,131,439.6641221374046
+What are the main encoder and decoder stack sizes in the base model?,"encoder, decoder, layers, N=6","[1, 2, 3]","[1, 2, 3]",True,True,1.0,3,2,0.6425982713699341,"layers, produce outputs of dimension dmodel = 512.
+Decoder: The decoder is also composed of a stack of N = 6 identical layers. In addition to the two
+sub-layers in each encoder layer, the decoder inserts a third sub-layer, which performs mu",chunk_size_500,attention_is_all_you_need.pdf,500,200,3,text-embedding-3-small,131,439.6641221374046
+What replaces recurrence and convolution in the Transformer?,"self-attention, attention mechanism, recurrence","[1, 2, 3]","[1, 2, 3]",True,True,1.0,3,1,0.5732060670852661,"the input or output sequences [2, 19]. In all but a few cases [27], however, such attention mechanisms
+are used in conjunction with a recurrent network.
+In this work we propose the Transformer, a model architecture eschewing recurrence and ",chunk_size_1500,attention_is_all_you_need.pdf,1500,200,3,text-embedding-3-small,38,1135.9473684210527
+Why is the Transformer good at modeling long-range dependencies?,"long-range dependencies, path length, constant","[1, 2, 3]",[1],True,True,1.0,1,1,0.5648600459098816,"the input or output sequences [2, 19]. In all but a few cases [27], however, such attention mechanisms
+are used in conjunction with a recurrent network.
+In this work we propose the Transformer, a model architecture eschewing recurrence and ",chunk_size_1500,attention_is_all_you_need.pdf,1500,200,3,text-embedding-3-small,38,1135.9473684210527
+How does the model represent token order without recurrence?,"positional encoding, positional encodings, sine, cosine","[1, 2, 3]",[3],False,True,0.3333333333333333,1,1,0.4225142002105713,"of continuous representations z = ( z1, ..., zn). Given z, the decoder then generates an output
+sequence (y1, ..., ym) of symbols one element at a time. At each step the model is auto-regressive
+[10], consuming the previously generated symb",chunk_size_1500,attention_is_all_you_need.pdf,1500,200,3,text-embedding-3-small,38,1135.9473684210527
+How is multi-head attention described in the paper?,"multi-head attention, heads, different representation subspaces","[1, 2, 3]","[1, 2, 3]",True,True,1.0,3,4,0.642309308052063,"output values. These are concatenated and once again projected, resulting in the final values, as
+depicted in Figure 2.
+Multi-head attention allows the model to jointly attend to information from different representation
+subspaces at differ",chunk_size_1500,attention_is_all_you_need.pdf,1500,200,3,text-embedding-3-small,38,1135.9473684210527
+What does scaled dot-product attention compute?,"scaled dot-product attention, query, key, value","[1, 2, 3]","[1, 2, 3]",True,True,1.0,3,3,0.7405557632446289,"Scaled Dot-Product Attention
+ Multi-Head Attention
+Figure 2: (left) Scaled Dot-Product Attention. (right) Multi-Head Attention consists of several
+attention layers running in parallel.
+of the values, where the weight assigned to each value ",chunk_size_1500,attention_is_all_you_need.pdf,1500,200,3,text-embedding-3-small,38,1135.9473684210527
+What are the main encoder and decoder stack sizes in the base model?,"encoder, decoder, layers, N=6","[1, 2, 3]","[1, 2]",True,True,1.0,2,2,0.6089967489242554,"Figure 1: The Transformer - model architecture.
+The Transformer follows this overall architecture using stacked self-attention and point-wise, fully
+connected layers for both the encoder and decoder, shown in the left and right halves of Fi",chunk_size_1500,attention_is_all_you_need.pdf,1500,200,3,text-embedding-3-small,38,1135.9473684210527
+What replaces recurrence and convolution in the Transformer?,"self-attention, attention mechanism, recurrence","[1, 2, 3]","[1, 2, 3]",True,True,1.0,3,1,0.568088173866272,"significant improvements in computational efficiency through factorization tricks [21] and conditional
+computation [32], while also improving model performance in case of the latter. The fundamental
+constraint of sequential computation, how",chunk_overlap_50,attention_is_all_you_need.pdf,1000,50,3,text-embedding-3-small,48,828.4375
+Why is the Transformer good at modeling long-range dependencies?,"long-range dependencies, path length, constant","[1, 2, 3]",[],False,False,0.0,0,1,0.6055218577384949,"significant improvements in computational efficiency through factorization tricks [21] and conditional
+computation [32], while also improving model performance in case of the latter. The fundamental
+constraint of sequential computation, how",chunk_overlap_50,attention_is_all_you_need.pdf,1000,50,3,text-embedding-3-small,48,828.4375
+How does the model represent token order without recurrence?,"positional encoding, positional encodings, sine, cosine","[1, 2, 3]",[3],False,True,0.3333333333333333,1,1,0.40141332149505615,"3 Model Architecture
+Most competitive neural sequence transduction models have an encoder-decoder structure [5, 2, 35].
+Here, the encoder maps an input sequence of symbol representations (x1, ..., xn) to a sequence
+of continuous representat",chunk_overlap_50,attention_is_all_you_need.pdf,1000,50,3,text-embedding-3-small,48,828.4375
+How is multi-head attention described in the paper?,"multi-head attention, heads, different representation subspaces","[1, 2, 3]","[1, 2, 3]",True,True,1.0,3,4,0.6483591794967651,"output values. These are concatenated and once again projected, resulting in the final values, as
+depicted in Figure 2.
+Multi-head attention allows the model to jointly attend to information from different representation
+subspaces at differ",chunk_overlap_50,attention_is_all_you_need.pdf,1000,50,3,text-embedding-3-small,48,828.4375
+What does scaled dot-product attention compute?,"scaled dot-product attention, query, key, value","[1, 2, 3]","[1, 2, 3]",True,True,1.0,3,3,0.7207653522491455,"Scaled Dot-Product Attention
+ Multi-Head Attention
+Figure 2: (left) Scaled Dot-Product Attention. (right) Multi-Head Attention consists of several
+attention layers running in parallel.
+of the values, where the weight assigned to each value ",chunk_overlap_50,attention_is_all_you_need.pdf,1000,50,3,text-embedding-3-small,48,828.4375
+What are the main encoder and decoder stack sizes in the base model?,"encoder, decoder, layers, N=6","[1, 2, 3]","[1, 2, 3]",True,True,1.0,3,2,0.604772686958313,"Figure 1: The Transformer - model architecture.
+The Transformer follows this overall architecture using stacked self-attention and point-wise, fully
+connected layers for both the encoder and decoder, shown in the left and right halves of Fi",chunk_overlap_50,attention_is_all_you_need.pdf,1000,50,3,text-embedding-3-small,48,828.4375
+What replaces recurrence and convolution in the Transformer?,"self-attention, attention mechanism, recurrence","[1, 2, 3, 4, 5]","[1, 2, 3, 4, 5]",True,True,1.0,5,1,0.5519092082977295,"In this work we propose the Transformer, a model architecture eschewing recurrence and instead
+relying entirely on an attention mechanism to draw global dependencies between input and output.
+The Transformer allows for significantly more pa",retrieval_k_5,attention_is_all_you_need.pdf,1000,200,5,text-embedding-3-small,52,873.2307692307693
+Why is the Transformer good at modeling long-range dependencies?,"long-range dependencies, path length, constant","[1, 2, 3, 4, 5]",[],False,False,0.0,0,1,0.5829206705093384,"sequential nature precludes parallelization within training examples, which becomes critical at longer
+sequence lengths, as memory constraints limit batching across examples. Recent work has achieved
+significant improvements in computationa",retrieval_k_5,attention_is_all_you_need.pdf,1000,200,5,text-embedding-3-small,52,873.2307692307693
+How does the model represent token order without recurrence?,"positional encoding, positional encodings, sine, cosine","[1, 2, 3, 4, 5]","[1, 5]",True,True,1.0,2,5,0.4201948642730713,"tokens in the sequence. To this end, we add ""positional encodings"" to the input embeddings at the
+bottoms of the encoder and decoder stacks. The positional encodings have the same dimension dmodel
+as the embeddings, so that the two can be s",retrieval_k_5,attention_is_all_you_need.pdf,1000,200,5,text-embedding-3-small,52,873.2307692307693
+How is multi-head attention described in the paper?,"multi-head attention, heads, different representation subspaces","[1, 2, 3, 4, 5]","[1, 2, 3, 4, 5]",True,True,1.0,5,4,0.6483591794967651,"output values. These are concatenated and once again projected, resulting in the final values, as
+depicted in Figure 2.
+Multi-head attention allows the model to jointly attend to information from different representation
+subspaces at differ",retrieval_k_5,attention_is_all_you_need.pdf,1000,200,5,text-embedding-3-small,52,873.2307692307693
+What does scaled dot-product attention compute?,"scaled dot-product attention, query, key, value","[1, 2, 3, 4, 5]","[1, 2, 3, 5]",True,True,1.0,4,3,0.7207653522491455,"Scaled Dot-Product Attention
+ Multi-Head Attention
+Figure 2: (left) Scaled Dot-Product Attention. (right) Multi-Head Attention consists of several
+attention layers running in parallel.
+of the values, where the weight assigned to each value ",retrieval_k_5,attention_is_all_you_need.pdf,1000,200,5,text-embedding-3-small,52,873.2307692307693
+What are the main encoder and decoder stack sizes in the base model?,"encoder, decoder, layers, N=6","[1, 2, 3, 4, 5]","[1, 2, 3, 4]",True,True,1.0,4,2,0.604772686958313,"Figure 1: The Transformer - model architecture.
+The Transformer follows this overall architecture using stacked self-attention and point-wise, fully
+connected layers for both the encoder and decoder, shown in the left and right halves of Fi",retrieval_k_5,attention_is_all_you_need.pdf,1000,200,5,text-embedding-3-small,52,873.2307692307693
+What replaces recurrence and convolution in the Transformer?,"self-attention, attention mechanism, recurrence","[1, 2, 3]","[1, 2, 3]",True,True,1.0,3,1,0.6079210042953491,"In this work we propose the Transformer, a model architecture eschewing recurrence and instead
+relying entirely on an attention mechanism to draw global dependencies between input and output.
+The Transformer allows for significantly more pa",embedding_large,attention_is_all_you_need.pdf,1000,200,3,text-embedding-3-large,52,873.2307692307693
+Why is the Transformer good at modeling long-range dependencies?,"long-range dependencies, path length, constant","[1, 2, 3]",[],False,False,0.0,0,1,0.5934028625488281,"In this work we propose the Transformer, a model architecture eschewing recurrence and instead
+relying entirely on an attention mechanism to draw global dependencies between input and output.
+The Transformer allows for significantly more pa",embedding_large,attention_is_all_you_need.pdf,1000,200,3,text-embedding-3-large,52,873.2307692307693
+How does the model represent token order without recurrence?,"positional encoding, positional encodings, sine, cosine","[1, 2, 3]","[1, 2]",True,True,1.0,2,5,0.5065597295761108,"tokens in the sequence. To this end, we add ""positional encodings"" to the input embeddings at the
+bottoms of the encoder and decoder stacks. The positional encodings have the same dimension dmodel
+as the embeddings, so that the two can be s",embedding_large,attention_is_all_you_need.pdf,1000,200,3,text-embedding-3-large,52,873.2307692307693
+How is multi-head attention described in the paper?,"multi-head attention, heads, different representation subspaces","[1, 2, 3]","[1, 2, 3]",True,True,1.0,3,4,0.6878626346588135,"output values. These are concatenated and once again projected, resulting in the final values, as
+depicted in Figure 2.
+Multi-head attention allows the model to jointly attend to information from different representation
+subspaces at differ",embedding_large,attention_is_all_you_need.pdf,1000,200,3,text-embedding-3-large,52,873.2307692307693
+What does scaled dot-product attention compute?,"scaled dot-product attention, query, key, value","[1, 2, 3]","[1, 2, 3]",True,True,1.0,3,3,0.6983491778373718,"Scaled Dot-Product Attention
+ Multi-Head Attention
+Figure 2: (left) Scaled Dot-Product Attention. (right) Multi-Head Attention consists of several
+attention layers running in parallel.
+of the values, where the weight assigned to each value ",embedding_large,attention_is_all_you_need.pdf,1000,200,3,text-embedding-3-large,52,873.2307692307693
+What are the main encoder and decoder stack sizes in the base model?,"encoder, decoder, layers, N=6","[1, 2, 3]","[1, 2, 3]",True,True,1.0,3,2,0.5695306658744812,"Figure 1: The Transformer - model architecture.
+The Transformer follows this overall architecture using stacked self-attention and point-wise, fully
+connected layers for both the encoder and decoder, shown in the left and right halves of Fi",embedding_large,attention_is_all_you_need.pdf,1000,200,3,text-embedding-3-large,52,873.2307692307693

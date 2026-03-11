@@ -1,0 +1,9 @@
+strategy,overall_mean,easy_mean,medium_mean,hard_mean,min_score,max_score
+query_rewrite_sentence_cosine,0.705,0.96,,0.45,0.0,1.0
+baseline_full_doc_cosine,0.7,1.0,,0.4,0.2,1.0
+full_doc_large_model,0.7,1.0,,0.4,0.2,1.0
+hybrid_rrf,0.635,0.96,,0.31,0.0,1.0
+sentence_chunk_cosine,0.62,0.9199999999999999,,0.32,0.0,1.0
+sentence_chunk_l2,0.62,0.9199999999999999,,0.32,0.0,1.0
+bm25_keyword,0.5650000000000001,0.78,,0.35,0.2,1.0
+bm25_okapi_keyword,0.5650000000000001,0.78,,0.35,0.2,1.0
