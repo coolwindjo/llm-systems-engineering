@@ -1,0 +1,5 @@
+agent_model,scored_rows,judge_models_used,det_tool_accuracy,judge_pass_rate,agreement_rate,dubious_correct_matches,ambiguous_dubious_matches,ambiguous_dubious_rate
+gpt-4o-mini,40,2,0.5,0.8,0.7,12,11,0.4583333333333333
+gpt-5-mini,40,2,0.55,0.825,0.725,11,10,0.4166666666666667
+gpt-4.1-nano,40,2,0.6,0.85,0.75,10,9,0.375
+gpt-4.1-mini,40,2,0.65,0.9,0.75,10,8,0.3333333333333333

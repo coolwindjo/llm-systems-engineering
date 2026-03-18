@@ -1,0 +1,9 @@
+agent_model,judge_model,total_rows,scored_rows,execution_errors,judge_errors,det_tool_accuracy,det_param_accuracy,judge_pass_rate,agreement_rate,dubious_correct_matches,dubious_correct_rate,ambiguous_rows,ambiguous_dubious_matches,ambiguous_dubious_rate,strict_matches,judge_challenges,true_errors
+gpt-4o-mini,gpt-5-mini,20,20,0,0,0.5,0.5,0.8,0.7,6,0.3,12,6,0.5,10,0,4
+gpt-5-mini,gpt-5-mini,20,20,0,0,0.55,0.55,0.85,0.7,6,0.3,12,6,0.5,11,0,3
+gpt-4o-mini,gpt-4o-mini,20,20,0,0,0.5,0.5,0.8,0.7,6,0.3,12,5,0.4166666666666667,10,0,4
+gpt-4.1-nano,gpt-5-mini,20,20,0,0,0.6,0.6,0.85,0.75,5,0.25,12,5,0.4166666666666667,12,0,3
+gpt-4.1-mini,gpt-4o-mini,20,20,0,0,0.65,0.65,0.9,0.75,5,0.25,12,4,0.3333333333333333,13,0,2
+gpt-4.1-mini,gpt-5-mini,20,20,0,0,0.65,0.65,0.9,0.75,5,0.25,12,4,0.3333333333333333,13,0,2
+gpt-4.1-nano,gpt-4o-mini,20,20,0,0,0.6,0.6,0.85,0.75,5,0.25,12,4,0.3333333333333333,12,0,3
+gpt-5-mini,gpt-4o-mini,20,20,0,0,0.55,0.55,0.8,0.75,5,0.25,12,4,0.3333333333333333,11,0,4

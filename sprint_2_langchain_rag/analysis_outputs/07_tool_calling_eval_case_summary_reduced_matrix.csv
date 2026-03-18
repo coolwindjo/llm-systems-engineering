@@ -1,0 +1,21 @@
+case_id,query,difficulty,ambiguity_focus,expected_tool,runs,det_tool_accuracy,judge_pass_rate,dubious_correct_matches,dubious_correct_rate
+berlin_expectation,"If I moved to Berlin as a data engineer, what should I expect out there?",hard,True,search_jobs,8,0.0,1.0,8,1.0
+everything_munich,Tell me everything about data engineering in Munich,hard,True,search_jobs,8,0.25,1.0,6,0.75
+positions_and_pay,Need to know about ML engineer positions and their pay in Amsterdam,hard,True,compare_salaries,8,0.25,1.0,6,0.75
+roles_barcelona_comp,Could you look up product roles in Barcelona? I'm mainly trying to gauge compensation.,hard,True,compare_salaries,8,0.0,0.75,6,0.75
+cv_fix_hint,Friend told me to fix my CV. 3 years Python/ML at Google.,medium,False,analyze_resume,8,0.0,0.625,5,0.625
+better_for_mlops,I want to know whether Munich or Amsterdam is better for MLOps careers.,hard,True,search_jobs,8,0.5,1.0,4,0.5
+resume_salary_blend,"Resume: Python, SQL, 2 years. What salary should I expect?",hard,True,compare_salaries,8,0.25,0.625,3,0.375
+city_pay_and_openings,I'm choosing between Berlin and London for ML roles. Which city pays better and has more openings?,hard,True,compare_salaries,8,0.75,1.0,2,0.25
+resume_strength_and_pay,"Does my resume look strong enough for senior data science jobs in Paris, and what do those roles usually pay?",hard,True,analyze_resume,8,0.25,0.5,2,0.25
+cv_market_ready,"Before I apply anywhere, tell me if my CV is market-ready for ML engineer roles in Berlin.",hard,True,analyze_resume,8,0.0,0.125,1,0.125
+jobs_london_clear,Find me ML engineer jobs in London,easy,False,search_jobs,8,1.0,1.0,0,0.0
+resume_review_clear,"Review my resume? Here it is: Experienced data scientist with 5 years in ML. Skills: Python, TensorFlow, SQL. Previous role: Senior Analyst at DataCorp.",easy,False,analyze_resume,8,1.0,1.0,0,0.0
+salary_berlin_clear,Average salary for data scientist in Berlin?,easy,False,compare_salaries,8,1.0,1.0,0,0.0
+help_my_job,I hate my job. Help me.,edge_case,False,,8,1.0,1.0,0,0.0
+hot_market,What's hot in the tech job market right now?,edge_case,False,,8,1.0,1.0,0,0.0
+tell_joke,Tell me a joke,edge_case,False,,8,1.0,1.0,0,0.0
+compare_job_markets,Compare the job markets in Berlin and London for data scientists,hard,True,search_jobs,8,1.0,1.0,0,0.0
+berlin_salary_indirect,"Thinking about moving to Berlin, wondering what people like me make — I do data science",medium,True,compare_salaries,8,1.0,1.0,0,0.0
+salary_worded_as_search,Can you search for how much a product manager earns?,medium,True,compare_salaries,8,0.25,0.25,0,0.0
+skills_advice_no_tool,What skills should I learn for ML engineering?,medium,False,,8,1.0,1.0,0,0.0

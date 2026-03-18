@@ -1,0 +1,799 @@
+case_id,query,difficulty,ambiguity_focus,case_note,expected_tool,expected_params_json,actual_tool,actual_tool_sequence,actual_tool_count,actual_params_json,tool_correct,params_correct,expected_tool_in_sequence,response_text,agent_error,agent_model,judge_model,judge_value,judge_reason,judge_error,outcome_bucket
+positions_and_pay,Need to know about ML engineer positions and their pay in Amsterdam,hard,True,Blends jobs and salary; canonical label prefers salary.,compare_salaries,,search_jobs,"[""search_jobs"", ""compare_salaries""]",2,"{""role"": ""ml engineer"", ""location"": ""amsterdam""}",False,False,True,"In Amsterdam, there are ML engineer positions available such as ""Senior ML engineer"" at TechCorp and ""ML engineer"" at DataInc.
+
+Regarding pay, the average salary for an ML engineer in Amsterdam is approximately €78,500 per year. The salary range typically falls between €65,000 and €92,000 annually. If you want, I can provide more details about the job listings or advice on applying for these roles.",,gpt-4.1-mini,gpt-4o-mini,correct,"The AI agent selected 'search_jobs' as the primary tool, which addresses the user's request for job openings. Although the canonical benchmark prefers 'compare_salaries', the chosen tool reasonably addresses a major part of the user's query about ML engineer positions. The subsequent use of 'compare_salaries' further supports the user's request for salary information, making the overall tool sequence appropriate.",,dubious_correct_match
+everything_munich,Tell me everything about data engineering in Munich,hard,True,Broad market query could plausibly trigger salary comparison.,search_jobs,,,[],0,,False,False,False,"Data engineering in Munich is a dynamic and growing field, driven by the city's strong presence in technology, automotive, finance, and industrial sectors. Here's an overview of what you can expect about data engineering in Munich:
+
+1. Job Market:
+   - Munich is a major tech hub in Germany, hosting many multinational corporations, startups, and research institutions.
+   - Companies in automotive (BMW, Audi), finance (Allianz, Munich Re), and tech sectors frequently seek data engineers to manage and optimize their data infrastructure.
+   - There are opportunities in both established companies and innovative startups focusing on big data, AI, and cloud technologies.
+
+2. Skills and Technologies:
+   - Commonly required skills include proficiency in SQL, Python, Scala, and Java.
+   - Experience with big data technologies like Hadoop, Spark, Kafka, and cloud platforms such as AWS, Azure, or Google Cloud is highly valued.
+   - Knowledge of data warehousing solutions (e.g., Snowflake, Redshift) and ETL tools is important.
+   - Familiarity with containerization (Docker, Kubernetes) and CI/CD pipelines can be advantageous.
+
+3. Salary and Benefits:
+   - Data engineering roles in Munich typically offer competitive salaries, often higher than the German average due to the city's economic status.
+   - Benefits may include flexible working hours, remote work options, professional development budgets, and health insurance.
+
+4. Education and Background:
+   - A degree in computer science, engineering, mathematics, or related fields is common.
+   - Certifications in cloud platforms or big data technologies can enhance job prospects.
+   - Practical experience through internships, projects, or contributions to open-source is beneficial.
+
+5. Work Environment:
+   - Many companies promote agile methodologies and collaborative work culture.
+   - Munich offers a high quality of life, with good public transport, cultural activities, and proximity to the Alps for outdoor activities.
+
+6. Networking and Community:
+   - There are active tech meetups, conferences, and workshops focused on data engineering and data science.
+   - Joining local groups or online communities can help with learning and job hunting.
+
+If you want, I can also provide current job openings, salary comparisons, or tips on improving your resume for data engineering roles in Munich. Would you like me to do that?",,gpt-4.1-mini,gpt-4o-mini,correct,"The user query is broad and could be considered conversational, making the selection of NO TOOL appropriate. The query does not specifically request job openings or salary comparisons, but rather general information about data engineering in Munich.",,dubious_correct_match
+roles_barcelona_comp,Could you look up product roles in Barcelona? I'm mainly trying to gauge compensation.,hard,True,Search phrasing plus compensation goal.,compare_salaries,,search_jobs,"[""search_jobs"", ""compare_salaries""]",2,"{""role"": ""product"", ""location"": ""barcelona""}",False,False,True,"In Barcelona, there are product roles available such as Senior Product and Product positions at companies like TechCorp and DataInc. The average salary for product roles in Barcelona is approximately 78,500 EUR per year, with a typical range between 65,000 EUR and 92,000 EUR. If you want, I can help you with more detailed information or specific job listings.",,gpt-4.1-mini,gpt-4o-mini,correct,"The AI agent selected 'search_jobs' to find product roles in Barcelona, which aligns with the user's request to look up job openings. Although 'compare_salaries' is the canonical benchmark tool for gauging compensation, the initial choice of 'search_jobs' is reasonable as it addresses a major part of the user's query. Therefore, the tool selection can be considered correct.",,dubious_correct_match
+berlin_expectation,"If I moved to Berlin as a data engineer, what should I expect out there?",hard,True,Open-ended market expectation often yields reasonable alternative tools.,search_jobs,,,[],0,,False,False,False,"Moving to Berlin as a data engineer, you can expect a vibrant tech scene with numerous opportunities in startups, established tech companies, and various industries like finance, e-commerce, and automotive. Berlin is known for its international environment, so you will likely work with diverse teams. The cost of living is moderate compared to other major European cities, but it has been rising. The work culture tends to be more relaxed and balanced compared to some other tech hubs, with an emphasis on innovation and collaboration.
+
+To give you a more detailed picture, I can provide information on current job openings for data engineers in Berlin, average salary expectations, and any specific skills or qualifications that are in demand. Would you like me to gather this information for you?",,gpt-4.1-mini,gpt-4o-mini,correct,"The user query is open-ended and seeks general advice about market expectations in Berlin, which does not require a specific tool. Selecting NO TOOL is appropriate in this context.",,dubious_correct_match
+positions_and_pay,Need to know about ML engineer positions and their pay in Amsterdam,hard,True,Blends jobs and salary; canonical label prefers salary.,compare_salaries,,search_jobs,"[""search_jobs"", ""compare_salaries""]",2,"{""role"": ""ml engineer"", ""location"": ""amsterdam""}",False,False,True,"In Amsterdam, there are ML engineer positions available such as ""Senior ML engineer"" at TechCorp and ""ML engineer"" at DataInc.
+
+Regarding pay, the average salary for an ML engineer in Amsterdam is approximately €78,500 per year. The salary range typically falls between €65,000 and €92,000 annually. If you want, I can provide more details about the job listings or advice on applying for these roles.",,gpt-4.1-mini,gpt-5-mini,correct,"User asked about ML engineer positions and their pay in Amsterdam. The agent used search_jobs (to find openings) then compare_salaries (to get pay data), which together address both intents. Although the canonical single-tool label favors compare_salaries, the chosen sequence reasonably covers the request.",,dubious_correct_match
+everything_munich,Tell me everything about data engineering in Munich,hard,True,Broad market query could plausibly trigger salary comparison.,search_jobs,,,[],0,,False,False,False,"Data engineering in Munich is a dynamic and growing field, driven by the city's strong presence in technology, automotive, finance, and industrial sectors. Here's an overview of what you can expect about data engineering in Munich:
+
+1. Job Market:
+   - Munich is a major tech hub in Germany, hosting many multinational corporations, startups, and research institutions.
+   - Companies in automotive (BMW, Audi), finance (Allianz, Munich Re), and tech sectors frequently seek data engineers to manage and optimize their data infrastructure.
+   - There are opportunities in both established companies and innovative startups focusing on big data, AI, and cloud technologies.
+
+2. Skills and Technologies:
+   - Commonly required skills include proficiency in SQL, Python, Scala, and Java.
+   - Experience with big data technologies like Hadoop, Spark, Kafka, and cloud platforms such as AWS, Azure, or Google Cloud is highly valued.
+   - Knowledge of data warehousing solutions (e.g., Snowflake, Redshift) and ETL tools is important.
+   - Familiarity with containerization (Docker, Kubernetes) and CI/CD pipelines can be advantageous.
+
+3. Salary and Benefits:
+   - Data engineering roles in Munich typically offer competitive salaries, often higher than the German average due to the city's economic status.
+   - Benefits may include flexible working hours, remote work options, professional development budgets, and health insurance.
+
+4. Education and Background:
+   - A degree in computer science, engineering, mathematics, or related fields is common.
+   - Certifications in cloud platforms or big data technologies can enhance job prospects.
+   - Practical experience through internships, projects, or contributions to open-source is beneficial.
+
+5. Work Environment:
+   - Many companies promote agile methodologies and collaborative work culture.
+   - Munich offers a high quality of life, with good public transport, cultural activities, and proximity to the Alps for outdoor activities.
+
+6. Networking and Community:
+   - There are active tech meetups, conferences, and workshops focused on data engineering and data science.
+   - Joining local groups or online communities can help with learning and job hunting.
+
+If you want, I can also provide current job openings, salary comparisons, or tips on improving your resume for data engineering roles in Munich. Would you like me to do that?",,gpt-4.1-mini,gpt-5-mini,correct,"The user asked a broad, informational question about data engineering in Munich that can be addressed conversationally (market overview, skills, typical employers, career path, interview tips). While tools like search_jobs or compare_salaries could add live job/salary data, they are not required to give a useful, general answer. Therefore selecting NO TOOL is a reasonable and correct choice.",,dubious_correct_match
+roles_barcelona_comp,Could you look up product roles in Barcelona? I'm mainly trying to gauge compensation.,hard,True,Search phrasing plus compensation goal.,compare_salaries,,search_jobs,"[""search_jobs"", ""compare_salaries""]",2,"{""role"": ""product"", ""location"": ""barcelona""}",False,False,True,"In Barcelona, there are product roles available such as Senior Product and Product positions at companies like TechCorp and DataInc. The average salary for product roles in Barcelona is approximately 78,500 EUR per year, with a typical range between 65,000 EUR and 92,000 EUR. If you want, I can help you with more detailed information or specific job listings.",,gpt-4.1-mini,gpt-5-mini,correct,The user asked both to find product roles in Barcelona and to gauge compensation. Using search_jobs to locate relevant listings and then compare_salaries to assess pay directly addresses both intents; starting with job search is a reasonable first step before salary comparison.,,dubious_correct_match
+berlin_expectation,"If I moved to Berlin as a data engineer, what should I expect out there?",hard,True,Open-ended market expectation often yields reasonable alternative tools.,search_jobs,,,[],0,,False,False,False,"Moving to Berlin as a data engineer, you can expect a vibrant tech scene with numerous opportunities in startups, established tech companies, and various industries like finance, e-commerce, and automotive. Berlin is known for its international environment, so you will likely work with diverse teams. The cost of living is moderate compared to other major European cities, but it has been rising. The work culture tends to be more relaxed and balanced compared to some other tech hubs, with an emphasis on innovation and collaboration.
+
+To give you a more detailed picture, I can provide information on current job openings for data engineers in Berlin, average salary expectations, and any specific skills or qualifications that are in demand. Would you like me to gather this information for you?",,gpt-4.1-mini,gpt-5-mini,correct,"The user asked an open-ended, conversational question about expectations in Berlin as a data engineer; no external tool is necessary. Per the rules, NO TOOL is appropriate (though job search could be an optional supplement).",,dubious_correct_match
+positions_and_pay,Need to know about ML engineer positions and their pay in Amsterdam,hard,True,Blends jobs and salary; canonical label prefers salary.,compare_salaries,,search_jobs,"[""search_jobs"", ""compare_salaries""]",2,"{""role"": ""ml engineer"", ""location"": ""amsterdam""}",False,False,True,"In Amsterdam, there are several ML Engineer positions available, including roles such as Senior ML Engineer at TechCorp and ML Engineer at DataInc. The average salary for an ML Engineer in Amsterdam is approximately €78,500 per year, with a typical range between €65,000 and €92,000.",,gpt-4.1-nano,gpt-4o-mini,correct,"The AI agent selected 'search_jobs' as the primary tool, which addresses the user's request for job openings. Although the canonical benchmark prefers 'compare_salaries', the chosen tool reasonably addresses a major part of the user's query about ML engineer positions. The subsequent use of 'compare_salaries' further supports the user's request for salary information, making the overall tool sequence appropriate.",,dubious_correct_match
+everything_munich,Tell me everything about data engineering in Munich,hard,True,Broad market query could plausibly trigger salary comparison.,search_jobs,,,[],0,,False,False,False,"Data engineering is a rapidly growing field focused on designing, building, and maintaining the infrastructure and tools that enable organizations to collect, store, and analyze large volumes of data. In Munich, a major tech and business hub in Germany, data engineering opportunities are abundant across various industries such as automotive, finance, technology, and manufacturing.
+
+Here's an overview of data engineering in Munich:
+
+1. Job Market: Munich hosts numerous multinational corporations, startups, and research institutions that require data engineers. Companies like BMW, Siemens, Allianz, and various tech startups are actively hiring data engineering professionals.
+
+2. Skills and Technologies: Key skills include proficiency in programming languages like Python, Java, and Scala, experience with big data tools such as Hadoop, Spark, Kafka, and cloud platforms like AWS, Azure, or Google Cloud. Knowledge of SQL, data warehousing, ETL processes, and data modeling is also essential.
+
+3. Salary Expectations: Data engineering roles in Munich typically offer competitive salaries, often ranging from €60,000 to €100,000 annually, depending on experience and expertise.
+
+4. Education and Certifications: A background in computer science, information technology, or related fields is common. Certifications in cloud platforms, big data tools, or data management can enhance job prospects.
+
+5. Networking and Community: Munich has active tech meetups, conferences, and professional groups focused on data science, big data, and data engineering, providing excellent networking opportunities.
+
+Would you like specific job openings, salary comparisons, or advice on how to enter the field of data engineering in Munich?",,gpt-4.1-nano,gpt-4o-mini,correct,"The user query is broad and conversational in nature, making 'NO TOOL' a reasonable choice as it does not require a specific tool for a detailed response.",,dubious_correct_match
+roles_barcelona_comp,Could you look up product roles in Barcelona? I'm mainly trying to gauge compensation.,hard,True,Search phrasing plus compensation goal.,compare_salaries,,search_jobs,"[""search_jobs"", ""compare_salaries"", ""compare_salaries""]",3,"{""role"": ""product manager"", ""location"": ""barcelona""}",False,False,True,"In Barcelona, the average salary for Product Manager roles is approximately €78,500, with a typical range between €65,000 and €92,000. Senior Product Manager roles tend to have similar compensation levels, with the same average and range. This should give you a good benchmark for evaluating opportunities in this field.",,gpt-4.1-nano,gpt-4o-mini,correct,"The AI agent's initial choice of 'search_jobs' addresses the user's request for job openings, which is a significant part of the query. Following up with 'compare_salaries' aligns with the user's goal of gauging compensation, making the overall tool sequence appropriate.",,dubious_correct_match
+berlin_expectation,"If I moved to Berlin as a data engineer, what should I expect out there?",hard,True,Open-ended market expectation often yields reasonable alternative tools.,search_jobs,,,[],0,,False,False,False,"Moving to Berlin as a data engineer can be an exciting opportunity. Berlin is a vibrant tech hub with a growing number of startups, established tech companies, and multinational corporations. Here's what you can generally expect:
+
+1. Job Market: Berlin has a strong demand for data engineers, especially in industries like technology, finance, e-commerce, and automotive. The job market is competitive but offers many opportunities for skilled professionals.
+
+2. Salary Expectations: Salaries for data engineers in Berlin vary based on experience and company size. On average, they tend to be competitive within the European market, but I can provide specific salary comparisons if you'd like.
+
+3. Work Culture: The work environment in Berlin is often characterized by a mix of innovative startups and established companies. The work culture tends to be collaborative, flexible, and open to new ideas.
+
+4. Cost of Living: Berlin is generally more affordable than other major European cities like London or Paris, but costs are rising. Housing can be competitive, and it's advisable to start your search early.
+
+5. Language: While many tech companies operate in English, knowing German can be beneficial for daily life and integrating into the local community.
+
+6. Lifestyle: Berlin offers a rich cultural scene, diverse neighborhoods, and a vibrant social life. It's known for its history, arts, music, and outdoor activities.
+
+Would you like me to find current job openings for data engineers in Berlin or compare salary expectations?",,gpt-4.1-nano,gpt-4o-mini,correct,"The user query is open-ended and seeks general advice about moving to Berlin as a data engineer, which does not require a specific tool. Selecting NO TOOL is appropriate for this type of conversational query.",,dubious_correct_match
+positions_and_pay,Need to know about ML engineer positions and their pay in Amsterdam,hard,True,Blends jobs and salary; canonical label prefers salary.,compare_salaries,,search_jobs,"[""search_jobs"", ""compare_salaries""]",2,"{""role"": ""ml engineer"", ""location"": ""amsterdam""}",False,False,True,"In Amsterdam, there are several ML Engineer positions available, including roles such as Senior ML Engineer at TechCorp and ML Engineer at DataInc. The average salary for an ML Engineer in Amsterdam is approximately €78,500 per year, with a typical range between €65,000 and €92,000.",,gpt-4.1-nano,gpt-5-mini,correct,"The user asked about both ML engineer positions and pay in Amsterdam (a multi-intent query). The agent used search_jobs then compare_salaries, which together address both job listings and salary information, so the tool plan is appropriate.",,dubious_correct_match
+resume_salary_blend,"Resume: Python, SQL, 2 years. What salary should I expect?",hard,True,Resume context can pull the agent toward resume analysis.,compare_salaries,,,[],0,,False,False,False,"To give you a more accurate salary expectation, I will need to know your location. Could you please specify where you are based?",,gpt-4.1-nano,gpt-5-mini,correct,"The user asked for a general salary expectation/advice based on resume summary; this can be answered conversationally without calling a tool. While compare_salaries could provide data, NO TOOL is a reasonable and sufficient choice for an advisory response.",,dubious_correct_match
+everything_munich,Tell me everything about data engineering in Munich,hard,True,Broad market query could plausibly trigger salary comparison.,search_jobs,,,[],0,,False,False,False,"Data engineering is a rapidly growing field focused on designing, building, and maintaining the infrastructure and tools that enable organizations to collect, store, and analyze large volumes of data. In Munich, a major tech and business hub in Germany, data engineering opportunities are abundant across various industries such as automotive, finance, technology, and manufacturing.
+
+Here's an overview of data engineering in Munich:
+
+1. Job Market: Munich hosts numerous multinational corporations, startups, and research institutions that require data engineers. Companies like BMW, Siemens, Allianz, and various tech startups are actively hiring data engineering professionals.
+
+2. Skills and Technologies: Key skills include proficiency in programming languages like Python, Java, and Scala, experience with big data tools such as Hadoop, Spark, Kafka, and cloud platforms like AWS, Azure, or Google Cloud. Knowledge of SQL, data warehousing, ETL processes, and data modeling is also essential.
+
+3. Salary Expectations: Data engineering roles in Munich typically offer competitive salaries, often ranging from €60,000 to €100,000 annually, depending on experience and expertise.
+
+4. Education and Certifications: A background in computer science, information technology, or related fields is common. Certifications in cloud platforms, big data tools, or data management can enhance job prospects.
+
+5. Networking and Community: Munich has active tech meetups, conferences, and professional groups focused on data science, big data, and data engineering, providing excellent networking opportunities.
+
+Would you like specific job openings, salary comparisons, or advice on how to enter the field of data engineering in Munich?",,gpt-4.1-nano,gpt-5-mini,correct,"The user asked for a broad informational overview about data engineering in Munich. This is a general, conversational/market-summary query that can be answered without invoking external tools (though salary comparison could be optional). Selecting no tool (NO TOOL) is therefore a reasonable and appropriate choice.",,dubious_correct_match
+roles_barcelona_comp,Could you look up product roles in Barcelona? I'm mainly trying to gauge compensation.,hard,True,Search phrasing plus compensation goal.,compare_salaries,,search_jobs,"[""search_jobs"", ""compare_salaries"", ""compare_salaries""]",3,"{""role"": ""product manager"", ""location"": ""barcelona""}",False,False,True,"In Barcelona, the average salary for Product Manager roles is approximately €78,500, with a typical range between €65,000 and €92,000. Senior Product Manager roles tend to have similar compensation levels, with the same average and range. This should give you a good benchmark for evaluating opportunities in this field.",,gpt-4.1-nano,gpt-5-mini,correct,"The user asked to look up product roles in Barcelona and to gauge compensation. Starting with search_jobs matches the 'look up roles' intent, and follow-up compare_salaries calls address the compensation goal. The tool sequence reasonably covers both parts of the request.",,dubious_correct_match
+berlin_expectation,"If I moved to Berlin as a data engineer, what should I expect out there?",hard,True,Open-ended market expectation often yields reasonable alternative tools.,search_jobs,,,[],0,,False,False,False,"Moving to Berlin as a data engineer can be an exciting opportunity. Berlin is a vibrant tech hub with a growing number of startups, established tech companies, and multinational corporations. Here's what you can generally expect:
+
+1. Job Market: Berlin has a strong demand for data engineers, especially in industries like technology, finance, e-commerce, and automotive. The job market is competitive but offers many opportunities for skilled professionals.
+
+2. Salary Expectations: Salaries for data engineers in Berlin vary based on experience and company size. On average, they tend to be competitive within the European market, but I can provide specific salary comparisons if you'd like.
+
+3. Work Culture: The work environment in Berlin is often characterized by a mix of innovative startups and established companies. The work culture tends to be collaborative, flexible, and open to new ideas.
+
+4. Cost of Living: Berlin is generally more affordable than other major European cities like London or Paris, but costs are rising. Housing can be competitive, and it's advisable to start your search early.
+
+5. Language: While many tech companies operate in English, knowing German can be beneficial for daily life and integrating into the local community.
+
+6. Lifestyle: Berlin offers a rich cultural scene, diverse neighborhoods, and a vibrant social life. It's known for its history, arts, music, and outdoor activities.
+
+Would you like me to find current job openings for data engineers in Berlin or compare salary expectations?",,gpt-4.1-nano,gpt-5-mini,correct,"The user asked an open-ended, conversational question about expectations as a data engineer in Berlin. This does not require querying a tool; NO TOOL is an appropriate choice under rule 2 (conversational/advice queries).",,dubious_correct_match
+positions_and_pay,Need to know about ML engineer positions and their pay in Amsterdam,hard,True,Blends jobs and salary; canonical label prefers salary.,compare_salaries,,search_jobs,"[""search_jobs"", ""compare_salaries""]",2,"{""role"": ""machine learning engineer"", ""location"": ""amsterdam""}",False,False,True,"In Amsterdam, there are currently several job openings for Machine Learning Engineers. Here are a couple of examples:
+
+1. **Senior Machine Learning Engineer** at TechCorp
+2. **Machine Learning Engineer** at DataInc
+
+Regarding salary, the average pay for a Machine Learning Engineer in Amsterdam is approximately **€78,500** per year. The salary range typically falls between **€65,000** and **€92,000**. 
+
+If you need more specific information or assistance, feel free to ask!",,gpt-4o-mini,gpt-4o-mini,correct,"The AI agent's choice of 'search_jobs' addresses the user's request for job openings, which is a significant part of the query. Although the canonical benchmark prefers 'compare_salaries', the sequence includes both tools, making the selection reasonable.",,dubious_correct_match
+everything_munich,Tell me everything about data engineering in Munich,hard,True,Broad market query could plausibly trigger salary comparison.,search_jobs,,,[],0,,False,False,False,"Data engineering is a crucial field that focuses on the design, construction, and management of systems and infrastructure for collecting, storing, and analyzing data. In Munich, a city known for its strong economy and technological innovation, data engineering is a growing field with numerous opportunities.
+
+### Key Aspects of Data Engineering in Munich:
+
+1. **Job Market**:
+   - Munich has a vibrant job market for data engineers, with many companies in various sectors, including technology, finance, automotive, and healthcare, seeking skilled professionals.
+   - The demand for data engineers is driven by the increasing need for data-driven decision-making and the growth of big data technologies.
+
+2. **Skills Required**:
+   - Proficiency in programming languages such as Python, Java, or Scala.
+   - Experience with data warehousing solutions (e.g., Amazon Redshift, Google BigQuery).
+   - Knowledge of ETL (Extract, Transform, Load) processes and tools (e.g., Apache Airflow, Talend).
+   - Familiarity with big data technologies (e.g., Hadoop, Spark).
+   - Understanding of database management systems (e.g., SQL, NoSQL).
+
+3. **Educational Background**:
+   - Most data engineering positions require a degree in computer science, information technology, or a related field.
+   - Certifications in data engineering or cloud platforms (e.g., AWS, Azure) can be beneficial.
+
+4. **Salary Expectations**:
+   - Salaries for data engineers in Munich can vary based on experience, skills, and the specific company. Generally, they are competitive, reflecting the high demand for these roles.
+
+5. **Networking and Community**:
+   - Munich has a strong tech community with various meetups, conferences, and workshops focused on data engineering and related fields.
+   - Engaging with local tech communities can provide valuable networking opportunities and insights into industry trends.
+
+6. **Companies Hiring**:
+   - Many multinational corporations, startups, and tech companies are based in Munich, creating a diverse range of opportunities for data engineers.
+
+7. **Work Culture**:
+   - The work culture in Munich is often characterized by a balance between professional and personal life, with many companies offering flexible working arrangements.
+
+If you're interested in specific job openings or salary comparisons for data engineering roles in Munich, let me know, and I can provide that information!",,gpt-4o-mini,gpt-4o-mini,correct,"The user query is broad and conversational in nature, making 'NO TOOL' a reasonable choice as it does not require a specific tool for a detailed response.",,dubious_correct_match
+roles_barcelona_comp,Could you look up product roles in Barcelona? I'm mainly trying to gauge compensation.,hard,True,Search phrasing plus compensation goal.,compare_salaries,,search_jobs,"[""search_jobs"", ""compare_salaries"", ""compare_salaries""]",3,"{""role"": ""product"", ""location"": ""barcelona""}",False,False,True,"In Barcelona, there are currently job openings for product roles, including:
+
+1. **Senior Product** at TechCorp
+2. **Product** at DataInc
+
+### Compensation Overview:
+- **Senior Product Role**:
+  - **Average Salary**: €78,500
+  - **Salary Range**: €65,000 - €92,000
+
+- **Product Role**:
+  - **Average Salary**: €78,500
+  - **Salary Range**: €65,000 - €92,000
+
+Both roles have similar compensation structures, reflecting the demand for product professionals in the area. If you need more specific information or further assistance, feel free to ask!",,gpt-4o-mini,gpt-4o-mini,correct,"The AI agent's initial choice of 'search_jobs' addresses the user's request for job openings, which is a significant part of the query. Following up with 'compare_salaries' aligns with the user's goal of gauging compensation, making the overall tool sequence appropriate.",,dubious_correct_match
+better_for_mlops,I want to know whether Munich or Amsterdam is better for MLOps careers.,hard,True,"Could mean openings, salary, or general advice.",search_jobs,,compare_salaries,"[""compare_salaries"", ""compare_salaries""]",2,"{""role"": ""mlops engineer"", ""location"": ""munich""}",False,False,False,"For MLOps careers, both Munich and Amsterdam offer similar opportunities:
+
+- **Average Salary**: €78,500
+- **Salary Range**: €65,000 - €92,000
+
+Since the average salary and range are the same in both cities, you might want to consider other factors such as the job market, cost of living, work culture, and personal preferences when deciding which city is better for your MLOps career.",,gpt-4o-mini,gpt-4o-mini,correct,"The selected tool 'compare_salaries' addresses a major part of the user's request by providing salary comparisons for MLOps careers in Munich and Amsterdam, which is relevant to determining which city is better for such careers.",,dubious_correct_match
+berlin_expectation,"If I moved to Berlin as a data engineer, what should I expect out there?",hard,True,Open-ended market expectation often yields reasonable alternative tools.,search_jobs,,,[],0,,False,False,False,"Moving to Berlin as a data engineer can be an exciting opportunity, as the city has a vibrant tech scene and is home to many startups and established companies. Here are some key aspects to consider:
+
+1. **Job Market**: Berlin has a growing demand for data engineers, with many companies looking for professionals skilled in data processing, analytics, and machine learning. The tech industry is diverse, ranging from startups to large corporations.
+
+2. **Salary Expectations**: Salaries for data engineers in Berlin can vary based on experience, skills, and the specific company. Generally, you can expect competitive salaries, but it's important to research current market rates.
+
+3. **Work Culture**: The work culture in Berlin is often described as flexible and innovative. Many companies promote a healthy work-life balance, and there is a strong emphasis on collaboration and creativity.
+
+4. **Networking Opportunities**: Berlin hosts numerous tech meetups, conferences, and workshops, providing great opportunities to network with other professionals in the field.
+
+5. **Cost of Living**: While Berlin is generally more affordable than other major European cities like London or Paris, the cost of living has been rising. It's important to budget for housing, transportation, and other living expenses.
+
+6. **Language**: While many companies operate in English, knowing some German can be beneficial for daily life and social interactions.
+
+7. **Cultural Scene**: Berlin is known for its rich cultural history, vibrant arts scene, and diverse population. There are plenty of activities, events, and places to explore in your free time.
+
+Overall, moving to Berlin as a data engineer can offer a fulfilling career and a dynamic lifestyle. If you're interested, I can provide more specific information about job openings or salary comparisons in Berlin for data engineers. Would you like that?",,gpt-4o-mini,gpt-4o-mini,correct,"The user query is open-ended and seeks general advice about market expectations in Berlin for a data engineer, which does not require a specific tool. Therefore, selecting NO TOOL is appropriate.",,dubious_correct_match
+positions_and_pay,Need to know about ML engineer positions and their pay in Amsterdam,hard,True,Blends jobs and salary; canonical label prefers salary.,compare_salaries,,search_jobs,"[""search_jobs"", ""compare_salaries""]",2,"{""role"": ""machine learning engineer"", ""location"": ""amsterdam""}",False,False,True,"In Amsterdam, there are currently several job openings for Machine Learning Engineers. Here are a couple of examples:
+
+1. **Senior Machine Learning Engineer** at TechCorp
+2. **Machine Learning Engineer** at DataInc
+
+Regarding salary, the average pay for a Machine Learning Engineer in Amsterdam is approximately **€78,500** per year. The salary range typically falls between **€65,000** and **€92,000**. 
+
+If you need more specific information or assistance, feel free to ask!",,gpt-4o-mini,gpt-5-mini,correct,"User asked about ML engineer positions and pay in Amsterdam; the agent ran search_jobs to find openings and then compare_salaries to analyze pay. This sequence appropriately addresses both the job-listings and salary-analysis intents, so the tool choice is correct.",,dubious_correct_match
+resume_salary_blend,"Resume: Python, SQL, 2 years. What salary should I expect?",hard,True,Resume context can pull the agent toward resume analysis.,compare_salaries,,,[],0,,False,False,False,"To provide you with an accurate salary expectation, could you please specify the location where you are looking for a job?",,gpt-4o-mini,gpt-5-mini,correct,"The user asked for a salary expectation but gave no location or specific role, making precise tooling (compare_salaries) less useful without more info. Providing general salary guidance or asking clarifying questions without calling a tool is a reasonable response, so selecting no tool is acceptable.",,dubious_correct_match
+everything_munich,Tell me everything about data engineering in Munich,hard,True,Broad market query could plausibly trigger salary comparison.,search_jobs,,,[],0,,False,False,False,"Data engineering is a crucial field that focuses on the design, construction, and management of systems and infrastructure for collecting, storing, and analyzing data. In Munich, a city known for its strong economy and technological innovation, data engineering is a growing field with numerous opportunities.
+
+### Key Aspects of Data Engineering in Munich:
+
+1. **Job Market**:
+   - Munich has a vibrant job market for data engineers, with many companies in various sectors, including technology, finance, automotive, and healthcare, seeking skilled professionals.
+   - The demand for data engineers is driven by the increasing need for data-driven decision-making and the growth of big data technologies.
+
+2. **Skills Required**:
+   - Proficiency in programming languages such as Python, Java, or Scala.
+   - Experience with data warehousing solutions (e.g., Amazon Redshift, Google BigQuery).
+   - Knowledge of ETL (Extract, Transform, Load) processes and tools (e.g., Apache Airflow, Talend).
+   - Familiarity with big data technologies (e.g., Hadoop, Spark).
+   - Understanding of database management systems (e.g., SQL, NoSQL).
+
+3. **Educational Background**:
+   - Most data engineering positions require a degree in computer science, information technology, or a related field.
+   - Certifications in data engineering or cloud platforms (e.g., AWS, Azure) can be beneficial.
+
+4. **Salary Expectations**:
+   - Salaries for data engineers in Munich can vary based on experience, skills, and the specific company. Generally, they are competitive, reflecting the high demand for these roles.
+
+5. **Networking and Community**:
+   - Munich has a strong tech community with various meetups, conferences, and workshops focused on data engineering and related fields.
+   - Engaging with local tech communities can provide valuable networking opportunities and insights into industry trends.
+
+6. **Companies Hiring**:
+   - Many multinational corporations, startups, and tech companies are based in Munich, creating a diverse range of opportunities for data engineers.
+
+7. **Work Culture**:
+   - The work culture in Munich is often characterized by a balance between professional and personal life, with many companies offering flexible working arrangements.
+
+If you're interested in specific job openings or salary comparisons for data engineering roles in Munich, let me know, and I can provide that information!",,gpt-4o-mini,gpt-5-mini,correct,"The user asked a broad, conversational request about data engineering in Munich that can reasonably be answered with general knowledge and synthesis rather than invoking a specific tool. While compare_salaries or search_jobs could add up-to-date market data, selecting NO TOOL is not inappropriate for a high-level overview and thus is an acceptable choice.",,dubious_correct_match
+roles_barcelona_comp,Could you look up product roles in Barcelona? I'm mainly trying to gauge compensation.,hard,True,Search phrasing plus compensation goal.,compare_salaries,,search_jobs,"[""search_jobs"", ""compare_salaries"", ""compare_salaries""]",3,"{""role"": ""product"", ""location"": ""barcelona""}",False,False,True,"In Barcelona, there are currently job openings for product roles, including:
+
+1. **Senior Product** at TechCorp
+2. **Product** at DataInc
+
+### Compensation Overview:
+- **Senior Product Role**:
+  - **Average Salary**: €78,500
+  - **Salary Range**: €65,000 - €92,000
+
+- **Product Role**:
+  - **Average Salary**: €78,500
+  - **Salary Range**: €65,000 - €92,000
+
+Both roles have similar compensation structures, reflecting the demand for product professionals in the area. If you need more specific information or further assistance, feel free to ask!",,gpt-4o-mini,gpt-5-mini,correct,"The user asked to find product roles in Barcelona and gauge compensation. Starting with search_jobs to locate relevant listings and then using compare_salaries to assess pay directly addresses both parts of the request. Using compare_salaries after search results is a reasonable workflow (even if repeated), so the chosen tool sequence is appropriate.",,dubious_correct_match
+better_for_mlops,I want to know whether Munich or Amsterdam is better for MLOps careers.,hard,True,"Could mean openings, salary, or general advice.",search_jobs,,compare_salaries,"[""compare_salaries"", ""compare_salaries""]",2,"{""role"": ""mlops engineer"", ""location"": ""munich""}",False,False,False,"For MLOps careers, both Munich and Amsterdam offer similar opportunities:
+
+- **Average Salary**: €78,500
+- **Salary Range**: €65,000 - €92,000
+
+Since the average salary and range are the same in both cities, you might want to consider other factors such as the job market, cost of living, work culture, and personal preferences when deciding which city is better for your MLOps career.",,gpt-4o-mini,gpt-5-mini,correct,"The user’s question is ambiguous (could mean salary, job availability, or general career factors). Comparing salaries directly addresses a major, quantifiable aspect of “better for MLOps careers,” so using compare_salaries is a reasonable and appropriate choice (though search_jobs or additional tools could complement the analysis).",,dubious_correct_match
+berlin_expectation,"If I moved to Berlin as a data engineer, what should I expect out there?",hard,True,Open-ended market expectation often yields reasonable alternative tools.,search_jobs,,,[],0,,False,False,False,"Moving to Berlin as a data engineer can be an exciting opportunity, as the city has a vibrant tech scene and is home to many startups and established companies. Here are some key aspects to consider:
+
+1. **Job Market**: Berlin has a growing demand for data engineers, with many companies looking for professionals skilled in data processing, analytics, and machine learning. The tech industry is diverse, ranging from startups to large corporations.
+
+2. **Salary Expectations**: Salaries for data engineers in Berlin can vary based on experience, skills, and the specific company. Generally, you can expect competitive salaries, but it's important to research current market rates.
+
+3. **Work Culture**: The work culture in Berlin is often described as flexible and innovative. Many companies promote a healthy work-life balance, and there is a strong emphasis on collaboration and creativity.
+
+4. **Networking Opportunities**: Berlin hosts numerous tech meetups, conferences, and workshops, providing great opportunities to network with other professionals in the field.
+
+5. **Cost of Living**: While Berlin is generally more affordable than other major European cities like London or Paris, the cost of living has been rising. It's important to budget for housing, transportation, and other living expenses.
+
+6. **Language**: While many companies operate in English, knowing some German can be beneficial for daily life and social interactions.
+
+7. **Cultural Scene**: Berlin is known for its rich cultural history, vibrant arts scene, and diverse population. There are plenty of activities, events, and places to explore in your free time.
+
+Overall, moving to Berlin as a data engineer can offer a fulfilling career and a dynamic lifestyle. If you're interested, I can provide more specific information about job openings or salary comparisons in Berlin for data engineers. Would you like that?",,gpt-4o-mini,gpt-5-mini,correct,"The user's question is an open-ended, conversational request for expectations and advice about living and working in Berlin as a data engineer. No tool is required to provide general market, lifestyle, and career guidance (though tools like search_jobs or compare_salaries could supplement with data). Selecting NO TOOL is therefore appropriate.",,dubious_correct_match
+city_pay_and_openings,I'm choosing between Berlin and London for ML roles. Which city pays better and has more openings?,hard,True,Salary and openings are both reasonable primary intents.,compare_salaries,,search_jobs,"[""search_jobs"", ""search_jobs"", ""compare_salaries"", ""compare_salaries""]",4,"{""role"": ""machine learning engineer"", ""location"": ""berlin""}",False,False,True,"Short answer (from a quick search): the sample listings and the salary snapshots returned are about the same — the tool showed an average ~€78.5k for a Machine Learning Engineer in both Berlin and London and two job listings for each city. That means this quick check didn’t find a clear winner.
+
+Important caveats and context
+- The search was a small sample of listings and the salary snapshot is a broad average; it’s not a comprehensive market scan. Real markets vary by seniority, specialization, company, and timing.
+- Nominal pay: in general market practice (and based on broader industry data up to mid‑2024), London tends to offer higher nominal salaries in local currency than Berlin for comparable ML roles—especially at senior levels and at large tech firms.  
+- Cost of living and taxes: London’s higher nominal pay is partly offset by higher housing costs and living expenses and different tax/social contributions. On a net / purchasing‑power basis Berlin can be competitive or even better for many people.
+- Role mix and openings: London’s market is larger overall (more companies, more finance/AI hubs), so you’ll typically see more ML openings there than in Berlin, though Berlin has a strong and growing startup & research scene.
+
+What I recommend
+- If you want a precise, actionable comparison, I can:
+  - run a broader job search filtered by seniority (junior/mid/senior), sector (startup/FAANG/finance), and remote options, and return counts and typical salary ranges; and/or
+  - compare expected net pay after taxes and estimated rent to show purchasing power; and/or
+  - compare total comp (base + bonus + equity) for specific companies you’re targeting.
+- Tell me which level (junior/mid/senior), whether equity/bonus matters, and whether you prefer Berlin or London for lifestyle — I’ll run a deeper, tailored comparison.",,gpt-5-mini,gpt-4o-mini,correct,"The AI agent selected 'search_jobs' as the primary tool, which addresses the user's inquiry about job openings in both cities. Although 'compare_salaries' is the canonical benchmark tool for salary comparison, the initial focus on job openings is reasonable given the user's multi-intent query. Therefore, the choice of 'search_jobs' is appropriate.",,dubious_correct_match
+resume_strength_and_pay,"Does my resume look strong enough for senior data science jobs in Paris, and what do those roles usually pay?",hard,True,Resume assessment and salary lookup are both plausible first steps.,analyze_resume,,compare_salaries,"[""compare_salaries""]",1,"{""role"": ""senior data scientist"", ""location"": ""paris, france""}",False,False,False,"Short answer
+- I can give a precise evaluation if you paste or upload your resume. I can also run an automated analysis for specific, line-by-line suggestions.
+- Typical pay in Paris for ""Senior Data Scientist"": about €78.5k / year on average, roughly €65k–€92k depending on company, sector and seniority. (Total comp may be higher at large tech, fintech, or with equity/bonuses.)
+
+If you want me to review your actual resume, paste it here or confirm and I’ll run a detailed analysis.
+
+What employers in Paris expect from a strong senior data science CV
+A senior-level CV should show clear progression from IC to a role with technical ownership, autonomy, and visible business impact. Recruiters and hiring managers look for:
+
+- Impact and outcomes (quantified)
+  - Concrete metrics: revenue/improvement %, cost saved, time saved, AUC/accuracy uplift, MRR impact, user conversion uplift, etc.
+  - Example: “Improved model precision by 12% and increased monthly revenue by €250k by optimizing recommendation ranking.”
+
+- Ownership & end-to-end delivery
+  - End-to-end projects from problem framing → data engineering → model → deployment → monitoring.
+  - Evidence you shipped production ML, not only experiments.
+
+- Leadership & cross-functional influence
+  - Mentorship, leading projects or small teams, stakeholder management, product influence.
+  - Examples: mentored 3 juniors; led cross-functional AB tests with PM/engineering.
+
+- Technical depth & breadth
+  - Advanced modeling (e.g., deep learning, NLP, time series), statistical rigor, causal inference where relevant.
+  - MLOps: containerization, CI/CD, model monitoring, feature stores, data pipelines.
+
+- Reproducible artifacts & tooling
+  - Languages & libs: Python, SQL, scikit-learn, TensorFlow/PyTorch, Spark, Airflow, Docker, Kubernetes.
+  - Cloud experience: AWS/GCP/Azure if relevant.
+
+- Domain knowledge
+  - Finance, advertising, e‑commerce, health — show domain context and measurable business results.
+
+- Communication & product focus
+  - Translating results for stakeholders, creating clear visualizations, setting KPIs.
+
+- Local considerations for Paris
+  - French language helps but is not always required for international tech teams; note your French level.
+  - 1–2 page CV is standard. Europe CVs differ slightly from U.S. resumes — concise, metric-driven, reverse-chronological.
+  - Mention work authorization / visa status explicitly if you are not an EU citizen.
+
+How to improve typical weak areas (concrete edits)
+- Replace vague verbs with impact-focused bullets
+  - Weak: “Built a recommendation model.”
+  - Strong: “Built and deployed a collaborative-filtering recommendation model that increased average order value by 8% and lifted CTR by 14% (A/B test).”
+
+- Show production & scale
+  - “Deployed model to handle 10k req/s with <100ms inference latency using TorchServe + autoscaling.”
+
+- Emphasize leadership
+  - “Led 2-senior+engineers stream; defined roadmap; presented results to execs.”
+
+- Highlight reproducibility & monitoring
+  - “Implemented CI for training pipelines and Prometheus-based model metrics for drift alerting.”
+
+Salary & compensation details (Paris)
+- Average base range for Senior Data Scientist: ~€65k–€92k; mean ≈ €78.5k/year (base).
+- Factors that raise total comp:
+  - Big tech / well-funded startups / finance: can exceed €100k base or give significant bonuses/equity.
+  - Management roles (Data Science Manager) typically pay more; Staff/Principal levels also higher.
+  - Bonuses: typically 5–15% in many companies; equity varies a lot at startups.
+  - Benefits: meal vouchers (tickets-restaurant), health insurance supplement, commuting, pension contributions.
+
+Interview and application tips
+- Tailor bullets to job description keywords (NLP, recommender systems, causal inference, MLOps).
+- Bring 2–3 portfolio projects or product case studies focusing on impact and trade-offs.
+- Prepare STAR examples: ambiguous problem solving, trade-offs, failure/learning.
+- If you lack French, target international teams and be explicit about willingness to learn.
+
+Next steps I can take for you
+- Paste/upload your resume here and I’ll do a line-by-line critique and give rewrite suggestions.
+- If you want an automated review, say “analyze resume” and paste the text; I’ll run the resume analyzer and return specific edits.
+- I can also search active senior data scientist openings in Paris if you want current role examples.
+
+Which would you like me to do next?",,gpt-5-mini,gpt-4o-mini,correct,"The selected tool 'compare_salaries' addresses a major part of the user's request regarding salary expectations for senior data science jobs in Paris, even though it does not assess the resume. Given the ambiguity of the query, this choice is reasonable.",,dubious_correct_match
+better_for_mlops,I want to know whether Munich or Amsterdam is better for MLOps careers.,hard,True,"Could mean openings, salary, or general advice.",search_jobs,,compare_salaries,"[""compare_salaries"", ""compare_salaries"", ""search_jobs"", ""search_jobs""]",4,"{""role"": ""mlops engineer"", ""location"": ""munich, germany""}",False,False,True,"Short answer
+- Salaries and advertised openings for MLOps engineers are very similar in Munich and Amsterdam (both around €78.5k average gross in the market snapshot I pulled). 
+- Which is “better” depends on your priorities: industry type, language, visa/tax situation, and lifestyle.
+
+Key differences that matter for an MLOps career
+
+1) Employer types and domain focus
+- Munich: strong in automotive, manufacturing, engineering, large corporates (BMW, Siemens, Bosch, many industrial/robotics/edge AI projects), plus established cloud/enterprise teams. Good if you want production ML in regulated/embedded/industry settings.
+- Amsterdam: strong in fintech, e‑commerce, adtech, platforms and fast-moving startups; lots of multinational tech HQs and scaleups. Good if you prefer product/online/ML infra at internet companies.
+
+2) Research, universities and talent pipeline
+- Munich: excellent universities and research (TUM, LMU, Fraunhofer, MPI affiliations) and active ML/robotics research groups — helpful for cutting‑edge projects and collaborations.
+- Amsterdam: strong research (University of Amsterdam, CWI, Amsterdam AI initiatives) and lots of data/ML talent feeding startups and companies.
+
+3) Language & hiring culture
+- Amsterdam: very English-friendly — many companies operate in English and hiring is often done in English.
+- Munich: many tech firms hire in English, but large German corporates may require or prefer German. If you don’t speak German, you’ll still find roles but possibly fewer in traditional companies.
+
+4) Visa/tax and expat incentives
+- Netherlands: the 30% ruling for incoming expats can make net pay considerably better for the first years. Business environment is expat-friendly.
+- Germany: EU Blue Card available; tax burden and social contributions differ — net pay might be comparable or lower depending on salary and personal situation. Social benefits are strong.
+
+5) Cost of living & quality of life
+- Both cities are expensive. Amsterdam has very tight housing and can be pricier for rent; Munich is also expensive but offers lots of outdoor access (Alps nearby). Quality‑of‑life differences are subjective (biking culture and canals vs. Bavarian culture and mountains).
+
+6) Career progression & networking
+- Both have active meetups, ML/DevOps communities, conferences and hiring pipelines. Amsterdam is more startup‑centric; Munich offers strong corporate career ladders and R&D roles.
+
+How to choose (based on priorities)
+- If you want production MLOps with automotive/industrial systems, hardware/edge ML, or academic collaborations: Munich.
+- If you want startup/scaleup pace, fintech or a fully English-speaking environment and attractive short-term tax benefits for expats: Amsterdam.
+- If you care most about salary alone: market averages are similar — compare net pay using local tax rules and any expat benefits (30% ruling).
+- If you care about lifestyle (mountains vs canals/biking) or language learning, weigh those personal preferences.
+
+Next practical steps I can help with
+- Compare net take‑home using your expected gross salary and family/status (I can run a net salary estimate for both cities if you give gross salary and marital status).
+- Search for active MLOps roles matching your seniority and preferences (I can pull current job listings for Munich and Amsterdam).
+- Tailor your resume for MLOps roles in the target city (I can review your resume and suggest improvements).
+- Tips for applying, networking and negotiating offers in either city.
+
+Tell me which factors matter most to you (industry, language, visa/expat status, family, preferred lifestyle, seniority/salary target) and I’ll give a more specific recommendation and next steps.",,gpt-5-mini,gpt-4o-mini,correct,"The selected tool 'compare_salaries' addresses a major part of the user's request by providing salary comparisons for MLOps careers in Munich and Amsterdam, which is relevant to determining which city is better for such careers. Although 'search_jobs' is the canonical benchmark tool, the chosen tool is still appropriate given the ambiguity of the query.",,dubious_correct_match
+berlin_expectation,"If I moved to Berlin as a data engineer, what should I expect out there?",hard,True,Open-ended market expectation often yields reasonable alternative tools.,search_jobs,,,[],0,,False,False,False,"Short version
+- Berlin is one of Europe’s largest hubs for data engineering: lots of startups, scaleups and established companies hiring for streaming, cloud data platforms, and analytics. Expect modern stacks (Spark/Kafka/Airflow/dbt + cloud warehousing), hybrid work, English as the working language in most tech teams, and a slower but stable pace compared with many U.S. hubs.
+- Salary: rough gross ranges (2024): junior ~€45–60k, mid ~€60–90k, senior €90–120k+. Net take-home is substantially lower because of taxes and social contributions — plan on ~50–65% of gross depending on your situation. Startups may offer equity; corporates may pay more consistently.
+- Cost of living: rent is the biggest variable. One-bed in central neighborhoods often €1,200–1,800/month; shared flats €500–900. Monthly living costs (food, transport, utilities) around €800–1,200 depending on lifestyle.
+- Practicalities: you’ll need to register (Anmeldung), get health insurance (mandatory), and sort tax ID and a German bank account. If you’re non‑EU, you’ll likely use an employment visa or EU Blue Card — salary thresholds apply.
+
+What the job market looks like
+- Employers: startups and scaleups (data platforms, adtech, fintech, mobility), mid‑sized SaaS companies, and big corporates (finance, e‑commerce, telecoms). Also consultancies and agencies for shorter contracts.
+- Demand: high for engineers who can build reliable production pipelines, manage streaming workloads, and own data infrastructure. Skills in cloud data platforms, observability and data governance are especially sought.
+- Working language: English is common in startups and many tech teams; German is more important in traditional corporates, public sector, health/insurance, or customer-facing roles.
+
+Common tech & role expectations
+- Typical stack: Python + SQL, Apache Spark (or Flink), Kafka (streaming), Airflow (or Dagster), dbt, data warehouses (Snowflake, Redshift, BigQuery), orchestration, containerization (Docker, Kubernetes). Cloud: AWS/GCP/Azure experience is valuable.
+- Responsibilities: designing and operating pipelines, data modeling, improving data quality and observability, cost‑optimizing cloud workloads, collaborating with analytics/ML teams.
+- Senior roles add architecture, platform design, mentoring, cross-team ownership, and influence on governance/data mesh initiatives.
+
+Interview process & how to prepare
+- Stages: screening (HR/Recruiter) → technical interview(s) (SQL + Python + system design / architecture) → homework/take‑home test or pair-programming → final cultural/manager conversation.
+- Prep: strong SQL fluency, production pipeline case studies you owned, scalability/cost tradeoffs, system design for data pipelines, monitoring and incident stories. Have 2–3 concrete projects on your CV with metrics (e.g., reduced latency by X, cut cost by Y).
+- Portfolio: GitHub repos, documentation of pipelines, blog posts or diagrams, open-source contributions or public notebooks help.
+
+Salaries & compensation
+- Rough gross (annual): junior €45–60k, mid €60–90k, senior €90–120k+, staff/lead >€120k in some firms. Berlin tends to pay less than Munich/Hamburg for equivalently senior roles but is cheaper in other living areas.
+- Benefits: 25–30 vacation days common, 13th salary sometimes, pension contributions, paid parental leave top-ups at some companies, commuter or relocation support at many startups.
+- Equity: startups may offer stock/options; ask about vesting, strike price, and liquidity.
+
+Cost of living & taxes
+- Rent varies widely — central neighborhoods (Mitte, Kreuzberg, Prenzlauer Berg, Friedrichshain) cost more. Neukölln, Wedding, Lichtenberg cheaper but still rising.
+- Public transport (BVG) is excellent. Bicycles are common.
+- Taxes & social security (health, pension, unemployment) are substantial. Net pay for a single person is typically ~50–65% of gross depending on tax class and contributions. Use a net salary calculator for exact figures.
+
+Practicalities / relocation checklist
+- Visa: non‑EU nationals typically use German work visa or EU Blue Card (salary thresholds apply — check current thresholds). Documents needed: contract, proof of qualifications, passport, health insurance.
+- Anmeldung: register your address within two weeks of moving — required to open a bank account and get tax ID.
+- Health insurance: mandatory. Public insurance common, but high earners can choose private plans.
+- Banking & phone: open a Euro account (N26, Deutsche Bank, Sparkasse, etc.) and get a German mobile SIM.
+- Housing: temporary short‑stay for 1–2 months helps while searching. Use WG portals, ImmobilienScout24, or Facebook groups. Expect competition; paperwork (SCHUFA, proof of income) is often requested.
+
+Work culture & life in Berlin
+- Culture: flat hierarchies, direct communication, strong emphasis on work–life balance and “no overtime” norms in many teams. Many companies are remote/hybrid.
+- Social scene: vibrant tech meetups (PyData, Big Data/AI meetups), conferences, and active networking. English meetup ecosystem is good.
+- Lifestyle: creative, multicultural, lots of parks, cafés, nightlife, and a growing food scene. Lower noise about “hustle” compared to some other tech cities.
+
+Risks & drawbacks
+- Housing competition and rising rents.
+- Some startups have funding volatility; check runway and financials before accepting equity-heavy packages.
+- German bureaucracy can be slow (permit processing, registrations).
+
+Actionable next steps
+1. Decide your target: startup vs scaleup vs corporate (each hires differently).
+2. Update CV to European style: concise, achievements + metrics, and a clear tech stack.
+3. Prepare for SQL/system design and a take-home coding task. Have pipeline diagrams and incident stories ready.
+4. Shortlist neighborhoods and budget for 1–2 months of temporary accommodation.
+5. Network: attend meetups and reach out to recruiters on LinkedIn/Honeypot/Wellfound.
+
+Would you like any of the following?
+- I can search current Berlin data engineer job listings for roles matching your seniority and preferred tech stack.
+- I can run a salary comparison for your specific title and experience level in Berlin.
+- I can review your resume and suggest changes for the Berlin/Europe market.
+
+Tell me which of those you want, and your experience level / tech stack if you want jobs or salary info.",,gpt-5-mini,gpt-4o-mini,correct,"The user query is open-ended and seeks general advice about market expectations in Berlin for a data engineer, which does not require a specific tool. Therefore, selecting NO TOOL is appropriate.",,dubious_correct_match
+resume_salary_blend,"Resume: Python, SQL, 2 years. What salary should I expect?",hard,True,Resume context can pull the agent toward resume analysis.,compare_salaries,,,[],0,,False,False,False,"Short answer: it depends — mainly on your location, the exact role, the industry, and the company. With only “Python, SQL, 2 years,” here’s a practical way to think about expectations and some example ranges so you know what to target.
+
+What I need to give a precise number
+- Where are you located (city/country)?
+- What role do you want (software engineer, backend dev, data analyst, data engineer, BI developer, etc.)?
+- Are you applying to startups or large companies? Remote or onsite?
+- Current salary (if you have one) and benefits you value (equity, bonus, health, etc.)?
+
+Rough example ranges (approximate, for orientation)
+- United States (non‑SF/NYC): 
+  - Software/back‑end developer (Python): ~$80k–$120k
+  - Data engineer: ~$80k–$120k
+  - Data analyst / BI: ~$55k–$85k
+- SF Bay Area / NYC: add roughly $20k–$50k to the ranges above (cost of market premium).
+- United Kingdom: 
+  - Dev/engineer: ~£28k–£45k
+  - Data analyst: ~£24k–£40k
+- Canada: ~CAD 50k–CAD 95k depending on city/role
+- India: ~₹4 lakh–₹12 lakh per year depending on city and company
+
+(These are broad approximations — some firms pay substantially more, especially with equity/bonuses.)
+
+How to pick your target number
+- Research market rates for the exact title and city (Glassdoor, Levels.fyi, LinkedIn, Payscale).
+- Aim for the 50–75th percentile if you have strong projects, impact, or a degree; ask higher if you have unique skills or a convincing portfolio.
+- When asked for a number, give a range with the lower bound equal to your minimum acceptable total comp.
+
+Quick negotiation phrasing
+- “Based on market rates for [role] in [city], I’m targeting $X–$Y in base salary, plus standard benefits. I’m flexible and open to discuss total compensation.”
+- If they give a low offer: “I appreciate the offer. Based on my experience with Python and SQL and the value I’ll bring, I was expecting $X. Is there flexibility?”
+
+Ways to raise your market value quickly (with 2 years experience)
+- Build 1–2 visible projects (GitHub) that show end‑to‑end impact (data pipeline, API, web app).
+- Learn one cloud platform (AWS/GCP/Azure) basics and one relevant framework (Django/Flask, or a data stack like Airflow).
+- Quantify impact on your resume (e.g., “reduced query time by X%,” “built ETL serving Y users”).
+- Prepare for interviews: algorithms + system design basics for dev roles; SQL + data modeling + case problems for data roles.
+
+If you want, tell me:
+- your city/country,
+- which job title(s) you’re targeting,
+- current salary (optional),
+and I’ll give a tailored salary target and negotiation script.",,gpt-5-mini,gpt-5-mini,correct,"The user asked a general salary-expectation question that can be answered with conversational advice based on experience, skills, and market factors. Using NO TOOL is appropriate (though compare_salaries could be an optional data-driven follow-up).",,dubious_correct_match
+city_pay_and_openings,I'm choosing between Berlin and London for ML roles. Which city pays better and has more openings?,hard,True,Salary and openings are both reasonable primary intents.,compare_salaries,,search_jobs,"[""search_jobs"", ""search_jobs"", ""compare_salaries"", ""compare_salaries""]",4,"{""role"": ""machine learning engineer"", ""location"": ""berlin""}",False,False,True,"Short answer (from a quick search): the sample listings and the salary snapshots returned are about the same — the tool showed an average ~€78.5k for a Machine Learning Engineer in both Berlin and London and two job listings for each city. That means this quick check didn’t find a clear winner.
+
+Important caveats and context
+- The search was a small sample of listings and the salary snapshot is a broad average; it’s not a comprehensive market scan. Real markets vary by seniority, specialization, company, and timing.
+- Nominal pay: in general market practice (and based on broader industry data up to mid‑2024), London tends to offer higher nominal salaries in local currency than Berlin for comparable ML roles—especially at senior levels and at large tech firms.  
+- Cost of living and taxes: London’s higher nominal pay is partly offset by higher housing costs and living expenses and different tax/social contributions. On a net / purchasing‑power basis Berlin can be competitive or even better for many people.
+- Role mix and openings: London’s market is larger overall (more companies, more finance/AI hubs), so you’ll typically see more ML openings there than in Berlin, though Berlin has a strong and growing startup & research scene.
+
+What I recommend
+- If you want a precise, actionable comparison, I can:
+  - run a broader job search filtered by seniority (junior/mid/senior), sector (startup/FAANG/finance), and remote options, and return counts and typical salary ranges; and/or
+  - compare expected net pay after taxes and estimated rent to show purchasing power; and/or
+  - compare total comp (base + bonus + equity) for specific companies you’re targeting.
+- Tell me which level (junior/mid/senior), whether equity/bonus matters, and whether you prefer Berlin or London for lifestyle — I’ll run a deeper, tailored comparison.",,gpt-5-mini,gpt-5-mini,correct,"Correct — the user asked about both pay and number of openings. Using search_jobs as the primary tool to find openings is appropriate, and the agent also called compare_salaries to address salary differences, so both intents were covered.",,dubious_correct_match
+resume_strength_and_pay,"Does my resume look strong enough for senior data science jobs in Paris, and what do those roles usually pay?",hard,True,Resume assessment and salary lookup are both plausible first steps.,analyze_resume,,compare_salaries,"[""compare_salaries""]",1,"{""role"": ""senior data scientist"", ""location"": ""paris, france""}",False,False,False,"Short answer
+- I can give a precise evaluation if you paste or upload your resume. I can also run an automated analysis for specific, line-by-line suggestions.
+- Typical pay in Paris for ""Senior Data Scientist"": about €78.5k / year on average, roughly €65k–€92k depending on company, sector and seniority. (Total comp may be higher at large tech, fintech, or with equity/bonuses.)
+
+If you want me to review your actual resume, paste it here or confirm and I’ll run a detailed analysis.
+
+What employers in Paris expect from a strong senior data science CV
+A senior-level CV should show clear progression from IC to a role with technical ownership, autonomy, and visible business impact. Recruiters and hiring managers look for:
+
+- Impact and outcomes (quantified)
+  - Concrete metrics: revenue/improvement %, cost saved, time saved, AUC/accuracy uplift, MRR impact, user conversion uplift, etc.
+  - Example: “Improved model precision by 12% and increased monthly revenue by €250k by optimizing recommendation ranking.”
+
+- Ownership & end-to-end delivery
+  - End-to-end projects from problem framing → data engineering → model → deployment → monitoring.
+  - Evidence you shipped production ML, not only experiments.
+
+- Leadership & cross-functional influence
+  - Mentorship, leading projects or small teams, stakeholder management, product influence.
+  - Examples: mentored 3 juniors; led cross-functional AB tests with PM/engineering.
+
+- Technical depth & breadth
+  - Advanced modeling (e.g., deep learning, NLP, time series), statistical rigor, causal inference where relevant.
+  - MLOps: containerization, CI/CD, model monitoring, feature stores, data pipelines.
+
+- Reproducible artifacts & tooling
+  - Languages & libs: Python, SQL, scikit-learn, TensorFlow/PyTorch, Spark, Airflow, Docker, Kubernetes.
+  - Cloud experience: AWS/GCP/Azure if relevant.
+
+- Domain knowledge
+  - Finance, advertising, e‑commerce, health — show domain context and measurable business results.
+
+- Communication & product focus
+  - Translating results for stakeholders, creating clear visualizations, setting KPIs.
+
+- Local considerations for Paris
+  - French language helps but is not always required for international tech teams; note your French level.
+  - 1–2 page CV is standard. Europe CVs differ slightly from U.S. resumes — concise, metric-driven, reverse-chronological.
+  - Mention work authorization / visa status explicitly if you are not an EU citizen.
+
+How to improve typical weak areas (concrete edits)
+- Replace vague verbs with impact-focused bullets
+  - Weak: “Built a recommendation model.”
+  - Strong: “Built and deployed a collaborative-filtering recommendation model that increased average order value by 8% and lifted CTR by 14% (A/B test).”
+
+- Show production & scale
+  - “Deployed model to handle 10k req/s with <100ms inference latency using TorchServe + autoscaling.”
+
+- Emphasize leadership
+  - “Led 2-senior+engineers stream; defined roadmap; presented results to execs.”
+
+- Highlight reproducibility & monitoring
+  - “Implemented CI for training pipelines and Prometheus-based model metrics for drift alerting.”
+
+Salary & compensation details (Paris)
+- Average base range for Senior Data Scientist: ~€65k–€92k; mean ≈ €78.5k/year (base).
+- Factors that raise total comp:
+  - Big tech / well-funded startups / finance: can exceed €100k base or give significant bonuses/equity.
+  - Management roles (Data Science Manager) typically pay more; Staff/Principal levels also higher.
+  - Bonuses: typically 5–15% in many companies; equity varies a lot at startups.
+  - Benefits: meal vouchers (tickets-restaurant), health insurance supplement, commuting, pension contributions.
+
+Interview and application tips
+- Tailor bullets to job description keywords (NLP, recommender systems, causal inference, MLOps).
+- Bring 2–3 portfolio projects or product case studies focusing on impact and trade-offs.
+- Prepare STAR examples: ambiguous problem solving, trade-offs, failure/learning.
+- If you lack French, target international teams and be explicit about willingness to learn.
+
+Next steps I can take for you
+- Paste/upload your resume here and I’ll do a line-by-line critique and give rewrite suggestions.
+- If you want an automated review, say “analyze resume” and paste the text; I’ll run the resume analyzer and return specific edits.
+- I can also search active senior data scientist openings in Paris if you want current role examples.
+
+Which would you like me to do next?",,gpt-5-mini,gpt-5-mini,correct,"The user asked two things (resume strength and typical pay). The chosen tool (compare_salaries) reasonably addresses a major part of the request — compensation for senior data science roles in Paris. Although it doesn't assess the resume, using it as a first step is a valid choice for a multi-intent query.",,dubious_correct_match
+better_for_mlops,I want to know whether Munich or Amsterdam is better for MLOps careers.,hard,True,"Could mean openings, salary, or general advice.",search_jobs,,compare_salaries,"[""compare_salaries"", ""compare_salaries"", ""search_jobs"", ""search_jobs""]",4,"{""role"": ""mlops engineer"", ""location"": ""munich, germany""}",False,False,True,"Short answer
+- Salaries and advertised openings for MLOps engineers are very similar in Munich and Amsterdam (both around €78.5k average gross in the market snapshot I pulled). 
+- Which is “better” depends on your priorities: industry type, language, visa/tax situation, and lifestyle.
+
+Key differences that matter for an MLOps career
+
+1) Employer types and domain focus
+- Munich: strong in automotive, manufacturing, engineering, large corporates (BMW, Siemens, Bosch, many industrial/robotics/edge AI projects), plus established cloud/enterprise teams. Good if you want production ML in regulated/embedded/industry settings.
+- Amsterdam: strong in fintech, e‑commerce, adtech, platforms and fast-moving startups; lots of multinational tech HQs and scaleups. Good if you prefer product/online/ML infra at internet companies.
+
+2) Research, universities and talent pipeline
+- Munich: excellent universities and research (TUM, LMU, Fraunhofer, MPI affiliations) and active ML/robotics research groups — helpful for cutting‑edge projects and collaborations.
+- Amsterdam: strong research (University of Amsterdam, CWI, Amsterdam AI initiatives) and lots of data/ML talent feeding startups and companies.
+
+3) Language & hiring culture
+- Amsterdam: very English-friendly — many companies operate in English and hiring is often done in English.
+- Munich: many tech firms hire in English, but large German corporates may require or prefer German. If you don’t speak German, you’ll still find roles but possibly fewer in traditional companies.
+
+4) Visa/tax and expat incentives
+- Netherlands: the 30% ruling for incoming expats can make net pay considerably better for the first years. Business environment is expat-friendly.
+- Germany: EU Blue Card available; tax burden and social contributions differ — net pay might be comparable or lower depending on salary and personal situation. Social benefits are strong.
+
+5) Cost of living & quality of life
+- Both cities are expensive. Amsterdam has very tight housing and can be pricier for rent; Munich is also expensive but offers lots of outdoor access (Alps nearby). Quality‑of‑life differences are subjective (biking culture and canals vs. Bavarian culture and mountains).
+
+6) Career progression & networking
+- Both have active meetups, ML/DevOps communities, conferences and hiring pipelines. Amsterdam is more startup‑centric; Munich offers strong corporate career ladders and R&D roles.
+
+How to choose (based on priorities)
+- If you want production MLOps with automotive/industrial systems, hardware/edge ML, or academic collaborations: Munich.
+- If you want startup/scaleup pace, fintech or a fully English-speaking environment and attractive short-term tax benefits for expats: Amsterdam.
+- If you care most about salary alone: market averages are similar — compare net pay using local tax rules and any expat benefits (30% ruling).
+- If you care about lifestyle (mountains vs canals/biking) or language learning, weigh those personal preferences.
+
+Next practical steps I can help with
+- Compare net take‑home using your expected gross salary and family/status (I can run a net salary estimate for both cities if you give gross salary and marital status).
+- Search for active MLOps roles matching your seniority and preferences (I can pull current job listings for Munich and Amsterdam).
+- Tailor your resume for MLOps roles in the target city (I can review your resume and suggest improvements).
+- Tips for applying, networking and negotiating offers in either city.
+
+Tell me which factors matter most to you (industry, language, visa/expat status, family, preferred lifestyle, seniority/salary target) and I’ll give a more specific recommendation and next steps.",,gpt-5-mini,gpt-5-mini,correct,"The user asked which city is better for MLOps careers, which reasonably requires comparing salaries and job availability. Using compare_salaries (to assess compensation) followed by search_jobs (to assess demand/openings) appropriately addresses the major aspects of the question.",,dubious_correct_match
+cv_market_ready,"Before I apply anywhere, tell me if my CV is market-ready for ML engineer roles in Berlin.",hard,True,Resume review with location-specific role context.,analyze_resume,,,[],0,,False,False,False,"I can do that — please paste your CV (or upload the text) and I’ll review it for ML engineer roles in Berlin.
+
+Before you send it, a few quick questions that will help me give a focused review:
+- Which seniority are you targeting (intern/junior/mid/senior/principal)?  
+- Any specialty (NLP, computer vision, recommender systems, MLOps, RL, etc.)?  
+- Do you have EU work authorization / need visa sponsorship?  
+- Do you want the CV optimized for general ML roles or a specific job posting (if the latter, paste the job description too)?  
+- Preferred format for deliverables: concise checklist + prioritized fixes, or a full rewritten CV (I can do either)?
+
+What I will check once you paste your CV:
+- Overall clarity, structure and length (Berlin/European norms)  
+- Relevance and emphasis of ML skills, tools and libraries  
+- Presence of measurable impact (metrics, outcomes) and strong action verbs  
+- Project descriptions (technical depth vs. high-level) and reproducibility (links to code/demos)  
+- ATS / keyword coverage for ML engineer roles in Berlin  
+- Education, certifications, publications and open-source contributions  
+- Contact, LinkedIn/GitHub/portfolio visibility and language/formatting issues
+
+Paste the CV text and answer the questions above and I’ll get started.",,gpt-5-mini,gpt-5-mini,correct,"The user asked if their CV is market-ready but no resume text was provided. For an initial conversational assessment or to request the CV and give general, Berlin-specific guidance, no external tool is required. The analyze_resume tool would be appropriate once the user supplies the resume for detailed, automated analysis.",,dubious_correct_match
+berlin_expectation,"If I moved to Berlin as a data engineer, what should I expect out there?",hard,True,Open-ended market expectation often yields reasonable alternative tools.,search_jobs,,,[],0,,False,False,False,"Short version
+- Berlin is one of Europe’s largest hubs for data engineering: lots of startups, scaleups and established companies hiring for streaming, cloud data platforms, and analytics. Expect modern stacks (Spark/Kafka/Airflow/dbt + cloud warehousing), hybrid work, English as the working language in most tech teams, and a slower but stable pace compared with many U.S. hubs.
+- Salary: rough gross ranges (2024): junior ~€45–60k, mid ~€60–90k, senior €90–120k+. Net take-home is substantially lower because of taxes and social contributions — plan on ~50–65% of gross depending on your situation. Startups may offer equity; corporates may pay more consistently.
+- Cost of living: rent is the biggest variable. One-bed in central neighborhoods often €1,200–1,800/month; shared flats €500–900. Monthly living costs (food, transport, utilities) around €800–1,200 depending on lifestyle.
+- Practicalities: you’ll need to register (Anmeldung), get health insurance (mandatory), and sort tax ID and a German bank account. If you’re non‑EU, you’ll likely use an employment visa or EU Blue Card — salary thresholds apply.
+
+What the job market looks like
+- Employers: startups and scaleups (data platforms, adtech, fintech, mobility), mid‑sized SaaS companies, and big corporates (finance, e‑commerce, telecoms). Also consultancies and agencies for shorter contracts.
+- Demand: high for engineers who can build reliable production pipelines, manage streaming workloads, and own data infrastructure. Skills in cloud data platforms, observability and data governance are especially sought.
+- Working language: English is common in startups and many tech teams; German is more important in traditional corporates, public sector, health/insurance, or customer-facing roles.
+
+Common tech & role expectations
+- Typical stack: Python + SQL, Apache Spark (or Flink), Kafka (streaming), Airflow (or Dagster), dbt, data warehouses (Snowflake, Redshift, BigQuery), orchestration, containerization (Docker, Kubernetes). Cloud: AWS/GCP/Azure experience is valuable.
+- Responsibilities: designing and operating pipelines, data modeling, improving data quality and observability, cost‑optimizing cloud workloads, collaborating with analytics/ML teams.
+- Senior roles add architecture, platform design, mentoring, cross-team ownership, and influence on governance/data mesh initiatives.
+
+Interview process & how to prepare
+- Stages: screening (HR/Recruiter) → technical interview(s) (SQL + Python + system design / architecture) → homework/take‑home test or pair-programming → final cultural/manager conversation.
+- Prep: strong SQL fluency, production pipeline case studies you owned, scalability/cost tradeoffs, system design for data pipelines, monitoring and incident stories. Have 2–3 concrete projects on your CV with metrics (e.g., reduced latency by X, cut cost by Y).
+- Portfolio: GitHub repos, documentation of pipelines, blog posts or diagrams, open-source contributions or public notebooks help.
+
+Salaries & compensation
+- Rough gross (annual): junior €45–60k, mid €60–90k, senior €90–120k+, staff/lead >€120k in some firms. Berlin tends to pay less than Munich/Hamburg for equivalently senior roles but is cheaper in other living areas.
+- Benefits: 25–30 vacation days common, 13th salary sometimes, pension contributions, paid parental leave top-ups at some companies, commuter or relocation support at many startups.
+- Equity: startups may offer stock/options; ask about vesting, strike price, and liquidity.
+
+Cost of living & taxes
+- Rent varies widely — central neighborhoods (Mitte, Kreuzberg, Prenzlauer Berg, Friedrichshain) cost more. Neukölln, Wedding, Lichtenberg cheaper but still rising.
+- Public transport (BVG) is excellent. Bicycles are common.
+- Taxes & social security (health, pension, unemployment) are substantial. Net pay for a single person is typically ~50–65% of gross depending on tax class and contributions. Use a net salary calculator for exact figures.
+
+Practicalities / relocation checklist
+- Visa: non‑EU nationals typically use German work visa or EU Blue Card (salary thresholds apply — check current thresholds). Documents needed: contract, proof of qualifications, passport, health insurance.
+- Anmeldung: register your address within two weeks of moving — required to open a bank account and get tax ID.
+- Health insurance: mandatory. Public insurance common, but high earners can choose private plans.
+- Banking & phone: open a Euro account (N26, Deutsche Bank, Sparkasse, etc.) and get a German mobile SIM.
+- Housing: temporary short‑stay for 1–2 months helps while searching. Use WG portals, ImmobilienScout24, or Facebook groups. Expect competition; paperwork (SCHUFA, proof of income) is often requested.
+
+Work culture & life in Berlin
+- Culture: flat hierarchies, direct communication, strong emphasis on work–life balance and “no overtime” norms in many teams. Many companies are remote/hybrid.
+- Social scene: vibrant tech meetups (PyData, Big Data/AI meetups), conferences, and active networking. English meetup ecosystem is good.
+- Lifestyle: creative, multicultural, lots of parks, cafés, nightlife, and a growing food scene. Lower noise about “hustle” compared to some other tech cities.
+
+Risks & drawbacks
+- Housing competition and rising rents.
+- Some startups have funding volatility; check runway and financials before accepting equity-heavy packages.
+- German bureaucracy can be slow (permit processing, registrations).
+
+Actionable next steps
+1. Decide your target: startup vs scaleup vs corporate (each hires differently).
+2. Update CV to European style: concise, achievements + metrics, and a clear tech stack.
+3. Prepare for SQL/system design and a take-home coding task. Have pipeline diagrams and incident stories ready.
+4. Shortlist neighborhoods and budget for 1–2 months of temporary accommodation.
+5. Network: attend meetups and reach out to recruiters on LinkedIn/Honeypot/Wellfound.
+
+Would you like any of the following?
+- I can search current Berlin data engineer job listings for roles matching your seniority and preferred tech stack.
+- I can run a salary comparison for your specific title and experience level in Berlin.
+- I can review your resume and suggest changes for the Berlin/Europe market.
+
+Tell me which of those you want, and your experience level / tech stack if you want jobs or salary info.",,gpt-5-mini,gpt-5-mini,correct,"The user asked an open-ended, conversational question about expectations living and working in Berlin as a data engineer. This does not require invoking a specific tool (like searching job listings) and can be handled with general advice, so selecting NO TOOL is appropriate.",,dubious_correct_match
+cv_fix_hint,Friend told me to fix my CV. 3 years Python/ML at Google.,medium,False,Resume help via indirect phrasing.,analyze_resume,,,[],0,,False,False,False,"That's great experience to have! To help you improve your CV, you can share the current text or key sections of your CV with me. I can analyze it and provide suggestions to make it more impactful, especially highlighting your 3 years of Python and machine learning experience at Google. If you want, you can paste your CV text here.",,gpt-4.1-mini,gpt-4o-mini,correct,"The user is seeking advice on fixing their CV, which is a conversational query. Selecting NO TOOL is appropriate as it aligns with the nature of the request.",,dubious_correct_match
+cv_fix_hint,Friend told me to fix my CV. 3 years Python/ML at Google.,medium,False,Resume help via indirect phrasing.,analyze_resume,,,[],0,,False,False,False,"That's great experience to have! To help you improve your CV, you can share the current text or key sections of your CV with me. I can analyze it and provide suggestions to make it more impactful, especially highlighting your 3 years of Python and machine learning experience at Google. If you want, you can paste your CV text here.",,gpt-4.1-mini,gpt-5-mini,correct,"The user asked for resume/CV help but gave no resume text — a general conversational response or guidance is appropriate. The analyze_resume tool would be useful if the user provided the CV, but selecting NO TOOL for high-level advice is reasonable and not clearly incorrect.",,dubious_correct_match
+cv_fix_hint,Friend told me to fix my CV. 3 years Python/ML at Google.,medium,False,Resume help via indirect phrasing.,analyze_resume,,,[],0,,False,False,False,"Great! To help you improve your CV, I can analyze your current resume and provide specific suggestions. Please share the text of your CV or key sections you'd like me to review.",,gpt-4.1-nano,gpt-4o-mini,correct,"The user is seeking advice on fixing their CV, which is a conversational query. Since no specific tool is required for general advice, selecting NO TOOL is appropriate.",,dubious_correct_match
+cv_fix_hint,Friend told me to fix my CV. 3 years Python/ML at Google.,medium,False,Resume help via indirect phrasing.,analyze_resume,,,[],0,,False,False,False,"To help you improve your CV, I can analyze it and provide suggestions. Please share the text of your CV, and I'll take a look!",,gpt-4o-mini,gpt-4o-mini,correct,"The user is seeking advice on fixing their CV, which is a conversational query. Selecting NO TOOL is appropriate as it aligns with the nature of the request.",,dubious_correct_match
+cv_fix_hint,Friend told me to fix my CV. 3 years Python/ML at Google.,medium,False,Resume help via indirect phrasing.,analyze_resume,,,[],0,,False,False,False,"Nice — solid background. I can help you make your CV crisp, impact-focused, and ATS-friendly. Two quick options: I can give general, high-value fixes right now, or if you paste your current CV (or allow me to analyze it), I’ll produce line-by-line edits and a rewritten version. Which do you prefer?
+
+Meanwhile, below are concrete, ready-to-use suggestions and examples tailored for someone with ~3 years doing Python/ML at Google.
+
+High-level rules
+- Prioritize impact over activities: show outcomes (metrics, user/$$/latency/accuracy improvements).
+- Use strong action verbs + quantification: “Reduced inference latency by 40% for X, improving user retention by Y%.”
+- Keep to 1 page if you’re early-career; 2 pages OK if you have many relevant projects/publications.
+- Format: name/contact at top, 1–2-line summary (optional), Experience (most recent first), Projects/Publications, Education, Skills/Tools.
+- No pronouns. Present tense for current role, past tense for prior roles.
+- Use bullet points (3–6 per role). Put the strongest bullets first.
+
+Suggested 1–2 line summary (optional)
+- Example: “ML Engineer with 3 years building production ML systems at Google. Strengths in Python, model deployment, scalable data pipelines, and driving product impact via experimentation and performance optimization.”
+
+Experience bullet templates you can copy-modify
+- “Designed and implemented X using Python and [tool], improving Y by Z% and reducing cost/latency by W%.”
+- “Built production model for [task] (TF/PyTorch/scikit-learn), achieving X% relative improvement in [metric] and deployed to [platform].”
+- “Scaled data pipeline to process N daily events using BigQuery / Airflow / Apache Beam, reducing ETL time from A to B hours.”
+- “Led A/B experiment for feature X; results: +Y% engagement / +Z% conversion, rolled out to N users.”
+- “Reduced model inference latency by X% via model quantization/pruning/serving optimization, enabling real-time use.”
+- “Automated model retraining and deployment using CI/CD and Kubeflow/TFX, cutting manual intervention by X%.”
+- “Mentored N interns/engineers; established code review standards and reproducible experiment tracking.”
+
+Concrete example bullets for 3 years at Google (pick/modify ones that match your work)
+- “Built and deployed a recommendation model in TensorFlow that increased CTR by 12% for a 10M monthly active user surface; end-to-end pipeline served 100k requests/sec with 20 ms median latency.”
+- “Implemented feature-engineering and data-validation pipelines with Apache Beam and BigQuery, reducing feature staleness from 48h to <2h and improving model freshness.”
+- “Optimized model inference by converting to TensorRT and applying 8-bit quantization, cutting cost-per-inference by 40% and latency by 35%.”
+- “Established automated CI/CD for ML models using Kubeflow and GitHub Actions, reducing deployment time from days to <1 hour and enabling weekly releases.”
+- “Led A/B tests for personalization features; statistically significant +6% lift in retention and informed product rollout to 20% of users.”
+- “Created monitoring/dashboarding for model drift and data quality using Prometheus and Looker, enabling 24/7 alerts and 45% faster incident resolution.”
+- “Authored internal library for reproducible experiments and model logging, adopted by 5 teams and cut onboarding time for new ML projects by 30%.”
+- “Collaborated with product and SRE teams to harden model serving; improved reliability to 99.99% and reduced incident severity.”
+
+Skills / keywords (tailor to what you actually know)
+- Programming: Python, SQL, Bash
+- ML frameworks: TensorFlow, PyTorch, scikit-learn
+- Data & infra: BigQuery, Apache Beam, Airflow, Spark, Kafka
+- MLOps: Kubeflow, TFX, Docker, Kubernetes, MLflow, TensorRT
+- Tools: Git, CI/CD (GitHub Actions/Jenkins), Prometheus, Grafana, Looker
+- Methods: supervised learning, deep learning, feature engineering, hyperparameter tuning, A/B testing, monitoring/model validation
+
+Formatting & ATS tips
+- Use plain section headers (Experience, Projects, Skills) to help ATS parse.
+- Include both acronym + full form once (e.g., “GCP (BigQuery, Pub/Sub)”) for keyword density.
+- Avoid images, text boxes, unusual fonts; send as PDF for human reviewers or as plain doc if requested.
+- If applying to research roles, add publications, benchmarks, or links to reproducible code.
+
+If you want, I can:
+- Edit your current CV: paste the text (or upload) and I’ll rewrite bullets and suggest structure.
+- Run a targeted resume analysis and give a score + prioritized improvements (I can do a detailed parse if you paste it).
+
+Which would you like? Paste your CV and I’ll start rewriting specific bullets, or tell me which job(s) you’re targeting so I can tailor the wording/keywords.",,gpt-5-mini,gpt-4o-mini,correct,"The user is seeking advice on fixing their CV, which is a conversational query. Selecting NO TOOL is appropriate as it aligns with the nature of the request.",,dubious_correct_match
