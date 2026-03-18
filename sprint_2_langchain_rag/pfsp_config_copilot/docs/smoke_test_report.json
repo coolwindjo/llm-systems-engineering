@@ -1,0 +1,52 @@
+{
+  "timestamp_utc": "2026-03-18T17:35:19.023621+00:00",
+  "model_name": "gpt-4o-mini",
+  "overall_status": "passed",
+  "sample_requirement": "Add a cyclic WheelSpeedBroadcast service with id 0x120 running every 10 ms for wheel speed signals and diagnostics publication.",
+  "corpus_sources": [
+    "autosar_error_handling.md",
+    "iso26262_error_handling.md"
+  ],
+  "translated_query_count": 3,
+  "retrieved_chunk_count": 3,
+  "validation_status": "needs_review",
+  "extraction_preview": {
+    "ServiceName": "WheelSpeedBroadcast",
+    "ID": 288,
+    "Class": "Event",
+    "Frequency": "10 ms",
+    "PlayType": "Cyclic"
+  },
+  "checks": [
+    {
+      "name": "app runtime dependency path",
+      "passed": true,
+      "detail": "app.py resolves to components.app_runtime.run_config_copilot_app"
+    },
+    {
+      "name": "copilot creation",
+      "passed": true,
+      "detail": "Created ConfigurationCopilot with model gpt-4o-mini"
+    },
+    {
+      "name": "sample requirement input",
+      "passed": true,
+      "detail": "Sample requirement produced a structured runtime result."
+    },
+    {
+      "name": "retrieval",
+      "passed": true,
+      "detail": "3 translated queries, 3 retrieved chunks"
+    },
+    {
+      "name": "extraction",
+      "passed": true,
+      "detail": "{\"ServiceName\": \"WheelSpeedBroadcast\", \"ID\": 288, \"Class\": \"Event\", \"Frequency\": \"10 ms\", \"PlayType\": \"Cyclic\"}"
+    },
+    {
+      "name": "validation response",
+      "passed": true,
+      "detail": "{\"status\": \"needs_review\", \"schema_valid\": true, \"missing_required_fields\": []}"
+    }
+  ]
+}
