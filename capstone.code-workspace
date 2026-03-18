@@ -1,0 +1,22 @@
+{
+    "folders": [
+        {
+            "path": "sprint_1_prompt_engineering/interview_coach",
+            "name": "Sprint 1: Interview Coach"
+        },
+        {
+            "path": "sprint_2_langchain_rag/pfsp_config_copilot",
+            "name": "Sprint 2: Config Copilot"
+        },
+        {
+            "path": ".",
+            "name": "Root (Documentation)"
+        }
+    ],
+    "settings": {
+        "python.testing.pytestEnabled": true,
+        "python.testing.unittestEnabled": false,
+        "python.testing.autoTestDiscoverOnSaveEnabled": true,
+        "python.defaultInterpreterPath": "/usr/local/bin/python3"
+    }
+}
