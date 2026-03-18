@@ -1,0 +1,56 @@
+{
+  "document_info": {
+    "title": "Software Requirement Specification for PFSP AI Configuration Copilot (Module v2.0)",
+    "author": "Jo SeungHyeon (CoolFam)",
+    "date": "2026-02-13",
+    "uid": "20260213_PFSP_AI_SRS_MODULE_V2",
+    "scope_limit": "This SRS defines the AI Module that transforms requirements into PFSP JSON. It focuses on the intelligence, validation, and traceability layers of the transformation process."
+  },
+  "1_system_vision_and_goal": {
+    "vision": "A reliable AI agent that understands automotive software standards to automate PFSP configuration.",
+    "kpis": {
+      "extraction_accuracy": ">= 95%",
+      "structural_validity": "100% (Guaranteed by Pydantic)",
+      "operational_efficiency": "25% reduction in manual configuration time per component."
+    }
+  },
+  "2_functional_requirements": {
+    "2.1_intelligence_and_extraction": {
+      "REQ-EXT-101": "The module shall extract core component parameters: ServiceName, ID, Class, Frequency, and PlayType (Repeat/OneShot).",
+      "REQ-EXT-102": "The module shall interpret detailed Error Handling logic: ErrorTypes (NullPointer, etc.), DebouncingCriteria (Time/Count), and ReactionModes/States.",
+      "REQ-EXT-103": "The module shall perform 'Standard-Aware RAG' by referencing AUTOSAR and ISO 26262 knowledge to suggest/validate safety-critical parameters."
+    },
+    "2.2_mapping_and_conversion": {
+      "REQ-MAP-201": "The module shall generate Smart Converter mapping (External-to-Internal) including Scaling, Offsets, and Pre/Post-run logic tags."
+    },
+    "2.3_validation_and_healing": {
+      "REQ-VAL-301": "The module shall enforce strict Pydantic v2 schema validation for all generated JSON objects.",
+      "REQ-VAL-302": "The module shall implement a 'Self-Correction Loop' where Pydantic validation errors are fed back to the LLM to trigger automatic parameter adjustment."
+    },
+    "2.4_traceability_and_trust": {
+      "REQ-TRC-401": "The module shall provide 'Field-Level Traceability' by embedding a `source_ref` or `traceability_id` into each JSON field, mapping it back to the specific input sentence or table row."
+    },
+    "2.5_processing_strategy_two_phased": {
+      "REQ-PRO-501": "Phase 1 (Reasoning Phase): The module shall first perform free-form reasoning (Chain-of-Thought) to analyze complex automotive requirements and logic before attempting data extraction.",
+      "REQ-PRO-502": "Phase 2 (Extraction Phase): The module shall use the analysis from Phase 1 as context to populate a Pydantic-based structured schema, ensuring maximum reasoning depth and structural accuracy.",
+      "REQ-PRO-503": "Separation of Concerns: The system shall maintain a clear separation between the 'Intelligence Layer' (Reasoning) and the 'Format Layer' (Extraction) to prevent performance degradation caused by rigid output constraints during deep reasoning."
+    }
+  },
+  "3_technical_specifications": {
+    "stack": {
+      "language": "Python 3.10+",
+      "llm_orchestration": "LangGraph / Instructor",
+      "data_validation": "Pydantic v2",
+      "knowledge_retrieval": "Vector DB for RAG (Standards & Manuals)"
+    },
+    "parameter_references": {
+      "error_types": ["NullPointer", "InvalidInput", "IndexOutOfBounds", "Timeout", "RangeViolation"],
+      "reaction_triggers": ["eSWComponentStateTriggerInit", "eSWComponentStateTriggerStop"]
+    }
+  },
+  "4_out_of_scope_limitations": {
+    "EXCL-01": "Direct C++ code compilation and build processes.",
+    "EXCL-02": "Real-time hardware deployment or HIL/SIL execution.",
+    "EXCL-03": "SAD Diagram rendering (Phase 2 visualization)."
+  }
+}

@@ -1,0 +1,145 @@
+{
+  "document_info": {
+    "title": "Software Requirement Specification for PFSP AI Configuration Copilot (Module v2.2)",
+    "product_name": "Plugin Fractal Software Platform",
+    "author": "Jo SeungHyeon (CoolFam)",
+    "date": "2026-03-18",
+    "uid": "20260318_PFSP_AI_SRS_MODULE_V22",
+    "version": "v2.2",
+    "architecture_reference": "PFSP_SW_Architecture_Diagrams_[02.01.2022].jpg",
+    "supporting_reference": "PFSP[Plugin Fractal Software Platform].pdf",
+    "naming_note": "PFSP refers to Plugin Fractal Software Platform, the target platform/product name and development codename used in this project. It is not used here as a separate domain label.",
+    "scope_limit": "This SRS defines the AI module that converts natural-language configuration requirements and curated standards/reference material into reviewable configuration JSON drafts for the target product. The scope covers system configuration, modular interface configuration, service-module configuration, retrieval, validation, and traceability for architecture elements defined in the referenced architecture materials, but does not include runtime execution or generated source code delivery.",
+    "revision_note": "Updated to align requirement terminology and module coverage with the referenced software architecture diagram and product documentation, including Host Component Interface, Plugin Host Component, Generated Class, Common Class, PFSP Core, System Config, Modular Interface, and PFSP-provided service modules such as Error Handler, Mode Manager, Smart Converter, Degradation Manager, and Diagnostic Manager."
+  },
+  "1_system_vision_and_goal": {
+    "vision": "An automotive software configuration AI copilot that turns natural-language configuration requirements into reviewable configuration drafts aligned with the target architecture and supporting standards/reference material.",
+    "kpis": {
+      "configuration_extraction_accuracy": ">= 90% on the reviewed project demo set.",
+      "structural_validity": "100% schema-valid JSON for accepted outputs.",
+      "review_efficiency": "Reduce manual configuration draft authoring time per component or service."
+    }
+  },
+  "2_functional_requirements": {
+    "2.1_component_and_interface_extraction": {
+      "REQ-EXT-101": "The module shall extract core component parameters, including ComponentName or ServiceName, ID, Class, Frequency, and PlayType. Canonical PlayType values shall treat Once and Cyclic as primary platform terms, while supporting alias normalization from OneShot and Repeat when legacy terminology appears in source material.",
+      "REQ-EXT-102": "The module shall extract interface and execution behavior when present, including external input or output references, signal or communication metadata, Publication or Subscription patterns, and PreRun or PostRun lifecycle tags.",
+      "REQ-EXT-103": "The module shall identify the most relevant architecture target for each requirement, such as Host Component Interface, Plugin Host Component, Generated Class, Common Class, PFSP Core, System Config, or Modular Interface.",
+      "REQ-EXT-104": "The module shall distinguish between user-authored algorithm or SW component requirements and PFSP-provided service module requirements when preparing the configuration draft."
+    },
+    "2.2_service_module_configuration": {
+      "REQ-MOD-201": "The module shall identify and structure Error Handler related requirements, including error names or error types, debouncing criteria, ThresholdToTriggerFailure, ThresholdToResetFailure, reaction modes, and reaction states or state triggers when present.",
+      "REQ-MOD-202": "The module shall identify and structure Mode Manager or State Manager related requirements, including mode names, state transitions, lifecycle triggers, or state-management configuration when present.",
+      "REQ-MOD-203": "The module shall identify and structure Smart Converter, Degradation Manager, and Diagnostic Manager related requirements when they are explicitly referenced or can be inferred from the input and retrieved architecture guidance."
+    },
+    "2.3_mapping_and_conversion": {
+      "REQ-MAP-201": "The module shall generate Smart Converter mapping information for external-to-internal signal conversion, including data-type adaptation, scaling, offsets, ranges, default values, or unit hints when present.",
+      "REQ-MAP-202": "The module shall capture integration metadata needed for wrapper or middleware-adjacent configuration, including Publication or Subscription linkage and PreRun or PostRun execution tags.",
+      "REQ-MAP-203": "The module shall capture modular interface configuration hints that support the target architecture's unified data pipeline for communication and signal handling."
+    },
+    "2.4_validation_and_review": {
+      "REQ-VAL-301": "The module shall enforce Pydantic-based schema validation for generated configuration JSON objects.",
+      "REQ-VAL-302": "The module shall perform basic rule checks for required fields, canonical enum values, frequency formatting, duplicate or conflicting entries, incomplete input, and inconsistent debouncing or threshold settings.",
+      "REQ-TRC-401": "The module shall preserve traceability between generated JSON fields or validation comments and their originating user input or retrieved reference context."
+    },
+    "2.5_retrieval_and_reference_guidance": {
+      "REQ-RAG-401": "The module shall retrieve relevant standards and supporting reference snippets using embeddings, chunking, and similarity search over curated documents.",
+      "REQ-RAG-402": "The module shall provide reviewable evidence snippets or source references that justify major extracted fields, validation warnings, or missing-information notes.",
+      "REQ-RAG-403": "The module may use small curated AUTOSAR or ISO 26262 excerpts only as supporting context for terminology or error-handling guidance, and shall not present the output as compliance certification."
+    },
+    "2.6_supporting_analysis_process": {
+      "REQ-PRO-501": "The module may perform a pre-extraction analysis step to flag ambiguity, contradiction, or missing information before finalizing configuration JSON.",
+      "REQ-PRO-502": "The module shall use the supporting analysis result as optional context for extraction and validation when available, without requiring exposure of full internal reasoning.",
+      "REQ-PRO-503": "The module shall keep extraction, retrieval, and validation results separately reviewable by a human user."
+    }
+  },
+  "3_technical_specifications": {
+    "stack": {
+      "language": "Python 3.11+",
+      "llm_orchestration": "Tool-calling LLM workflow with structured output support (LangChain or LangGraph compatible).",
+      "data_validation": "Pydantic v2",
+      "knowledge_retrieval": "Vector database over curated standards excerpts, supporting reference notes, and project-specific guidance when needed.",
+      "user_interface": "Review-oriented web UI for requirement input, generated JSON, evidence snippets, tool results, and validation feedback."
+    },
+    "parameter_references": {
+      "architecture_layers": [
+        "Host Component Interface",
+        "Plugin Host Component",
+        "Generated Class",
+        "Common Class",
+        "PFSP Core"
+      ],
+      "service_modules": [
+        "Error Handler",
+        "Mode Manager",
+        "Smart Converter",
+        "Degradation Manager",
+        "Diagnostic Manager"
+      ],
+      "system_configuration_targets": [
+        "System Config",
+        "Modular Interface"
+      ],
+      "component_roles": [
+        "Application SW Component",
+        "PFSP-provided service module"
+      ],
+      "interface_concepts": [
+        "External Input",
+        "External Output",
+        "Communication",
+        "Signal"
+      ],
+      "io_patterns": [
+        "Publication",
+        "Subscription"
+      ],
+      "lifecycle_hooks": [
+        "PreRun",
+        "PostRun"
+      ],
+      "play_types_canonical": [
+        "Once",
+        "Cyclic",
+        "OnChange",
+        "OnRequest"
+      ],
+      "play_type_aliases": {
+        "OneShot": "Once",
+        "Repeat": "Cyclic"
+      },
+      "error_types": [
+        "NullPointer",
+        "InvalidInput",
+        "IndexOutOfBounds",
+        "Timeout",
+        "RangeViolation"
+      ],
+      "debouncing_criteria": [
+        "eTime",
+        "eCount"
+      ],
+      "reaction_modes": [
+        "OperationModeNormal"
+      ],
+      "reaction_states": [
+        "StateTriggerInit",
+        "StateTriggerStop"
+      ],
+      "service_monitoring_features": [
+        "Alive Signal Monitoring"
+      ],
+      "reaction_triggers": [
+        "eSWComponentStateTriggerInit",
+        "eSWComponentStateTriggerStop"
+      ]
+    }
+  },
+  "4_out_of_scope_limitations": {
+    "EXCL-01": "Direct generation, compilation, or packaging of C++ classes, wrapper code, or build artifacts such as CMake files.",
+    "EXCL-02": "Runtime deployment on the target platform, middleware execution, or HIL and SIL validation.",
+    "EXCL-03": "Fully autonomous modification of target-platform modules without human review.",
+    "EXCL-04": "Full AUTOSAR or ISO 26262 compliance certification or audit evidence generation.",
+    "EXCL-05": "Thread scheduling, runtime thread ownership per SW component, and other execution-platform responsibilities outside configuration drafting."
+  }
+}
